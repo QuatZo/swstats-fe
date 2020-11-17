@@ -15,7 +15,7 @@ const theme = createMuiTheme({
       root: {
         minWidth: 40
       }
-    }
+    },
   }
   
 });

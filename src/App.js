@@ -8,7 +8,10 @@ import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
 
 import theme from './exts/theme'
-import Home from './pages/Home';
+import {
+  Home, 
+  Contribute
+} from './pages';
 import Layout from './exts/Layout';
 
 function App() {
@@ -18,6 +21,7 @@ function App() {
         <CssBaseline />
         <Layout>
           <Route exact path="/" component={Home} />
+          <Route exact path="/contribute" component={Contribute} />
         </Layout>
       </ThemeProvider>
     </Router>
