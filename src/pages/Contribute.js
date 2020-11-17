@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Timeline from '@material-ui/lab/Timeline';
@@ -97,18 +97,6 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         padding: theme.spacing(2),
         color: theme.palette.text.secondary,
-    },
-    media: {
-        objectFit: "fill",
-        maxHeight: 140,
-        [theme.breakpoints.down('sm')]: {
-            maxHeight: 100,
-        }
-    },
-    centerText: {
-        textAlign: "center",
-        verticalAlign: "middle",
-        height: "100%",
     },
     link: {
         color: theme.palette.text.secondary,
