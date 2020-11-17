@@ -1,13 +1,15 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   BrowserRouter as Router,
   Route,
 } from 'react-router-dom';
+
 import { ThemeProvider } from '@material-ui/core/styles'
 import CssBaseline from '@material-ui/core/CssBaseline'
-import theme from './theme'
-import Home from './components/Home';
-import Layout from './Layout';
+
+import theme from './exts/theme'
+import Home from './pages/Home';
+import Layout from './exts/Layout';
 
 function App() {
   return (

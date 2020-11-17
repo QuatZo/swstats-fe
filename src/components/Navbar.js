@@ -33,7 +33,7 @@ import DimHoleIcon from '../icons/DimHoleIcon';
 
 
 export default function Navbar() {
-  const [open, setOpen] = useState(localStorage.getItem('menu-open') !== null ? localStorage.getItem('menu-open') === 'true' : false);
+  const [open, setOpen] = useState(localStorage.getItem('menu-open') === 'true');
   
   const theme = useTheme();
   const classes = useStyles();
@@ -54,7 +54,7 @@ export default function Navbar() {
     if(window.innerWidth <= theme.breakpoints.values.sm){
         handleDrawerClose();
     }
-  }, [location.pathname])
+  }, [location.pathname, theme.breakpoints.values.sm])
 
   const urls = [
     {
@@ -178,8 +178,8 @@ export default function Navbar() {
         <Divider />
         <List>
           {urls.map(el => (
-            <ListItem button component={Link} to={el.path} key={el.text} className={el.path === location.pathname && classes.active}>
-                <ListItemIcon className={el.path === location.pathname && classes.active}>{ el.icon ? el.icon : <HelpIcon />}</ListItemIcon> {/* temp */}
+            <ListItem button component={Link} to={el.path} key={el.text} className={el.path === location.pathname ? classes.active : null}>
+                <ListItemIcon className={el.path === location.pathname ? classes.active : null}>{ el.icon ? el.icon : <HelpIcon />}</ListItemIcon> {/* temp */}
                 <ListItemText primary={el.text} />
             </ListItem>
           ))}
@@ -187,9 +187,9 @@ export default function Navbar() {
         <Divider />
         <List>
           {urlsDesktop.map(el => (
-            <ListItem button component={Link} to={el.path} key={el.text} className={el.path === location.pathname && classes.active}>
+            <ListItem button component={Link} to={el.path} key={el.text} className={el.path === location.pathname ? classes.active : null}>
                 
-                <ListItemIcon className={el.path === location.pathname && classes.active}>{ el.icon ? el.icon : <HelpIcon />}</ListItemIcon> {/* temp */}
+                <ListItemIcon className={el.path === location.pathname ? classes.active : null}>{ el.icon ? el.icon : <HelpIcon />}</ListItemIcon> {/* temp */}
                 <ListItemText primary={el.text} />
             </ListItem>
           ))}

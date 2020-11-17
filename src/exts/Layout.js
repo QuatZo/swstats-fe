@@ -1,12 +1,13 @@
 import { makeStyles } from '@material-ui/core/styles';
-import NavBar from './components/Navbar';
+import NavBar from '../components/Navbar';
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: 'flex',
         [theme.breakpoints.down('sm')]: {
             overflowX: 'hidden',
-        }
+        },
+        minHeight: "100vh",
       },
     toolbar: {
       display: 'flex',
@@ -18,7 +19,14 @@ const useStyles = makeStyles((theme) => ({
     },
     content: {
       flexGrow: 1,
-      padding: theme.spacing(3),
+      padding: 0,
+      marginTop: 84,
+      marginLeft: 20,
+      marginRight: 20,
+      [theme.breakpoints.down('sm')]: {
+        marginLeft: 10,
+        marginRight: 10,
+      },
     },
   }))
 
@@ -29,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
             <div className={classes.root}>
                 <NavBar />
                 <main className={classes.content}>
-                    <div className={classes.toolbar} />
                     { props.children }
                 </main>
             </div>
