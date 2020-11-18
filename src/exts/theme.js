@@ -16,6 +16,11 @@ const theme = createMuiTheme({
         minWidth: 40
       }
     },
+    MuiDropzoneArea: {
+      root: {
+        minHeight: "unset",
+      }
+    }
   }
   
 });
