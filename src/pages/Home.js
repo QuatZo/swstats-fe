@@ -7,12 +7,15 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import APIEndpoints from '../exts/Endpoints';
-import {GenerateAPIHeaders} from '../exts/Helpers';
+import {GenerateAPIHeaders, HandleAPIError} from '../exts/Helpers';
 import Loading from '../components/Loading';
+import Error from '../components/Error';
 import AnimatedNumberContainer from '../components/AnimatedNumberContainer';
 
 export default function Home(){
     const [loading, setLoading] = useState(true);
+    const [err, setError] = useState(false);
+    const [errorData, setErrorData] = useState({title: "Unknown Error", msg: "Unknown error has occured. Please contact administrator!"})
     const [data, setData] = useState([]);
 
     const classes = useStyles();
@@ -24,8 +27,10 @@ export default function Home(){
         .then((resp) => {
             setData(resp.data);
         })
-        .catch((err) => {
-            console.log(err);
+        .catch((err_res) => {
+            setErrorData(HandleAPIError(err_res, errorData))
+            
+            setError(true);
         })
         .finally(() => {
             setLoading(false);
@@ -35,6 +40,7 @@ export default function Home(){
     return (
         <div className={classes.root}>
             { loading && <Loading />}
+            { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             <Grid container spacing={3}>
                 {data.map(item => (
                     <Grid item md={item.w * 2} lg={item.w} xs={12} key={"msg-" + item.id}>

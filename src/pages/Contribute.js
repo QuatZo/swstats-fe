@@ -14,7 +14,6 @@ import DoneAllIcon from '@material-ui/icons/DoneAll';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { ButtonBase } from '@material-ui/core';
-import { Link } from 'react-router-dom';
 
 export default function Contribute(){
     const classes = useStyles();
@@ -25,12 +24,12 @@ export default function Contribute(){
         {
             title: "SWEX",
             desc: "Download and install ",
-            obj: <ButtonBase><Link href="https://github.com/Xzandro/sw-exporter/releases" variant="body1" className={classes.link}>SWEX</Link></ButtonBase>,
+            obj: <ButtonBase><a href="https://github.com/Xzandro/sw-exporter/releases" variant="body1" className={classes.link}>SWEX</a></ButtonBase>,
         },
         {
             title: "SWStats Plugin",
             desc: "Download plugin ",
-            obj: <ButtonBase><Link href="https://github.com/QuatZo/swex-plugins/releases" variant="body1" className={classes.link}>SWStatistics Logger</Link></ButtonBase>,
+            obj: <ButtonBase><a href="https://github.com/QuatZo/swex-plugins/releases" variant="body1" className={classes.link}>SWStatistics Logger</a></ButtonBase>,
         },
         {
             title: "Install plugin",
@@ -54,7 +53,7 @@ export default function Contribute(){
         <div className={classes.root}>
             <Timeline align={mobile ? "left" : "alternate"}>
                 {data.map((item) => (
-                    <TimelineItem className={classes.timelineSeparator}>
+                    <TimelineItem className={classes.timelineSeparator} key={"timeline-" + item.title}>
                         <TimelineSeparator>
                             <TimelineDot color="secondary">
                                 <ExpandMoreIcon />
