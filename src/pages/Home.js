@@ -41,9 +41,9 @@ export default function Home(){
         <div className={classes.root}>
             { loading && <Loading />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
-            <Grid container spacing={3}>
+            <Grid container spacing={3} className={classes.grid}>
                 {data.map(item => (
-                    <Grid item md={item.w * 2} lg={item.w} xs={12} key={"msg-" + item.id}>
+                    <Grid item md={item.w * 2} lg={item.w} sm={item.w <= 3 && item.format !== "string" ? 6 : 12} xs={12} key={"msg-" + item.id}>
                         <Paper className={classes.paper}>
                             <Typography variant="h6" className={classes.title} gutterBottom>
                                 {item.title}
@@ -86,5 +86,11 @@ const useStyles = makeStyles((theme) => ({
     },
     animatedNumber: {
         textAlign: "center",
+    },
+    grid: {
+        [theme.breakpoints.down('sm')]: {
+            width: "inherit",
+            margin: "inherit",
+        }
     }
   }));
