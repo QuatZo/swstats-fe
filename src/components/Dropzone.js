@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {DropzoneArea} from 'material-ui-dropzone'
 
 export default function Dropzone(props){
@@ -12,6 +12,7 @@ export default function Dropzone(props){
             showFileNamesInPreview={true}
             useChipsForPreview={true}
             showAlerts={false}
+            dropzoneText=""
         />
     )
 }

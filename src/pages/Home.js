@@ -28,7 +28,7 @@ export default function Home(){
             setData(resp.data);
         })
         .catch((err_res) => {
-            setErrorData(HandleAPIError(err_res, errorData))
+            setErrorData(HandleAPIError(err_res))
             
             setError(true);
         })

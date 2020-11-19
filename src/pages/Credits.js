@@ -59,7 +59,7 @@ export default function Credits() {
     <div className={classes.root}>
         <Grid container spacing={3} className={classes.grid}>
             {data.map((item) => (
-                <Grid item as container md={6} lg={3} xs={12}>
+                <Grid item container md={6} lg={3} xs={12} key={item.title}>
                     <Card>
                         <CardHeader
                             avatar={
