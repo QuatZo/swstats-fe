@@ -194,7 +194,7 @@ export default function Upload(){
     return (
         <Grid container>
             <Grid item md={6} xs={12} >
-                <Dropzone handleChange={handleChange} className={classes.dropzone}/>
+                <Dropzone handleChange={handleChange} />
             </Grid>
             <Grid item md={6} xs={12} className={classes.firstRow}>
                 <Card className={classes.paper}>
@@ -222,9 +222,14 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.secondary.main,
     },
     paper: {
+        marginLeft: theme.spacing(2),
         padding: theme.spacing(2),
         color: theme.palette.text.secondary,
-        minHeight: 100,
+        minHeight: 143,
+        [theme.breakpoints.down('sm')]: {
+            marginTop: theme.spacing(2),
+            marginLeft: "unset"
+        }
     },
     root: {
         flexGrow: 1,

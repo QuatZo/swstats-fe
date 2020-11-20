@@ -20,7 +20,10 @@ const theme = createMuiTheme({
       root: {
         minHeight: "unset",
       }
-    }
+    },
+    "carousel-container": {
+      width: "100%",
+    },
   }
   
 });

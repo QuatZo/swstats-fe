@@ -1,0 +1,9 @@
+.rec.rec-arrow {
+  background-color: #ffad49;
+  color: #212121;
+}
+
+.rec.rec-arrow:hover,
+.rec.rec-arrow:hover:enabled {
+  background-color: #ffad4999;
+}

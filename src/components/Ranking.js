@@ -1,33 +1,23 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from '@material-ui/core/styles';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Grid from '@material-ui/core/Grid';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import Collapse from '@material-ui/core/Collapse';
-
+import Carousel from 'react-elastic-carousel'
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import '../assets/css/carousel.css'
 
 import { rankingParseInitData, rankingParseProfileData } from '../exts/Helpers';
 
 export default function Ranking(props){
     const classes = useStyles();
-
+    const breakpoints = [
+        { width: 1, itemsToShow: 1 },
+        { width: 550, itemsToShow: 2 },
+        { width: 850, itemsToShow: 3 },
+        { width: 1150, itemsToShow: 4 },
+        { width: 1450, itemsToShow: 5 },
+        { width: 1750, itemsToShow: 6 },
+      ]
     const [parsedData, setParsedData] = useState([])
-    const [closed, setClosed] = useState([])
-
-    function handleClick(e){
-        let closed_temp = [...closed]
-        if(closed_temp.includes(e.target.id)){
-            closed_temp = closed_temp.filter(item => item !== e.target.id)
-        }
-        else{
-            closed_temp.push(e.target.id)
-        }
-        setClosed(closed_temp)
-    }
 
     useEffect(() => {
         if(props.init){
@@ -37,47 +27,53 @@ export default function Ranking(props){
     }, [props.data])
 
     return (
-        <Grid container spacing={4}>
-            {parsedData.map((category) => (
-                <Grid item md={3} sm={6} xs={12}>
-                    <List
-                        component="nav"
-                        subheader={
-                            <ListSubheader component="div" id={category.name}>
-                                {category.name}{!closed.filter(item => item === category.name).length ? <ExpandLess className={classes.buttonRight} /> : <ExpandMore className={classes.buttonRight} />}
-                            </ListSubheader>
-                        }
-                        className={classes.listRoot}
-                        onClick={handleClick}
-                        id={category.name}
-                    >
-                        <Collapse in={!closed.filter(item => item === category.name).length} timeout="auto" unmountOnExit>
-                            {category.fields.map((item => (
-                                <ListItem button id={item.name}>
-                                <ListItemText primary={item.name} secondary={item.desc} inset/>
-                                    <ListItemText primary={item.value} className={classes.points} />
-                                </ListItem> 
-                            )))}
-                        </Collapse>
-                    </List>
-                </Grid>
-            ))}
-        </Grid>
+        <Carousel
+            itemsToShow={6}
+            pagination={false}
+            className={classes.carousel}
+            breakPoints={breakpoints}
+        >
+            {parsedData.map((category) => {
+                return category.fields.map((item) => (
+                    <Paper className={classes.paper}>
+                        <div className={classes.header}>
+                            <Typography variant="body2" className={classes.category}>{category.name}</Typography>
+                            <Typography variant="subtitle1" className={classes.title}>{item.name}</Typography>
+                            <Typography variant="body2" className={classes.category} gutterBottom>{item.desc}</Typography>
+                        </div>
+                        <Typography variant="h3" className={classes.val}>
+                            {item.value}
+                        </Typography>
+                    </Paper>
+                ))
+            })}
+        </Carousel>
     )
 }
 
 const useStyles = makeStyles((theme) => ({
-    listRoot: {
-      backgroundColor: theme.palette.background.paper,
-      color: theme.palette.secondary.main,
+    paper: {
+        padding: theme.spacing(2),
+        color: theme.palette.text.secondary,
+        minWidth: "calc(100% - 50px)",
     },
-    points: {
-        textAlign: "right",
+    header: {
+        display: "block",
     },
-    buttonRight: {
-        right: 10,
-        position: "absolute",
-        top: "50%",
-        transform: "translate(0px, -50%)",
-    }
-  }));
+    category: {
+        color: theme.palette.text.secondary,
+    },
+    title: {
+        color: theme.palette.secondary.main,
+    },
+    val: {
+        textAlign: "center",
+    },
+    carousel: {
+        width: "100%",
+        marginTop: 25,
+        ".rec-arrow": {
+            backgroundColor: theme.palette.secondary.main + "!important",
+        }
+    },
+}));
