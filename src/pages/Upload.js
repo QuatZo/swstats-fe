@@ -177,6 +177,7 @@ export default function Upload(){
                 .then((resp) => {
                     if(resp.data.status === 'SUCCESS'){
                         setData(resp.data.step)
+                        console.log(resp.data.step)
                     }
                 })
                 .catch((err_res) => {
@@ -192,28 +193,37 @@ export default function Upload(){
     }
 
     return (
-        <Grid container>
-            <Grid item md={6} xs={12} >
-                <Dropzone handleChange={handleChange} />
-            </Grid>
-            <Grid item md={6} xs={12} className={classes.firstRow}>
-                <Card className={classes.paper}>
-                    <Typography variant="h6" className={classes.title} gutterBottom>
-                        Total points
-                    </Typography>
-                    <Typography variant="h4" className={classes.animatedNumber}>
-                        <AnimatedNumberContainer 
-                            value={data.points.total.all}
-                            format={2}
-                        />
-                    </Typography>
-                </Card>
-            </Grid>
-            
-            {err && <Error title={errorData.title} msg={errorData.msg} />}
-            <Ranking data={data.points} init={data.init} />
-            <ComparisonTable data={data.comparison} />
-        </Grid>
+        <>
+            <Grid container>
+                <Grid item md={6} xs={12} >
+                    <Dropzone handleChange={handleChange} />
+                </Grid>
+                <Grid item md={6} xs={12} className={classes.firstRow}>
+                    <Card className={classes.paper}>
+                        <Typography variant="h6" className={classes.title} gutterBottom>
+                            Total points
+                        </Typography>
+                        <Typography variant="h4" className={classes.animatedNumber}>
+                            <AnimatedNumberContainer 
+                                value={data.points.total.all}
+                                format={2}
+                            />
+                        </Typography>
+                    </Card>
+                </Grid>
+                
+                {err && <Error title={errorData.title} msg={errorData.msg} />}
+                <Ranking data={data.points} init={data.init} />
+                <ComparisonTable 
+                    data={data.comparison.monsters} 
+                    title="Top % Monsters"
+                />
+                {/* <ComparisonTable 
+                    data={data.comparison.runes} 
+                    title="Runes"
+                /> */}
+            </Grid>            
+        </>
     )
 }
 
@@ -245,5 +255,5 @@ const useStyles = makeStyles((theme) => ({
             width: "inherit",
             margin: "inherit",
         }
-    }
+    },
   }));

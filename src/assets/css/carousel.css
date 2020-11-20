@@ -4,6 +4,8 @@
 }
 
 .rec.rec-arrow:hover,
-.rec.rec-arrow:hover:enabled {
+.rec.rec-arrow:hover:enabled,
+.rec.rec-arrow:focus,
+.rec.rec-arrow:focus:enabled {
   background-color: #ffad4999;
 }

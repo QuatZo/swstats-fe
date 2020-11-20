@@ -31,28 +31,21 @@ import ArtifactsIcon from '../icons/ArtifactsIcon';
 import DungeonsIcon from '../icons/DungeonsIcon';
 import DimHoleIcon from '../icons/DimHoleIcon';
 
+import {useMenuOpen} from './MenuOpenContext'
+
 
 export default function Navbar() {
-  const [open, setOpen] = useState(localStorage.getItem('menu-open') === 'true');
+  const { navbarOpen, handleNavbarStateChange} = useMenuOpen();
   
   const theme = useTheme();
   const classes = useStyles();
   const location = useLocation()
 
-  const handleDrawerOpen = () => {
-    setOpen(true);
-    localStorage.setItem('menu-open', true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-    localStorage.setItem('menu-open', false);
-  };
 
   useEffect(() => {
     // close menu after page change only for mobile users
     if(window.innerWidth <= theme.breakpoints.values.sm){
-        handleDrawerClose();
+      handleNavbarStateChange();
     }
   }, [location.pathname, theme.breakpoints.values.sm])
 
@@ -137,17 +130,17 @@ export default function Navbar() {
       <AppBar
         position="fixed"
         className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
+          [classes.appBarShift]: navbarOpen,
         })}
       >
         <Toolbar>
           <IconButton
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
+            onClick={handleNavbarStateChange}
             edge="start"
             className={clsx(classes.menuButton, {
-              [classes.hide]: open,
+              [classes.hide]: navbarOpen,
             })}
           >
             <MenuIcon />
@@ -160,18 +153,18 @@ export default function Navbar() {
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
-          [classes.drawerOpen]: open,
-          [classes.drawerClose]: !open,
+          [classes.drawerOpen]: navbarOpen,
+          [classes.drawerClose]: !navbarOpen,
         })}
         classes={{
           paper: clsx({
-            [classes.drawerOpen]: open,
-            [classes.drawerClose]: !open,
+            [classes.drawerOpen]: navbarOpen,
+            [classes.drawerClose]: !navbarOpen,
           }),
         }}
       >
         <div className={classes.toolbar}>
-          <IconButton onClick={handleDrawerClose}>
+          <IconButton onClick={handleNavbarStateChange}>
             <ChevronLeftIcon />
           </IconButton>
         </div>
@@ -262,10 +255,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
-  },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
   },
   active: {
       color: theme.palette.secondary.main,

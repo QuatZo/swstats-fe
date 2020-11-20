@@ -1,5 +1,7 @@
+import React, {useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from '../components/Navbar';
+import {MenuOpenContext} from '../components/MenuOpenContext';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,15 +34,28 @@ const useStyles = makeStyles((theme) => ({
 
   function Layout(props) {
       const classes = useStyles();
+
+      const [navbarOpen, setNavbarOpen] = useState(localStorage.getItem('menu-open') === 'true')
+
+      function handleNavbarStateChange(){
+        localStorage.setItem('menu-open', !navbarOpen)
+        setNavbarOpen(!navbarOpen)
+      }
+
       return (
-        <div className="container">
-            <div className={classes.root}>
-                <NavBar />
-                <main className={classes.content}>
-                    { props.children }
-                </main>
-            </div>
-        </div>
+        <MenuOpenContext.Provider value={{
+            navbarOpen,
+            handleNavbarStateChange
+          }}>
+          <div className="container">
+              <div className={classes.root}>
+                  <NavBar />
+                  <main className={classes.content}>
+                      { props.children }
+                  </main>
+              </div>
+          </div>
+        </MenuOpenContext.Provider>
       )
   }
 

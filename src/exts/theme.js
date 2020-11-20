@@ -24,6 +24,16 @@ const theme = createMuiTheme({
     "carousel-container": {
       width: "100%",
     },
+    MuiTableCell: {
+      head: {
+        color: '#FFAD49',
+      }
+    },
+    MUIDataTableToolbar: {
+      titleRoot: {
+        color: '#FFAD49',
+      }
+    }
   }
   
 });
