@@ -6,7 +6,7 @@ import Card from "@material-ui/core/Card";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-import {GenerateAPIHeaders, HandleAPIError} from '../exts/Helpers';
+import {GenerateAPIHeaders, HandleAPIError, GetColumns} from '../exts/Helpers';
 import APIEndpoints from '../exts/Endpoints';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
@@ -25,6 +25,7 @@ export default function Upload(){
     const [errorData, setErrorData] = useState({})
     let axiosIntervalID = null;
 
+    // first render
     useEffect(() => {
         axios.get(APIEndpoints.Scoring, {
             headers: GenerateAPIHeaders(),
@@ -60,6 +61,7 @@ export default function Upload(){
         }
     }
 
+    // file upload
     useEffect(() => {
         if(profile){
             axios.post(APIEndpoints.Upload, profile, {
@@ -75,6 +77,7 @@ export default function Upload(){
         }
     }, [profile])
 
+    // status check
     useEffect(() => {
         if(taskId){
             axiosIntervalID = setInterval(() => {
@@ -83,7 +86,12 @@ export default function Upload(){
                 })
                 .then((resp) => {
                     if(resp.data.status === 'SUCCESS'){
+                        console.log(resp.data.step)
                         setData(resp.data.step)
+                    }
+                    if(resp.data.status === 'FAILURE'){
+                        setErrorData(HandleAPIError(resp));
+                        setError(true);
                     }
                 })
                 .catch((err_res) => {
@@ -94,8 +102,11 @@ export default function Upload(){
         }
     }, [taskId])
 
-    if(!data){
+    if(!data && !err){
         return <Loading />
+    }
+    if(err){
+        return <Error title={errorData.title} msg={errorData.msg} />
     }
 
     return (
@@ -118,15 +129,16 @@ export default function Upload(){
                     </Card>
                 </Grid>
                 
-                {err && <Error title={errorData.title} msg={errorData.msg} />}
                 <Ranking data={data.points} />
                 <ComparisonTable 
                     data={data.comparison.monsters} 
                     title="Top % Monsters"
+                    columns={GetColumns("monster")}
                 />
                 <ComparisonTable 
                     data={data.comparison.runes} 
                     title="Runes"
+                    columns={GetColumns("rune")}
                 />
             </Grid>            
         </>

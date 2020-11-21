@@ -23,6 +23,9 @@ export function HandleAPIError(error){
             return {title: "Wrong Request (401)", msg: "Unable to fetch data for this request"}
         }
     }
+    else if(error.data && error.data.status){
+        return {title: "500", msg: "Internal server error. Please, contact administrator"}
+    }
     return {title: 'Unknown Error', msg: 'Unknown error has occured, please contact administrator'}
 }
 
@@ -299,4 +302,83 @@ export function rankingParseData(data){
             ]
         },
     ]
+}
+
+export function GetColumns(tableType){
+    switch(tableType){
+        case "monster": return [
+            { label: 'Monster', name: 'name', options: { filter: true, sort: true, }, }, // Custom component here
+            { label: 'HP Value', name: 'rank.hp.val', options: { filter: true, sort: true, }, },
+            { label: 'HP Top', name: 'rank.hp.top', options: { filter: true, sort: true, }, },
+            { label: 'HP Average', name: 'rank.hp.avg', options: { filter: true, sort: true, }, },
+            { label: 'ATK Value', name: 'rank.attack.val', options: { filter: true, sort: true, }, },
+            { label: 'ATK Top', name: 'rank.attack.top', options: { filter: true, sort: true, }, },
+            { label: 'ATK Average', name: 'rank.attack.avg', options: { filter: true, sort: true, }, },
+            { label: 'DEF Value', name: 'rank.defense.val', options: { filter: true, sort: true, }, },
+            { label: 'DEF Top', name: 'rank.defense.top', options: { filter: true, sort: true, }, },
+            { label: 'DEF Average', name: 'rank.defense.avg', options: { filter: true, sort: true, }, },
+            { label: 'SPD Value', name: 'rank.speed.val', options: { filter: true, sort: true, }, },
+            { label: 'SPD Top', name: 'rank.speed.top', options: { filter: true, sort: true, }, },
+            { label: 'SPD Average', name: 'rank.speed.avg', options: { filter: true, sort: true, }, },
+            { label: 'CRATE Value', name: 'rank.crit_rate.val', options: { filter: true, sort: true, }, },
+            { label: 'CRATE Top', name: 'rank.crit_rate.top', options: { filter: true, sort: true, }, },
+            { label: 'CRATE Average', name: 'rank.crit_rate.avg', options: { filter: true, sort: true, }, },
+            { label: 'CDMG Value', name: 'rank.crit_dmg.val', options: { filter: true, sort: true, }, },
+            { label: 'CDMG Top', name: 'rank.crit_dmg.top', options: { filter: true, sort: true, }, },
+            { label: 'CDMG Average', name: 'rank.crit_dmg.avg', options: { filter: true, sort: true, }, },
+            { label: 'ACC Value', name: 'rank.acc.val', options: { filter: true, sort: true, }, },
+            { label: 'ACC Top', name: 'rank.acc.top', options: { filter: true, sort: true, }, },
+            { label: 'ACC Average', name: 'rank.acc.avg', options: { filter: true, sort: true, }, },
+            { label: 'RES Value', name: 'rank.res.val', options: { filter: true, sort: true, }, },
+            { label: 'RES Top', name: 'rank.res.top', options: { filter: true, sort: true, }, },
+            { label: 'RES Average', name: 'rank.res.avg', options: { filter: true, sort: true, }, },
+            { label: 'E.HP Value', name: 'rank.eff_hp.val', options: { filter: true, sort: true, }, },
+            { label: 'E.HP Top', name: 'rank.eff_hp.top', options: { filter: true, sort: true, }, },
+            { label: 'E.HP Average', name: 'rank.eff_hp.avg', options: { filter: true, sort: true, }, },
+            { label: 'EFF Value', name: 'rank.avg_eff_total.val', options: { filter: true, sort: true, }, },
+            { label: 'EFF Top', name: 'rank.avg_eff_total.top', options: { filter: true, sort: true, }, },
+            { label: 'EFF Average', name: 'rank.avg_eff_total.avg', options: { filter: true, sort: true, }, },
+        ]
+        case "rune": return [
+            { label: 'Rune', name: 'name', options: { filter: true, sort: true, }, },
+            { label: 'Mainstat', name: 'mainstat', options: { filter: true, sort: true, }, },
+            { label: 'HP Value', name: 'rank.sub_hp.val', options: { filter: true, sort: true, }, },
+            { label: 'HP Top', name: 'rank.sub_hp.top', options: { filter: true, sort: true, }, },
+            { label: 'HP Average', name: 'rank.sub_hp.avg', options: { filter: true, sort: true, }, },
+            { label: 'HP FLAT Value', name: 'rank.sub_hp_flat.val', options: { filter: true, sort: true, }, },
+            { label: 'HP FLAT Top', name: 'rank.sub_hp_flat.top', options: { filter: true, sort: true, }, },
+            { label: 'HP FLAT Average', name: 'rank.sub_hp_flat.avg', options: { filter: true, sort: true, }, },
+            { label: 'ATK Value', name: 'rank.sub_atk.val', options: { filter: true, sort: true, }, },
+            { label: 'ATK Top', name: 'rank.sub_atk.top', options: { filter: true, sort: true, }, },
+            { label: 'ATK Average', name: 'rank.sub_atk.avg', options: { filter: true, sort: true, }, },
+            { label: 'ATK FLAT Value', name: 'rank.sub_atk_flat.val', options: { filter: true, sort: true, }, },
+            { label: 'ATK FLAT Top', name: 'rank.sub_atk_flat.top', options: { filter: true, sort: true, }, },
+            { label: 'ATK FLAT Average', name: 'rank.sub_atk_flat.avg', options: { filter: true, sort: true, }, },
+            { label: 'DEF Value', name: 'rank.sub_def.val', options: { filter: true, sort: true, }, },
+            { label: 'DEF Top', name: 'rank.sub_def.top', options: { filter: true, sort: true, }, },
+            { label: 'DEF Average', name: 'rank.sub_def.avg', options: { filter: true, sort: true, }, },
+            { label: 'DEF FLAT Value', name: 'rank.sub_def_flat.val', options: { filter: true, sort: true, }, },
+            { label: 'DEF FLAT Top', name: 'rank.sub_def_flat.top', options: { filter: true, sort: true, }, },
+            { label: 'DEF FLAT Average', name: 'rank.sub_def_flat.avg', options: { filter: true, sort: true, }, },
+            { label: 'SPD Value', name: 'rank.sub_spd.val', options: { filter: true, sort: true, }, },
+            { label: 'SPD Top', name: 'rank.sub_spd.top', options: { filter: true, sort: true, }, },
+            { label: 'SPD Average', name: 'rank.sub_spd.avg', options: { filter: true, sort: true, }, },
+            { label: 'CRATE Value', name: 'rank.sub_crit_rate.val', options: { filter: true, sort: true, }, },
+            { label: 'CRATE Top', name: 'rank.sub_crit_rate.top', options: { filter: true, sort: true, }, },
+            { label: 'CRATE Average', name: 'rank.sub_crit_rate.avg', options: { filter: true, sort: true, }, },
+            { label: 'CDMG Value', name: 'rank.sub_crit_dmg.val', options: { filter: true, sort: true, }, },
+            { label: 'CDMG Top', name: 'rank.sub_crit_dmg.top', options: { filter: true, sort: true, }, },
+            { label: 'CDMG Average', name: 'rank.sub_crit_dmg.avg', options: { filter: true, sort: true, }, },
+            { label: 'ACC Value', name: 'rank.sub_acc.val', options: { filter: true, sort: true, }, },
+            { label: 'ACC Top', name: 'rank.sub_acc.top', options: { filter: true, sort: true, }, },
+            { label: 'ACC Average', name: 'rank.sub_acc.avg', options: { filter: true, sort: true, }, },
+            { label: 'RES Value', name: 'rank.sub_res.val', options: { filter: true, sort: true, }, },
+            { label: 'RES Top', name: 'rank.sub_res.top', options: { filter: true, sort: true, }, },
+            { label: 'RES Average', name: 'rank.sub_res.avg', options: { filter: true, sort: true, }, },
+            { label: 'EFF Value', name: 'rank.efficiency.val', options: { filter: true, sort: true, }, },
+            { label: 'EFF Top', name: 'rank.efficiency.top', options: { filter: true, sort: true, }, },
+            { label: 'EFF Average', name: 'rank.efficiency.avg', options: { filter: true, sort: true, }, },
+        ]
+        default: return []
+    }
 }
