@@ -16,126 +16,29 @@ import AnimatedNumberContainer from '../components/AnimatedNumberContainer';
 
 
 export default function Upload(){
-    const initialData = {
-        points: {
-            wizard: {
-                active_contributor: 1000,
-                mana_100k: 1,
-                crystals_10: 1,
-                level: 5,
-                antibot_count: 1,
-                raid: 20,
-                storage_capacity: 0.25,
-            },
-            guild: {
-                gw_rank: 50,
-                siege_rank: 50,
-            },
-            buildings: {
-                max: 20,
-                max_all: 250,
-            },
-            flags: {
-                max: 50,
-                max_all: 200,
-            },
-            runes: {
-                count: 0.1,
-                stars_5_legend: 2,
-                stars_6_hero: 2,
-                stars_6_legend: 5,
-                upgrade_12: 0.1,
-                upgrade_15: 0.5,
-                sub_speed: {
-                    base: [5, 15, 50], 
-                    threshold: [20, 28, 33],
-                },
-                sub_hp: {
-                    base: [5, 15, 50], 
-                    threshold: [27, 35, 45],
-                },
-                sub_def: {
-                    base: [5, 15, 50], 
-                    threshold: [27, 35, 45],
-                },
-                sub_atk: {
-                    base: [5, 15, 50], 
-                    threshold: [27, 35, 45],
-                },
-                sub_crit_rate: {
-                    base: [5, 15, 50], 
-                    threshold: [20, 28, 33],
-                },
-                sub_crit_dmg: {
-                    base: [5, 15, 50], 
-                    threshold: [23, 27, 33],
-                },
-            },
-            monsters: {
-                count: 0.1,
-                nat4: 2,
-                nat5: 5,
-                stars_6: 5,
-                transmog: 1,
-                with_runes: 1,
-                skillup: 0.1,
-                skillups_max: 5,
-                speed: {
-                    base: [5, 15, 50],
-                    threshold: [200, 250, 300],
-                },
-                hp: {
-                    base: [5, 15, 50],
-                    threshold: [30000, 37500, 45000],
-                },
-                defense: {
-                    base: [5, 15, 50],
-                    threshold: [1500, 1875, 2250],
-                },
-                attack: {
-                    base: [5, 15, 50],
-                    threshold: [1750, 2250, 2500],
-                },
-                crit_dmg: {
-                    base: [5, 15, 50],
-                    threshold: [150, 200, 250],
-                },
-                crit_rate: {
-                    base: [5, 15, 50],
-                    threshold: [70, 85, 100],
-                },
-                acc: {
-                    base: [5, 15, 50],
-                    threshold: [45, 65, 85],
-                },
-                res: {
-                    base: [5, 15, 50],
-                    threshold: [70, 85, 100],
-                },
-            },
-            total: {
-                wizard: 0,
-                guild: 0,
-                buildings: 0,
-                flags: 0,
-                runes: 0,
-                monsters: 0,
-                all: 0,
-            }
-        },
-        comparison: [],
-        init: true,
-    }
     const classes = useStyles();
 
     const [profile, setProfile] = useState(null)
     const [taskId, setTaskId] = useState(null)
-    const [data, setData] = useState(initialData)
+    const [data, setData] = useState(null)
     const [err, setError] = useState(false);
     const [errorData, setErrorData] = useState({})
     let axiosIntervalID = null;
 
-    useEffect(()=> {
+    useEffect(() => {
+        axios.get(APIEndpoints.Scoring, {
+            headers: GenerateAPIHeaders(),
+        })
+        .then((resp) => {
+            setData(resp.data);
+        })
+        .catch((err_res) => {
+            setErrorData(HandleAPIError(err_res));
+            setError(true);
+        })
+    }, [])
+
+    useEffect(() => {
         // cleanup
         return (() => {
             if(axiosIntervalID) clearInterval(axiosIntervalID);
@@ -148,7 +51,7 @@ export default function Upload(){
             reader.onload = async (e) => { 
                 const text = (e.target.result)
                 setProfile(JSON.parse(text))
-                setData(initialData)
+                setData(null)
             };
             reader.readAsText(files[0])
         }
@@ -165,6 +68,10 @@ export default function Upload(){
             .then((resp) => {
                 setTaskId(resp.data.task_id)
             })
+            .catch((err_res) => {
+                setErrorData(HandleAPIError(err_res));
+                setError(true);
+            })
         }
     }, [profile])
 
@@ -177,7 +84,6 @@ export default function Upload(){
                 .then((resp) => {
                     if(resp.data.status === 'SUCCESS'){
                         setData(resp.data.step)
-                        console.log(resp.data.step)
                     }
                 })
                 .catch((err_res) => {
@@ -188,7 +94,7 @@ export default function Upload(){
         }
     }, [taskId])
 
-    if(profile && data.init){
+    if(!data){
         return <Loading />
     }
 
@@ -205,7 +111,7 @@ export default function Upload(){
                         </Typography>
                         <Typography variant="h4" className={classes.animatedNumber}>
                             <AnimatedNumberContainer 
-                                value={data.points.total.all}
+                                value={data.points.sum}
                                 format={2}
                             />
                         </Typography>
@@ -213,15 +119,15 @@ export default function Upload(){
                 </Grid>
                 
                 {err && <Error title={errorData.title} msg={errorData.msg} />}
-                <Ranking data={data.points} init={data.init} />
+                <Ranking data={data.points} />
                 <ComparisonTable 
                     data={data.comparison.monsters} 
                     title="Top % Monsters"
                 />
-                {/* <ComparisonTable 
+                <ComparisonTable 
                     data={data.comparison.runes} 
                     title="Runes"
-                /> */}
+                />
             </Grid>            
         </>
     )

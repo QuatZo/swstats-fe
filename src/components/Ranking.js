@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import '../assets/css/carousel.css'
 
-import { rankingParseInitData, rankingParseProfileData } from '../exts/Helpers';
+import { rankingParseData } from '../exts/Helpers';
 
 export default function Ranking(props){
     const classes = useStyles();
@@ -20,10 +20,7 @@ export default function Ranking(props){
     const [parsedData, setParsedData] = useState([])
 
     useEffect(() => {
-        if(props.init){
-            setParsedData(rankingParseInitData(props.data));
-        }
-        else setParsedData(rankingParseProfileData(props.data));
+        setParsedData(rankingParseData(props.data));
     }, [props.data])
 
     return (
