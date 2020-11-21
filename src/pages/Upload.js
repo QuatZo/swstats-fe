@@ -133,11 +133,13 @@ export default function Upload(){
                 <ComparisonTable 
                     data={data.comparison.monsters} 
                     title="Top % Monsters"
+                    tableType="monster"
                     columns={GetColumns("monster")}
                 />
                 <ComparisonTable 
                     data={data.comparison.runes} 
                     title="Runes"
+                    tableType="rune"
                     columns={GetColumns("rune")}
                 />
             </Grid>            

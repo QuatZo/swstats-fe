@@ -1,3 +1,8 @@
+import React from "react";
+import Typography from '@material-ui/core/Typography';
+
+import ComparisonTableCellTooltip from '../components/ComparisonTableCellTooltip'
+
 export function GenerateAPIHeaders(){
     var CryptoJS = require("crypto-js");
 
@@ -307,77 +312,1083 @@ export function rankingParseData(data){
 export function GetColumns(tableType){
     switch(tableType){
         case "monster": return [
-            { label: 'Monster', name: 'name', options: { filter: true, sort: true, }, }, // Custom component here
-            { label: 'HP Value', name: 'rank.hp.val', options: { filter: true, sort: true, }, },
-            { label: 'HP Top', name: 'rank.hp.top', options: { filter: true, sort: true, }, },
-            { label: 'HP Average', name: 'rank.hp.avg', options: { filter: true, sort: true, }, },
-            { label: 'ATK Value', name: 'rank.attack.val', options: { filter: true, sort: true, }, },
-            { label: 'ATK Top', name: 'rank.attack.top', options: { filter: true, sort: true, }, },
-            { label: 'ATK Average', name: 'rank.attack.avg', options: { filter: true, sort: true, }, },
-            { label: 'DEF Value', name: 'rank.defense.val', options: { filter: true, sort: true, }, },
-            { label: 'DEF Top', name: 'rank.defense.top', options: { filter: true, sort: true, }, },
-            { label: 'DEF Average', name: 'rank.defense.avg', options: { filter: true, sort: true, }, },
-            { label: 'SPD Value', name: 'rank.speed.val', options: { filter: true, sort: true, }, },
-            { label: 'SPD Top', name: 'rank.speed.top', options: { filter: true, sort: true, }, },
-            { label: 'SPD Average', name: 'rank.speed.avg', options: { filter: true, sort: true, }, },
-            { label: 'CRATE Value', name: 'rank.crit_rate.val', options: { filter: true, sort: true, }, },
-            { label: 'CRATE Top', name: 'rank.crit_rate.top', options: { filter: true, sort: true, }, },
-            { label: 'CRATE Average', name: 'rank.crit_rate.avg', options: { filter: true, sort: true, }, },
-            { label: 'CDMG Value', name: 'rank.crit_dmg.val', options: { filter: true, sort: true, }, },
-            { label: 'CDMG Top', name: 'rank.crit_dmg.top', options: { filter: true, sort: true, }, },
-            { label: 'CDMG Average', name: 'rank.crit_dmg.avg', options: { filter: true, sort: true, }, },
-            { label: 'ACC Value', name: 'rank.acc.val', options: { filter: true, sort: true, }, },
-            { label: 'ACC Top', name: 'rank.acc.top', options: { filter: true, sort: true, }, },
-            { label: 'ACC Average', name: 'rank.acc.avg', options: { filter: true, sort: true, }, },
-            { label: 'RES Value', name: 'rank.res.val', options: { filter: true, sort: true, }, },
-            { label: 'RES Top', name: 'rank.res.top', options: { filter: true, sort: true, }, },
-            { label: 'RES Average', name: 'rank.res.avg', options: { filter: true, sort: true, }, },
-            { label: 'E.HP Value', name: 'rank.eff_hp.val', options: { filter: true, sort: true, }, },
-            { label: 'E.HP Top', name: 'rank.eff_hp.top', options: { filter: true, sort: true, }, },
-            { label: 'E.HP Average', name: 'rank.eff_hp.avg', options: { filter: true, sort: true, }, },
-            { label: 'EFF Value', name: 'rank.avg_eff_total.val', options: { filter: true, sort: true, }, },
-            { label: 'EFF Top', name: 'rank.avg_eff_total.top', options: { filter: true, sort: true, }, },
-            { label: 'EFF Average', name: 'rank.avg_eff_total.avg', options: { filter: true, sort: true, }, },
+            { 
+                label: 'Monster', 
+                name: 'id', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (value),
+                }, 
+            },
+            { 
+                label: 'HP', 
+                name: 'rank.hp.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.hp.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.hp.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'ATK', 
+                name: 'rank.attack.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.attack.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.attack.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'DEF', 
+                name: 'rank.defense.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.defense.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.defense.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'SPD', 
+                name: 'rank.speed.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.speed.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.speed.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'CRATE', 
+                name: 'rank.crit_rate.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.crit_rate.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.crit_rate.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'CDMG', 
+                name: 'rank.crit_dmg.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.crit_dmg.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.crit_dmg.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'ACC', 
+                name: 'rank.acc.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.acc.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.acc.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'RES', 
+                name: 'rank.res.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.res.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.res.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'EHP', 
+                name: 'rank.eff_hp.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.eff_hp.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.eff_hp.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'EFF', 
+                name: 'rank.avg_eff_total.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.avg_eff_total.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.avg_eff_total.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
         ]
         case "rune": return [
-            { label: 'Rune', name: 'name', options: { filter: true, sort: true, }, },
+            { 
+                label: 'Rune', 
+                name: 'id', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (value),
+                }, 
+            },
             { label: 'Mainstat', name: 'mainstat', options: { filter: true, sort: true, }, },
-            { label: 'HP Value', name: 'rank.sub_hp.val', options: { filter: true, sort: true, }, },
-            { label: 'HP Top', name: 'rank.sub_hp.top', options: { filter: true, sort: true, }, },
-            { label: 'HP Average', name: 'rank.sub_hp.avg', options: { filter: true, sort: true, }, },
-            { label: 'HP FLAT Value', name: 'rank.sub_hp_flat.val', options: { filter: true, sort: true, }, },
-            { label: 'HP FLAT Top', name: 'rank.sub_hp_flat.top', options: { filter: true, sort: true, }, },
-            { label: 'HP FLAT Average', name: 'rank.sub_hp_flat.avg', options: { filter: true, sort: true, }, },
-            { label: 'ATK Value', name: 'rank.sub_atk.val', options: { filter: true, sort: true, }, },
-            { label: 'ATK Top', name: 'rank.sub_atk.top', options: { filter: true, sort: true, }, },
-            { label: 'ATK Average', name: 'rank.sub_atk.avg', options: { filter: true, sort: true, }, },
-            { label: 'ATK FLAT Value', name: 'rank.sub_atk_flat.val', options: { filter: true, sort: true, }, },
-            { label: 'ATK FLAT Top', name: 'rank.sub_atk_flat.top', options: { filter: true, sort: true, }, },
-            { label: 'ATK FLAT Average', name: 'rank.sub_atk_flat.avg', options: { filter: true, sort: true, }, },
-            { label: 'DEF Value', name: 'rank.sub_def.val', options: { filter: true, sort: true, }, },
-            { label: 'DEF Top', name: 'rank.sub_def.top', options: { filter: true, sort: true, }, },
-            { label: 'DEF Average', name: 'rank.sub_def.avg', options: { filter: true, sort: true, }, },
-            { label: 'DEF FLAT Value', name: 'rank.sub_def_flat.val', options: { filter: true, sort: true, }, },
-            { label: 'DEF FLAT Top', name: 'rank.sub_def_flat.top', options: { filter: true, sort: true, }, },
-            { label: 'DEF FLAT Average', name: 'rank.sub_def_flat.avg', options: { filter: true, sort: true, }, },
-            { label: 'SPD Value', name: 'rank.sub_spd.val', options: { filter: true, sort: true, }, },
-            { label: 'SPD Top', name: 'rank.sub_spd.top', options: { filter: true, sort: true, }, },
-            { label: 'SPD Average', name: 'rank.sub_spd.avg', options: { filter: true, sort: true, }, },
-            { label: 'CRATE Value', name: 'rank.sub_crit_rate.val', options: { filter: true, sort: true, }, },
-            { label: 'CRATE Top', name: 'rank.sub_crit_rate.top', options: { filter: true, sort: true, }, },
-            { label: 'CRATE Average', name: 'rank.sub_crit_rate.avg', options: { filter: true, sort: true, }, },
-            { label: 'CDMG Value', name: 'rank.sub_crit_dmg.val', options: { filter: true, sort: true, }, },
-            { label: 'CDMG Top', name: 'rank.sub_crit_dmg.top', options: { filter: true, sort: true, }, },
-            { label: 'CDMG Average', name: 'rank.sub_crit_dmg.avg', options: { filter: true, sort: true, }, },
-            { label: 'ACC Value', name: 'rank.sub_acc.val', options: { filter: true, sort: true, }, },
-            { label: 'ACC Top', name: 'rank.sub_acc.top', options: { filter: true, sort: true, }, },
-            { label: 'ACC Average', name: 'rank.sub_acc.avg', options: { filter: true, sort: true, }, },
-            { label: 'RES Value', name: 'rank.sub_res.val', options: { filter: true, sort: true, }, },
-            { label: 'RES Top', name: 'rank.sub_res.top', options: { filter: true, sort: true, }, },
-            { label: 'RES Average', name: 'rank.sub_res.avg', options: { filter: true, sort: true, }, },
-            { label: 'EFF Value', name: 'rank.efficiency.val', options: { filter: true, sort: true, }, },
-            { label: 'EFF Top', name: 'rank.efficiency.top', options: { filter: true, sort: true, }, },
-            { label: 'EFF Average', name: 'rank.efficiency.avg', options: { filter: true, sort: true, }, },
+            { 
+                label: 'HP', 
+                name: 'rank.sub_hp.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_hp.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_hp.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'HP F', 
+                name: 'rank.sub_hp_flat.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_hp_flat.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_hp_flat.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'ATK', 
+                name: 'rank.sub_atk.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_atk.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_atk.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'ATK F', 
+                name: 'rank.sub_atk_flat.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_atk_flat.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_atk_flat.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'DEF', 
+                name: 'rank.sub_def.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_def.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_def.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'DEF F', 
+                name: 'rank.sub_def_flat.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_def_flat.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_def_flat.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'SPD', 
+                name: 'rank.sub_speed.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_speed.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_speed.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'CRATE', 
+                name: 'rank.sub_crit_rate.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_crit_rate.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_crit_rate.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'CDMG', 
+                name: 'rank.sub_crit_dmg.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_crit_dmg.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_crit_dmg.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'ACC', 
+                name: 'rank.sub_acc.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_acc.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_acc.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'RES', 
+                name: 'rank.sub_res.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.sub_res.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.sub_res.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                label: 'EFF', 
+                name: 'rank.efficiency.top', 
+                options: { 
+                    filter: true, 
+                    sort: true, 
+                    customBodyRender: (value, tableMeta, updateValue) => (
+                        <ComparisonTableCellTooltip tableMeta={tableMeta}>
+                            { value === 0 ? (
+                                <Typography variant="body2" color="secondary">Best</Typography>
+                            ) : 
+                            (
+                                <Typography variant="body2">{value}</Typography>
+                            )
+                            }
+                        </ComparisonTableCellTooltip>
+                    ),
+                    sortCompare: (order) => {
+                        return (obj1, obj2) => {
+                            let order_b = (order === 'asc' ? 1 : -1)
+                            if(obj1.data === "Best") return -1 * order_b
+                            if(obj2.data === "Best") return 1 * order_b
+
+                            let val1 = parseInt(obj1.data, 10);
+                            let val2 = parseInt(obj2.data, 10);
+                            if(isNaN(val1)) return 1 * order_b
+                            if(isNaN(val2)) return -1 * order_b
+                            return (val1 - val2) * order_b;
+                        };
+                    },
+                }, 
+            },
+            { 
+                name: 'rank.efficiency.avg', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
+            { 
+                name: 'rank.efficiency.val', 
+                options: { 
+                    display: 'excluded',
+                    filter: false,
+                    sort: false,
+                }, 
+            },
         ]
         default: return []
     }
