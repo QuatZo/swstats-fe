@@ -1,19 +1,17 @@
 import Avatar from '@material-ui/core/Avatar';
-import Tooltip from '@material-ui/core/Tooltip';
+import { Link } from 'react-router-dom';
+import CardTooltip from '../CardTooltip';
 
 import MonsterCard from './MonsterCard';
 
 export default function MonsterAvatarTooltip(props){
     return (
-        <Tooltip
-            title={
-                <MonsterCard id={props.id}/>
-            }
-            interactive
-            arrow
-            placement="right"
-        >
-            <Avatar alt={props.id.toString()} src={props.img_url} />
-        </Tooltip>
+        <Link to={"/monster/" + props.id}>
+            <CardTooltip
+                component={<MonsterCard id={props.id}/>}
+            >
+                <Avatar alt={props.id.toString()} src={props.img_url} />
+            </CardTooltip>
+        </Link>
     )
 }

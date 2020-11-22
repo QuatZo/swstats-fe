@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     embedded: {
         position: "relative",
         width: "100%",
-        height: "100%",
+        height: 300,
         margin: 0,
         padding: 0,
     },

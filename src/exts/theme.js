@@ -33,7 +33,12 @@ const theme = createMuiTheme({
       titleRoot: {
         color: '#FFAD49',
       }
-    }
+    },
+    MuiCardHeader: {
+      title: {
+        color: '#FFAD49',
+      }
+    },
   }
   
 });
