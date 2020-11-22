@@ -6,12 +6,13 @@ import Card from "@material-ui/core/Card";
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 
-import {GenerateAPIHeaders, HandleAPIError, GetColumns} from '../exts/Helpers';
+import {GenerateAPIHeaders, HandleAPIError} from '../exts/Helpers';
 import APIEndpoints from '../exts/Endpoints';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
 import Ranking from '../components/Ranking';
-import ComparisonTable from '../components/ComparisonTable';
+import MonsterComparisonTable from '../components/tables/MonsterComparisonTable';
+import RuneComparisonTable from '../components/tables/RuneComparisonTable';
 import AnimatedNumberContainer from '../components/AnimatedNumberContainer';
 
 
@@ -130,17 +131,11 @@ export default function Upload(){
                 </Grid>
                 
                 <Ranking data={data.points} />
-                <ComparisonTable 
+                <MonsterComparisonTable 
                     data={data.comparison.monsters} 
-                    title="Top % Monsters"
-                    tableType="monster"
-                    columns={GetColumns("monster")}
                 />
-                <ComparisonTable 
+                <RuneComparisonTable 
                     data={data.comparison.runes} 
-                    title="Runes"
-                    tableType="rune"
-                    columns={GetColumns("rune")}
                 />
             </Grid>            
         </>
@@ -148,9 +143,6 @@ export default function Upload(){
 }
 
 const useStyles = makeStyles((theme) => ({
-    loading: {
-        color: theme.palette.secondary.main,
-    },
     paper: {
         marginLeft: theme.spacing(2),
         padding: theme.spacing(2),
@@ -161,19 +153,10 @@ const useStyles = makeStyles((theme) => ({
             marginLeft: "unset"
         }
     },
-    root: {
-        flexGrow: 1,
-    },
     title: {
         color: theme.palette.secondary.main,
     },
     animatedNumber: {
         textAlign: "center",
-    },
-    grid: {
-        [theme.breakpoints.down('sm')]: {
-            width: "inherit",
-            margin: "inherit",
-        }
     },
   }));

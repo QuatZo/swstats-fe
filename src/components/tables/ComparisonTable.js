@@ -1,8 +1,7 @@
-import { Typography } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import MUIDataTable from "mui-datatables";
 
-import {useMenuOpen} from './MenuOpenContext'
+import {useMenuOpen} from '../MenuOpenContext'
 
 export default function ComparisonTable(props){
     const classes = useStyles();
@@ -20,7 +19,7 @@ export default function ComparisonTable(props){
     return (
         <div className={navbarOpen ? classes.fullWidthWithMenu : classes.fullWidthWithoutMenu}>
             <MUIDataTable
-                title={props.title + " (shows % of the same " + props.tableType + " type better than yours)"}
+                title={props.title}
                 data={props.data}
                 columns={props.columns}
                 options={options}

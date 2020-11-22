@@ -11,6 +11,7 @@ export default function ComparisonTableCellTooltip(props){
                     <Typography variant="body1">Avg Diff: {props.tableMeta.rowData[props.tableMeta.columnIndex + 1] ? props.tableMeta.rowData[props.tableMeta.columnIndex + 1] : '-'}</Typography>
                 </React.Fragment>
             }
+            interactive
         >
             {props.children}
         </Tooltip>
