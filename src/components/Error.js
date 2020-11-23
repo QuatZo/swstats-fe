@@ -54,12 +54,12 @@ const useStyles = makeStyles((theme) => ({
     },
     embedded: {
         position: "relative",
+        width: "100%",
+        height: 300,
         margin: 0,
         padding: 0,
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
         fontSize: 50,
+        top: 75,
     },
     middle: {
         display: "block",

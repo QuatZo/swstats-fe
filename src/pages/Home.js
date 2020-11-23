@@ -85,7 +85,8 @@ const useStyles = makeStyles((theme) => ({
         color: theme.palette.secondary.main,
     },
     animatedNumber: {
-        textAlign: "center",
+        display: "flex",
+        justifyContent: "center",
     },
     grid: {
         [theme.breakpoints.down('sm')]: {
