@@ -27,6 +27,7 @@ export default function RuneAvatarMini(props){
         },
         badge: {
             marginRight: 5,
+            // display: "block",
         },
         badgeIcon: {
             color: RuneQualityColors(props.data.quality_original),
@@ -34,7 +35,7 @@ export default function RuneAvatarMini(props){
             width: 10,
             height: 10,
             border: "1px solid rgba(0, 0, 0, 0.75)",
-        }
+        },
       }));
     const classes = useStyles();
     return (

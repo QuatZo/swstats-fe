@@ -18,6 +18,7 @@ import APIEndpoints from '../../exts/Endpoints';
 import Loading from "../Loading";
 import Error from "../Error";
 import RuneAvatarMini from "../rune/RuneAvatarMini";
+import { Typography } from "@material-ui/core";
 
 export default function MonsterCard(props){
     const classes = useStyles();
@@ -62,6 +63,7 @@ export default function MonsterCard(props){
 
         return (
             <div className={classes.runeRow}>
+                <Typography variant="subtitle1" color="secondary">Runes {runes.rta ? "RTA" : null }</Typography>
             {runes.children.map(rune => (
                 <RuneAvatarMini 
                     data={rune}
@@ -130,7 +132,7 @@ export default function MonsterCard(props){
                             </Table>
                         </TableContainer>
                         <RuneRow>{data.runes}</RuneRow>
-                        <RuneRow>{data.runes_rta}</RuneRow>
+                        <RuneRow rta>{data.runes_rta}</RuneRow>
                         Artifacts: {data.artifacts}
                         Artifacts RTA: {data.artifacts_rta}
                     </Card>
@@ -151,5 +153,5 @@ const useStyles = makeStyles((theme) => ({
     runeRow: {
         margin: "0px 16px",
         width: "100%",
-    }
+    },
   }));
