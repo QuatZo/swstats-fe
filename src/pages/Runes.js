@@ -18,6 +18,7 @@ export default function Runes(){
             headers: GenerateAPIHeaders(),
         })
         .then((resp) => {
+            console.log(resp.data)
             setData(resp.data)
         })
         .catch((err_res) => {
@@ -34,7 +35,7 @@ export default function Runes(){
             { loading && <Loading />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
-                <p>{JSON.stringify(data)}</p>
+                <p>ELO</p>
             ) : null}
         </>
     )
