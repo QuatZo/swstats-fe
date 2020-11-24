@@ -14,7 +14,8 @@ import {
   Contribute,
   Error404,
   Credits,
-  Upload
+  Upload,
+  Runes
 } from './pages';
 import Layout from './exts/Layout';
 
@@ -26,6 +27,7 @@ function App() {
         <Layout>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/runes" component={Runes} />
             <Route exact path="/upload" component={Upload} />
             <Route exact path="/contribute" component={Contribute} />
             <Route exact path="/credits" component={Credits} />

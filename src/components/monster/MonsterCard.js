@@ -34,7 +34,6 @@ export default function MonsterCard(props){
             headers: GenerateAPIHeaders()
         })
         .then((resp) => {
-            console.log(resp.data);
             setData(resp.data);
         })
         .catch((err_res) => {

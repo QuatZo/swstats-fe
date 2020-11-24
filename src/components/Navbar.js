@@ -44,7 +44,7 @@ export default function Navbar() {
 
   useEffect(() => {
     // close menu after page change only for mobile users
-    if(window.innerWidth <= theme.breakpoints.values.sm){
+    if(window.innerWidth <= theme.breakpoints.values.sm && navbarOpen){
       handleNavbarStateChange();
     }
   }, [location.pathname, theme.breakpoints.values.sm])

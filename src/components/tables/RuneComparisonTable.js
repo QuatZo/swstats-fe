@@ -13,7 +13,6 @@ export default function MonsterComparisonTable(props){
                 filter: false, 
                 sort: false, 
                 customBodyRender: (value, tableMeta, updateValue) => {
-                    console.log(value)
                     return (<RuneAvatarMini 
                         data={value}
                     />)
