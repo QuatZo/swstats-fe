@@ -19,15 +19,17 @@ import AnimatedNumberContainer from '../components/AnimatedNumberContainer';
 export default function Upload(){
     const classes = useStyles();
 
-    const [profile, setProfile] = useState(null)
-    const [taskId, setTaskId] = useState(null)
-    const [data, setData] = useState(null)
+    const [profile, setProfile] = useState(null);
+    const [taskId, setTaskId] = useState(null);
+    const [data, setData] = useState(localStorage.getItem('comparison-data') ? JSON.parse(localStorage.getItem('comparison-data')) : null);
     const [err, setError] = useState(false);
     const [errorData, setErrorData] = useState({})
     let axiosIntervalID = null;
 
     // first render
     useEffect(() => {
+        if(data !== null) return;
+
         axios.get(APIEndpoints.Scoring, {
             headers: GenerateAPIHeaders(),
         })
@@ -87,7 +89,7 @@ export default function Upload(){
                 })
                 .then((resp) => {
                     if(resp.data.status === 'SUCCESS'){
-                        console.log(resp.data.step)
+                        localStorage.setItem('comparison-data', JSON.stringify(resp.data.step));
                         setData(resp.data.step)
                     }
                     if(resp.data.status === 'FAILURE'){

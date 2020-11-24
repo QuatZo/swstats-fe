@@ -18,6 +18,7 @@ import APIEndpoints from '../../exts/Endpoints';
 import Loading from "../Loading";
 import Error from "../Error";
 import RuneAvatarMini from "../rune/RuneAvatarMini";
+import ArtifactAvatarMini from "../artifact/ArtifactAvatarMini";
 import { Typography } from "@material-ui/core";
 
 export default function MonsterCard(props){
@@ -33,6 +34,7 @@ export default function MonsterCard(props){
             headers: GenerateAPIHeaders()
         })
         .then((resp) => {
+            console.log(resp.data);
             setData(resp.data);
         })
         .catch((err_res) => {
@@ -64,11 +66,30 @@ export default function MonsterCard(props){
         return (
             <div className={classes.runeRow}>
                 <Typography variant="subtitle1" color="secondary">Runes {runes.rta ? "RTA" : null }</Typography>
-            {runes.children.map(rune => (
-                <RuneAvatarMini 
-                    data={rune}
-                />
-            ))}
+                <div className={classes.runes}>
+                {runes.children.map(rune => (
+                    <RuneAvatarMini 
+                        data={rune}
+                    />
+                ))}
+                </div>
+            </div>
+        )
+    }
+    
+    const ArtifactRow = (artifacts) => {
+        if (artifacts.children.length === 0) return null;
+
+        return (
+            <div className={classes.runeRow}>
+                <Typography variant="subtitle1" color="secondary">Artifacts {artifacts.rta ? "RTA" : null }</Typography>
+                <div className={classes.runes}>
+                {artifacts.children.map(artifact => (
+                    <ArtifactAvatarMini 
+                        data={artifact}
+                    />
+                ))}
+                </div>
             </div>
         )
     }
@@ -77,9 +98,10 @@ export default function MonsterCard(props){
         <div className={classes.root}>
             {err ? (<Error title={errorData.title} msg={errorData.msg} embed/>) : (
                  data === null ? <Loading embed /> : (
-                    <Card className={classes.root}>
+                    <Card className={classes.card}>
                         <CardHeader
                             avatar={<Avatar alt={data.base_monster.name} src={data.image} />}
+                            action={<Typography variant="body2" color="secondary">{data.level}</Typography>}
                             title={data.base_monster.name}
                             subheader={data.base_monster.attribute + " " + data.base_monster.family}
                         />
@@ -133,8 +155,8 @@ export default function MonsterCard(props){
                         </TableContainer>
                         <RuneRow>{data.runes}</RuneRow>
                         <RuneRow rta>{data.runes_rta}</RuneRow>
-                        Artifacts: {data.artifacts}
-                        Artifacts RTA: {data.artifacts_rta}
+                        <ArtifactRow>{data.artifacts}</ArtifactRow>
+                        <ArtifactRow rta>{data.artifacts_rta}</ArtifactRow>
                     </Card>
                 )
             )}
@@ -148,10 +170,20 @@ const useStyles = makeStyles((theme) => ({
         minHeight: 300,
         minWidth: 300,
         width: 300,
-        maxWidth: 300,
+        maxWidth: 350,
+    },
+    card: {
+        minHeight: 300,
+        minWidth: 350,
+        width: 350,
+        maxWidth: 350,
     },
     runeRow: {
         margin: "0px 16px",
-        width: "100%",
+        width: "calc(100% - 32px)",
+    },
+    runes: {
+        display: "flex",
+        justifyContent: "left",
     },
   }));

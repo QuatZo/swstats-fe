@@ -1,11 +1,12 @@
 import React from 'react';
 import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import { Link } from 'react-router-dom';
 
-import {RuneBackgroundImages, RuneSlotImages, RuneQualityColors} from './RuneConstants';
+import {RuneBackgroundImages, RuneQualityColors} from '../rune/RuneConstants';
+import {ArtifactTypeImages} from './ArtifactConstants';
 
 export default function RuneAvatarMini(props){
     const useStyles = makeStyles((theme) => ({
@@ -16,13 +17,13 @@ export default function RuneAvatarMini(props){
             backgroundRepeat: "no-repeat",
         },
         runeSlot: {
-            background: "url(" + RuneSlotImages(props.data.slot) + ")",
+            background: "url(" + props.data.image + ")",
             backgroundSize: "contain",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
         },
         runeSet: {
-            background: "url(" + props.data.image + ")",
+            background: "url(" + ArtifactTypeImages(props.data.type) + ")",
             backgroundSize: "30px 30px",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -44,7 +45,7 @@ export default function RuneAvatarMini(props){
     const classes = useStyles();
     return (
         <div className={classes.container}>
-            <Link to={'/rune/' + props.data.id}>
+            <Link to={'/artifact/' + props.data.id}>
                 <Badge
                     overlap="circle"
                     anchorOrigin={{
