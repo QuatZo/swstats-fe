@@ -21,7 +21,7 @@ export default function Upload(){
 
     const [profile, setProfile] = useState(null);
     const [taskId, setTaskId] = useState(null);
-    const [data, setData] = useState(localStorage.getItem('comparison-data') ? JSON.parse(localStorage.getItem('comparison-data')) : null);
+    const [data, setData] = useState(null);
     const [err, setError] = useState(false);
     const [errorData, setErrorData] = useState({})
     let axiosIntervalID = null;
@@ -29,6 +29,10 @@ export default function Upload(){
     // first render
     useEffect(() => {
         if(data !== null) return;
+        if(localStorage.getItem('comparison-data')){
+            setTimeout(() => setData(JSON.parse(localStorage.getItem('comparison-data'))), 500);
+            return;
+        }
 
         axios.get(APIEndpoints.Scoring, {
             headers: GenerateAPIHeaders(),

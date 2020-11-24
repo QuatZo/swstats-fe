@@ -70,6 +70,7 @@ export default function MonsterCard(props){
                 {runes.children.map(rune => (
                     <RuneAvatarMini 
                         data={rune}
+                        embed
                     />
                 ))}
                 </div>
@@ -87,6 +88,7 @@ export default function MonsterCard(props){
                 {artifacts.children.map(artifact => (
                     <ArtifactAvatarMini 
                         data={artifact}
+                        embed
                     />
                 ))}
                 </div>
@@ -177,6 +179,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 350,
         width: 350,
         maxWidth: 350,
+        paddingBottom: 10,
     },
     runeRow: {
         margin: "0px 16px",

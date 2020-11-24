@@ -39,12 +39,19 @@ export default function RuneAvatarMini(props){
         },
         primary: {
             textAlign: "center",
-        }
+            display: "block",
+            width: 40,
+            marginRight: 10,
+            fontSize: "0.65rem",
+        },
+        link: {
+            textDecoration: "none",
+        },
       }));
     const classes = useStyles();
     return (
         <div className={classes.container}>
-            <Link to={'/rune/' + props.data.id}>
+            <Link to={'/rune/' + props.data.id} className={classes.link}>
                 <Badge
                     overlap="circle"
                     anchorOrigin={{
@@ -75,7 +82,7 @@ export default function RuneAvatarMini(props){
                     </Avatar>
                 </Badge>
             </Link>
-            <Typography variant="caption" className={classes.primary}>{props.data.primary}</Typography>
+            {props.embed && <Typography variant="caption" className={classes.primary}>{props.data.primary}</Typography>}
         </div>
     )
 }

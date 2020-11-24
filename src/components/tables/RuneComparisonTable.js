@@ -2,16 +2,22 @@ import { Typography } from '@material-ui/core';
 
 import ComparisonTable from './ComparisonTable';
 import ComparisonTableCellTooltip from './ComparisonTableCellTooltip';
+import RuneAvatarMini from '../rune/RuneAvatarMini';
 
 export default function MonsterComparisonTable(props){
     const columns = [
         { 
             label: 'Rune', 
-            name: 'id', 
+            name: 'img_url', 
             options: { 
-                filter: true, 
-                sort: true, 
-                customBodyRender: (value, tableMeta, updateValue) => (value),
+                filter: false, 
+                sort: false, 
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    console.log(value)
+                    return (<RuneAvatarMini 
+                        data={value}
+                    />)
+                },
             }, 
         },
         { label: 'Mainstat', name: 'mainstat', options: { filter: true, sort: true, }, },
