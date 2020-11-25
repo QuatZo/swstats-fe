@@ -71,9 +71,6 @@ export default function Home(){
 }
 
 const useStyles = makeStyles((theme) => ({
-    loading: {
-        color: theme.palette.secondary.main,
-    },
     paper: {
         padding: theme.spacing(2),
         color: theme.palette.text.secondary,

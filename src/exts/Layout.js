@@ -22,13 +22,16 @@ const useStyles = makeStyles((theme) => ({
     content: {
       flexGrow: 1,
       padding: 0,
-      marginTop: 84,
-      marginLeft: 20,
-      marginRight: 20,
-      [theme.breakpoints.down('sm')]: {
-        marginLeft: 10,
-        marginRight: 10,
+      marginTop: 64,
+      [theme.breakpoints.down('md')]: {
+        marginTop: 56,
       },
+      marginLeft: 0,
+      marginRight: 0,
+      paddingTop: 20,
+      paddingLeft: 20,
+      paddingRight: 20,
+      overflow: 'hidden',
     },
   }))
 

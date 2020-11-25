@@ -19,6 +19,9 @@ const useStyles = makeStyles((theme) => ({
         position: "relative",
         width: "100%",
         height: "calc(100vh - 84px)",
+        [theme.breakpoints.down('md')]: {
+            height: "calc(100vh - 78px)",
+        },
         margin: 0,
         padding: 0,
     },

@@ -2,13 +2,13 @@ import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { makeStyles } from '@material-ui/core/styles';
 
-import { ResponsiveBar } from '@nivo/bar'
+import RadarChart from '../components/chart/RadarChart';
+import BarChart from '../components/chart/BarChart';
 
 import APIEndpoints from "../exts/Endpoints";
 import { GenerateAPIHeaders, HandleAPIError } from "../exts/Helpers";
 import Loading from '../components/Loading';
 import Error from '../components/Error';
-import { Typography } from "@material-ui/core";
 
 export default function Runes(){
     const classes = useStyles();
@@ -49,13 +49,13 @@ export default function Runes(){
                 })
                 .then((resp) => {
                     if(resp.data.status === 'SUCCESS'){
-                        console.log(resp.data.step)
                         setData(resp.data.step)
                         setLoading(false);
                     }
                     if(resp.data.status === 'FAILURE'){
                         setErrorData(HandleAPIError(resp));
                         setError(true);
+                        setLoading(false);
                     }
                 })
                 .catch((err_res) => {
@@ -68,61 +68,60 @@ export default function Runes(){
     }, [taskId])
 
     return (
-        <>
+        <div className={classes.root}>
             { loading && <Loading />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
-                <div className={classes.chartContainer}>
-                    <Typography variant="h5" color='secondary' className={classes.chartTitle}>Rune sets</Typography>
-                    <ResponsiveBar
+                <>
+                    <BarChart 
+                        title="Sets"
                         data={data.rune_set}
                         indexBy="name"
-                        colorBy="index"
+                        groupBy="index"
                         keys={['count']}
-                        theme={{
-                            textColor: "#EDEDED",
-                            tooltip: {
-                                container: {
-                                    background: '#000000',
-                                },
-                            },
-                        }}
                         layout="horizontal"
-                        enableGridX={true}
-                        margin={{ top: 0, right: 0, bottom: 100, left: 85 }}
-                        padding={0}
-                        axisTop={null}
-                        axisRight={null}
-                        axisBottom={{
-                            tickSize: 5,
-                            tickPadding: 5,
-                            tickRotation: 0,
-                            legend: 'Count',
-                            legendPosition: 'middle',
-                            legendOffset: 40
-                        }}
-                        axisLeft={{
-                            tickSize: 5,
-                            tickPadding: 5,
-                            tickRotation: 0,
-                            legend: 'Rune set',
-                            legendPosition: 'middle',
-                            legendOffset: -80
-                        }}
                     />
-                </div>
+                    <BarChart 
+                        title="Primary stats"
+                        data={data.rune_primaries}
+                        indexBy="name"
+                        groupBy="index"
+                        keys={['count']}
+                        layout="horizontal"
+                    />
+                    <RadarChart 
+                        title="Slots"
+                        data={data.rune_slot}
+                        indexBy="name"
+                        keys={['count']}
+                    />
+                    <RadarChart 
+                        title="Stars"
+                        data={data.rune_stars}
+                        indexBy="name"
+                        keys={['count']}
+                    />
+                    <RadarChart 
+                        title="Quality"
+                        data={data.rune_qualities}
+                        indexBy="name"
+                        keys={['count', 'original']}
+                    />
+                    <RadarChart 
+                        title="Level"
+                        data={data.rune_level}
+                        indexBy="name"
+                        keys={['count']}
+                    />
+                </>
             ) : null}
-        </>
+        </div>
     )
 }
 
 const useStyles = makeStyles((theme) => ({
-    chartContainer: {
-        height: "50vh",
-        width: "50%",
+    root: {
+        display: "flex",
+        flexWrap: "wrap",
     },
-    chartTitle: {
-        margin: "auto",
-        textAlign: "center",
-    }
-  }));
+}));
