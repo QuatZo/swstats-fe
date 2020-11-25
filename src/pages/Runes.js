@@ -1,14 +1,18 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
+import { makeStyles } from '@material-ui/core/styles';
 
-import {RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Legend } from "recharts";
+import { ResponsiveBar } from '@nivo/bar'
 
 import APIEndpoints from "../exts/Endpoints";
 import { GenerateAPIHeaders, HandleAPIError } from "../exts/Helpers";
 import Loading from '../components/Loading';
 import Error from '../components/Error';
+import { Typography } from "@material-ui/core";
 
 export default function Runes(){
+    const classes = useStyles();
+
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [taskId, setTaskId] = useState(null);
@@ -68,14 +72,57 @@ export default function Runes(){
             { loading && <Loading />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
-                <RadarChart outerRadius={90} width={730} height={250} data={data.rune_set}>
-                    <PolarGrid />
-                    <PolarAngleAxis dataKey="name" color="secondary"/>
-                    <PolarRadiusAxis angle={30} domain={[0, 150]} />
-                    <Radar name="Rune sets" dataKey="value" stroke="#8884d8" fill="#8884d8" fillOpacity={0.6} />
-                    <Legend />
-                </RadarChart>
+                <div className={classes.chartContainer}>
+                    <Typography variant="h5" color='secondary' className={classes.chartTitle}>Rune sets</Typography>
+                    <ResponsiveBar
+                        data={data.rune_set}
+                        indexBy="name"
+                        colorBy="index"
+                        keys={['count']}
+                        theme={{
+                            textColor: "#EDEDED",
+                            tooltip: {
+                                container: {
+                                    background: '#000000',
+                                },
+                            },
+                        }}
+                        layout="horizontal"
+                        enableGridX={true}
+                        margin={{ top: 0, right: 0, bottom: 100, left: 85 }}
+                        padding={0}
+                        axisTop={null}
+                        axisRight={null}
+                        axisBottom={{
+                            tickSize: 5,
+                            tickPadding: 5,
+                            tickRotation: 0,
+                            legend: 'Count',
+                            legendPosition: 'middle',
+                            legendOffset: 40
+                        }}
+                        axisLeft={{
+                            tickSize: 5,
+                            tickPadding: 5,
+                            tickRotation: 0,
+                            legend: 'Rune set',
+                            legendPosition: 'middle',
+                            legendOffset: -80
+                        }}
+                    />
+                </div>
             ) : null}
         </>
     )
 }
+
+const useStyles = makeStyles((theme) => ({
+    chartContainer: {
+        height: "50vh",
+        width: "50%",
+    },
+    chartTitle: {
+        margin: "auto",
+        textAlign: "center",
+    }
+  }));
