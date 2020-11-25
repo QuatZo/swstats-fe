@@ -9,6 +9,7 @@ import APIEndpoints from "../exts/Endpoints";
 import { GenerateAPIHeaders, HandleAPIError } from "../exts/Helpers";
 import Loading from '../components/Loading';
 import Error from '../components/Error';
+import RuneFilterForm from "../components/rune/RuneFilterForm";
 
 export default function Runes(){
     const classes = useStyles();
@@ -18,6 +19,21 @@ export default function Runes(){
     const [taskId, setTaskId] = useState(null);
     const [err, setError] = useState(false);
     const [errorData, setErrorData] = useState({title: "Unknown Error", msg: "Unknown error has occured. Please contact administrator!"})
+    const [filters, setFilters] = useState({
+        slot: [],
+        stars: [],
+        quality: [],
+        quality_original: [],
+        rune_set_id: [],
+        primary: [],
+        innate: [],
+        substats: [],
+        upgrade_curr: [null, null], // temp
+        efficiency: [null, null], // temp
+        equipped: null, // temp
+        equipped_rta: null,
+        locked: null,
+    })
     let axiosIntervalID = null;
 
     useEffect(() => {
@@ -67,15 +83,31 @@ export default function Runes(){
         }
     }, [taskId])
 
+    const handleMultiSelectChange = (e) => {
+        setFilters({...filters, [e.target.name]: e.target.value.sort()})
+    }
+    const handleMultiSelectDelete = (field, value) => {
+        let vals = {...filters}[field]
+        let index = vals.indexOf(value)
+        if(index !== -1) vals.splice(index, 1)
+        setFilters({...filters, [field]: vals})
+    }
+
     return (
         <div className={classes.root}>
             { loading && <Loading />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
                 <>
+                    <RuneFilterForm 
+                        data={data.filters}
+                        handleMultiSelectChange={handleMultiSelectChange}
+                        handleMultiSelectDelete={handleMultiSelectDelete}
+                        filters={filters}
+                    />
                     <BarChart 
                         title="Sets"
-                        data={data.rune_set}
+                        data={data.chart_data.rune_set}
                         indexBy="name"
                         groupBy="index"
                         keys={['count']}
@@ -83,7 +115,7 @@ export default function Runes(){
                     />
                     <BarChart 
                         title="Primary stats"
-                        data={data.rune_primaries}
+                        data={data.chart_data.rune_primaries}
                         indexBy="name"
                         groupBy="index"
                         keys={['count']}
@@ -91,25 +123,25 @@ export default function Runes(){
                     />
                     <RadarChart 
                         title="Slots"
-                        data={data.rune_slot}
+                        data={data.chart_data.rune_slot}
                         indexBy="name"
                         keys={['count']}
                     />
                     <RadarChart 
                         title="Stars"
-                        data={data.rune_stars}
+                        data={data.chart_data.rune_stars}
                         indexBy="name"
                         keys={['count']}
                     />
                     <RadarChart 
                         title="Quality"
-                        data={data.rune_qualities}
+                        data={data.chart_data.rune_qualities}
                         indexBy="name"
                         keys={['count', 'original']}
                     />
                     <RadarChart 
                         title="Level"
-                        data={data.rune_level}
+                        data={data.chart_data.rune_level}
                         indexBy="name"
                         keys={['count']}
                     />
