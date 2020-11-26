@@ -12,14 +12,7 @@ import Error from '../components/Error';
 import RuneFilterForm from "../components/rune/RuneFilterForm";
 
 export default function Runes(){
-    const classes = useStyles();
-
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [taskId, setTaskId] = useState(null);
-    const [err, setError] = useState(false);
-    const [errorData, setErrorData] = useState({title: "Unknown Error", msg: "Unknown error has occured. Please contact administrator!"})
-    const [filters, setFilters] = useState({
+    const initFilters = {
         slot: [],
         stars: [],
         quality: [],
@@ -28,12 +21,20 @@ export default function Runes(){
         primary: [],
         innate: [],
         substats: [],
-        upgrade_curr: [null, null], // temp
-        efficiency: [null, null], // temp
-        equipped: null, // temp
-        equipped_rta: null,
-        locked: null,
-    })
+        upgrade_curr: [null, null],
+        efficiency: [null, null],
+        equipped: '',
+        equipped_rta: '',
+        locked: '',
+    }
+    const classes = useStyles();
+
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [taskId, setTaskId] = useState(null);
+    const [err, setError] = useState(false);
+    const [errorData, setErrorData] = useState({title: "Unknown Error", msg: "Unknown error has occured. Please contact administrator!"})
+    const [filters, setFilters] = useState(initFilters)
     let axiosIntervalID = null;
 
     useEffect(() => {
@@ -84,13 +85,30 @@ export default function Runes(){
     }, [taskId])
 
     const handleMultiSelectChange = (e) => {
-        setFilters({...filters, [e.target.name]: e.target.value.sort()})
+        setFilters({...filters, [e.target.name]: e.target.value})
     }
     const handleMultiSelectDelete = (field, value) => {
         let vals = {...filters}[field]
         let index = vals.indexOf(value)
         if(index !== -1) vals.splice(index, 1)
         setFilters({...filters, [field]: vals})
+    }
+
+    const handleSelectChange = (e) => {
+        setFilters({...filters, [e.target.name]: e.target.value});
+    }
+
+    const handleSliderChange = (field, e, val) => {
+        setFilters({...filters, [field]: val})
+    }
+
+    function handleReset(){
+        setFilters(initFilters)
+        // reload DATA after AXIOS here, without LOADING or LOADING with ABSOLUTE
+    }
+
+    function handleSubmit(){
+        // reload DATA after AXIOS here, without LOADING or LOADING with ABSOLUTE
     }
 
     return (
@@ -103,6 +121,10 @@ export default function Runes(){
                         data={data.filters}
                         handleMultiSelectChange={handleMultiSelectChange}
                         handleMultiSelectDelete={handleMultiSelectDelete}
+                        handleSelectChange={handleSelectChange}
+                        handleSliderChange={handleSliderChange}
+                        handleReset={handleReset}
+                        handleSubmit={handleSubmit}
                         filters={filters}
                     />
                     <BarChart 

@@ -1,5 +1,7 @@
 import { createMuiTheme } from '@material-ui/core/styles';
 
+const orange = '#FFAD49';
+
 const theme = createMuiTheme({
   palette: {
     type: 'dark',
@@ -7,7 +9,7 @@ const theme = createMuiTheme({
       main: '#212121',
     },
     secondary: {
-      main: '#FFAD49',
+      main: orange,
     },
   },
   overrides: {
@@ -26,21 +28,43 @@ const theme = createMuiTheme({
     },
     MuiTableCell: {
       head: {
-        color: '#FFAD49',
+        color: orange,
       }
     },
     MUIDataTableToolbar: {
       titleRoot: {
-        color: '#FFAD49',
+        color: orange,
       }
     },
     MuiCardHeader: {
       title: {
-        color: '#FFAD49',
+        color: orange,
       }
     },
+    MuiSelect: {
+      select: {
+        '&:focus': {
+          background: "unset !important",
+          borderBottom: "1px solid " + orange + " !important",
+        }
+      }
+    },
+    MuiInput: {
+      underline: {
+        '&:before': {
+          borderBottom: "1px solid " + orange + " !important",
+        },
+        '&:after': {
+          borderBottom: "1px solid " + orange + " !important",
+        },
+      }
+    },
+    MuiSlider: {
+      valueLabel: {
+        color: '#212121',
+      }
+    }
   }
-  
 });
 
 export default theme;

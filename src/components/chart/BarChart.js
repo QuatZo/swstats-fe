@@ -10,7 +10,7 @@ export default function BarChart(props){
 
     return (
         <div className={classes.barContainer}>
-            <Typography variant="h5" color='secondary' className={classes.chartTitle}>{props.title}</Typography>
+            <Typography variant="h5" color='secondary' className={classes.chartTitle} gutterBottom>{props.title}</Typography>
             <ResponsiveBar
                 data={props.data}
                 indexBy={props.indexBy}

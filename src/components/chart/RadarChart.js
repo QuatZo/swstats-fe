@@ -9,7 +9,7 @@ export default function RadarChart(props){
     const classes = useStyles();
     return (
         <div className={classes.radarContainer}>
-            <Typography variant="h5" color='secondary' className={classes.chartTitle}>{props.title}</Typography>
+            <Typography variant="h5" color='secondary' className={classes.chartTitle} gutterBottom>{props.title}</Typography>
             <ResponsiveRadar
                 data={props.data}
                 indexBy={props.indexBy}
