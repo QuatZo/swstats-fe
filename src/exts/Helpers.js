@@ -303,3 +303,54 @@ export function rankingParseData(data){
         },
     ]
 }
+
+export function ParseQueryToObject(query, obj){
+    const qs = require('query-string')
+    const params = qs.parse(query)
+    const obj_keys = Object.keys(obj)
+
+    Object.keys(params).map(key => {
+        if(params[key] !== null && params[key] !== undefined && params[key] !== "" && obj_keys.includes(key)){
+            if(Array.isArray(obj[key]) && !Array.isArray(params[key])) params[key] = [params[key]]
+            if(Array.isArray(obj[key]) && Array.isArray(params[key])){
+                let numbers = true
+                params[key].map(item => {if(isNaN(parseFloat(item))) numbers = false;} )
+                if(numbers){
+                    params[key] = params[key].map(item => parseFloat(item)).sort()
+                }
+            }
+            else if(!isNaN(parseFloat(params[key]))) params[key] = parseFloat(params[key]);
+            obj[key] = params[key]
+        }
+    })
+
+    return obj
+}
+
+export function CleanObject(obj){
+    let new_obj = {...obj}
+
+    Object.keys(new_obj).map(key => {
+        if(new_obj[key] === null 
+            || new_obj[key] === undefined 
+            || (
+                Array.isArray(new_obj[key]) 
+                && (
+                    new_obj[key].includes(null) 
+                    || new_obj[key].includes(undefined) 
+                    || new_obj[key].includes('')
+                )
+            )
+            || new_obj[key] === ''
+        ){
+            delete new_obj[key]
+        }
+    })
+
+    return new_obj
+}
+
+export function ParseObjectToQuery(obj){
+    const qs = require('query-string')
+    return qs.stringify(obj)
+}

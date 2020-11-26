@@ -10,23 +10,28 @@ export default function RadarChart(props){
     return (
         <div className={classes.radarContainer}>
             <Typography variant="h5" color='secondary' className={classes.chartTitle} gutterBottom>{props.title}</Typography>
-            <ResponsiveRadar
-                data={props.data}
-                indexBy={props.indexBy}
-                keys={props.keys}
-                gridShape="linear"
-                dotColor={{ theme: 'textColor'}}
-                theme={{
-                    textColor: "#EDEDED",
-                    tooltip: {
-                        container: {
-                            background: '#000000',
+            { props.data.length ? (
+                <ResponsiveRadar
+                    data={props.data}
+                    indexBy={props.indexBy}
+                    keys={props.keys}
+                    gridShape="linear"
+                    dotColor={{ theme: 'textColor'}}
+                    theme={{
+                        textColor: "#EDEDED",
+                        tooltip: {
+                            container: {
+                                background: '#000000',
+                            },
                         },
-                    },
-                }}
-                margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
-                padding={0}
-            />
+                    }}
+                    margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
+                    padding={0}
+                />
+            ) : (
+                <Typography variant="body2"  className={classes.chartTitle} gutterBottom>No data available</Typography> 
+            )}
+           
         </div>
     )
 }

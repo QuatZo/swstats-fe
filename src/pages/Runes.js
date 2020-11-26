@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import { makeStyles } from '@material-ui/core/styles';
+import {useLocation} from 'react-router-dom';
 
 import RadarChart from '../components/chart/RadarChart';
 import BarChart from '../components/chart/BarChart';
@@ -8,8 +9,11 @@ import BarChart from '../components/chart/BarChart';
 import APIEndpoints from "../exts/Endpoints";
 import { GenerateAPIHeaders, HandleAPIError } from "../exts/Helpers";
 import Loading from '../components/Loading';
+import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
 import RuneFilterForm from "../components/rune/RuneFilterForm";
+
+import { ParseQueryToObject, ParseObjectToQuery, CleanObject } from '../exts/Helpers';
 
 export default function Runes(){
     const initFilters = {
@@ -28,27 +32,53 @@ export default function Runes(){
         locked: '',
     }
     const classes = useStyles();
+    const location = useLocation()
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const [loadingAbsolute, setLoadingAbsolute] = useState(false);
     const [taskId, setTaskId] = useState(null);
     const [err, setError] = useState(false);
     const [errorData, setErrorData] = useState({title: "Unknown Error", msg: "Unknown error has occured. Please contact administrator!"})
     const [filters, setFilters] = useState(initFilters)
     let axiosIntervalID = null;
 
-    useEffect(() => {
-        axios.get(APIEndpoints.Runes, {
+    function GetRunesData(kwargs){
+        const qs = require('query-string')
+        if(kwargs.filters){
+            setLoadingAbsolute(true);
+        }
+        let options = {
             headers: GenerateAPIHeaders(),
-        })
+        }
+        if(kwargs.params) {
+            options = {
+                headers: GenerateAPIHeaders(),
+                params: kwargs.params,
+                paramsSerializer: params => {
+                    return qs.stringify(params)
+                }
+            }
+        }
+        
+        axios.get(APIEndpoints.Runes, options)
         .then((resp) => {
             setTaskId(resp.data.task_id)
         })
         .catch((err_res) => {
             setErrorData(HandleAPIError(err_res))
             setError(true);
-            setLoading(false);
+            if(loading) setLoading(false);
+            if(loadingAbsolute) setLoadingAbsolute(false);
         })
+
+    }
+
+    useEffect(() => {
+        const f = ParseQueryToObject(location.search, filters)
+        setFilters(f)
+        const clean = CleanObject(f)
+        GetRunesData({params: clean});
     }, [])
 
     useEffect(() => {
@@ -67,18 +97,21 @@ export default function Runes(){
                 .then((resp) => {
                     if(resp.data.status === 'SUCCESS'){
                         setData(resp.data.step)
-                        setLoading(false);
+                        if(loading) setLoading(false);
+                        if(loadingAbsolute) setLoadingAbsolute(false);
                     }
                     if(resp.data.status === 'FAILURE'){
                         setErrorData(HandleAPIError(resp));
                         setError(true);
-                        setLoading(false);
+                        if(loading) setLoading(false);
+                        if(loadingAbsolute) setLoadingAbsolute(false);
                     }
                 })
                 .catch((err_res) => {
                     setErrorData(HandleAPIError(err_res));
                     setError(true);
-                    setLoading(false);
+                    if(loading) setLoading(false);
+                    if(loadingAbsolute) setLoadingAbsolute(false);
                 })
             }, 250)
         }
@@ -104,16 +137,22 @@ export default function Runes(){
 
     function handleReset(){
         setFilters(initFilters)
-        // reload DATA after AXIOS here, without LOADING or LOADING with ABSOLUTE
+        let newurl = window.location.protocol + "//" + window.location.host + location.pathname
+        window.history.replaceState({path: newurl}, '', newurl);
+        GetRunesData({filters: true});
     }
 
     function handleSubmit(){
-        // reload DATA after AXIOS here, without LOADING or LOADING with ABSOLUTE
+        let filters_clean = CleanObject(filters)
+        let newurl = window.location.protocol + "//" + window.location.host + location.pathname + '?' + ParseObjectToQuery(filters_clean);
+        window.history.replaceState({path: newurl}, '', newurl);
+        GetRunesData({params: filters_clean, filters: true});
     }
 
     return (
         <div className={classes.root}>
             { loading && <Loading />}
+            { loadingAbsolute && <LoadingAbsolute />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
                 <>

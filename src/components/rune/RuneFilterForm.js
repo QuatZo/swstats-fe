@@ -170,8 +170,12 @@ const useStyles = makeStyles((theme) => ({
     buttons: {
         width: "100%",
         marginBottom: 30,
+        margin: "auto",
+        display: "flex",
+        justifyContent: "center",
     },
     button: {
         width: "50%",
+        maxWidth: 200,
     },
   }));
