@@ -24,13 +24,11 @@ export default function RuneTable(props){
         onTableChange: (action, tableState) => {
             switch (action) {
               case 'changePage':
-                props.handlePageChange(tableState.page, tableState.sortOrder);
+                props.handleTableChange(tableState.page, tableState.sortOrder);
                 break;
               case 'sort':
-                props.handlePageChange(tableState.page, tableState.sortOrder);
+                props.handleTableChange(tableState.page, tableState.sortOrder);
                 break;
-              default:
-                console.log('action not handled.');
             }
           },
     }

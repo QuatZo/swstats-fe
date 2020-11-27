@@ -6,6 +6,9 @@ const APIEndpoints = {
     Runes: process.env.REACT_APP_API_URL + 'runes/',
     RunesTable: process.env.REACT_APP_API_URL + 'runes/table/',
 
+    Monsters: process.env.REACT_APP_API_URL + 'monsters/',
+    MonstersTable: process.env.REACT_APP_API_URL + 'monsters/table/',
+
     Monster: process.env.REACT_APP_API_URL + 'monster/',
     
     Status: process.env.REACT_APP_API_URL + 'status/',

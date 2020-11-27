@@ -15,7 +15,8 @@ import {
   Error404,
   Credits,
   Upload,
-  Runes
+  Runes,
+  Monsters,
 } from './pages';
 import Layout from './exts/Layout';
 
@@ -28,6 +29,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/runes" component={Runes} />
+            <Route exact path="/monsters" component={Monsters} />
             <Route exact path="/upload" component={Upload} />
             <Route exact path="/contribute" component={Contribute} />
             <Route exact path="/credits" component={Credits} />

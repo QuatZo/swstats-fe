@@ -12,8 +12,8 @@ import { GenerateAPIHeaders, HandleAPIError, ParseQueryToObject, ParseObjectToQu
 import Loading from '../components/Loading';
 import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
-import RuneFilterForm from "../components/rune/RuneFilterForm";
-import RuneTable from "../components/tables/RuneTable";
+// import RuneFilterForm from "../components/rune/RuneFilterForm";
+// import RuneTable from "../components/tables/RuneTable";
 
 export default function Runes(){
     const initFilters = {
@@ -43,7 +43,7 @@ export default function Runes(){
     const [filters, setFilters] = useState(initFilters)
     let axiosIntervalID = null;
 
-    function GetRunesData(kwargs){
+    function GetMonstersData(kwargs){
         const qs = require('query-string')
         if(kwargs.filters){
             setLoadingAbsolute(true);
@@ -61,7 +61,7 @@ export default function Runes(){
             }
         }
         
-        axios.get(APIEndpoints.Runes, options)
+        axios.get(APIEndpoints.Monsters, options)
         .then((resp) => {
             setTaskId(resp.data.task_id)
         })
@@ -75,10 +75,10 @@ export default function Runes(){
     }
 
     useEffect(() => {
-        const f = ParseQueryToObject(location.search, filters)
-        setFilters(f)
-        const clean = CleanObject(f)
-        GetRunesData({params: clean});
+        // const f = ParseQueryToObject(location.search, filters)
+        // setFilters(f)
+        // const clean = CleanObject(f)
+        // GetMonstersData({params: clean});
     }, [])
 
     useEffect(() => {
@@ -139,14 +139,14 @@ export default function Runes(){
         setFilters(initFilters)
         let newurl = window.location.protocol + "//" + window.location.host + location.pathname
         window.history.replaceState({path: newurl}, '', newurl);
-        GetRunesData({filters: true});
+        GetMonstersData({filters: true});
     }
 
     function handleSubmit(){
         let filters_clean = CleanObject(filters)
         let newurl = window.location.protocol + "//" + window.location.host + location.pathname + '?' + ParseObjectToQuery(filters_clean);
         window.history.replaceState({path: newurl}, '', newurl);
-        GetRunesData({params: filters_clean, filters: true});
+        GetMonstersData({params: filters_clean, filters: true});
     }
 
     function handleTableChange(page, sortOrder){
@@ -172,7 +172,7 @@ export default function Runes(){
             }
         }
         
-        axios.get(APIEndpoints.RunesTable, options)
+        axios.get(APIEndpoints.MonstersTable, options)
         .then((resp) => {
             setData({...data, "table": resp.data})
             setLoadingAbsolute(false);
@@ -191,7 +191,7 @@ export default function Runes(){
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
                 <>
-                    <RuneFilterForm 
+                    {/* <RuneFilterForm 
                         data={data.filters}
                         handleMultiSelectChange={handleMultiSelectChange}
                         handleMultiSelectDelete={handleMultiSelectDelete}
@@ -200,8 +200,8 @@ export default function Runes(){
                         handleReset={handleReset}
                         handleSubmit={handleSubmit}
                         filters={filters}
-                    />
-                    <BarChart 
+                    /> */}
+                    {/* <BarChart 
                         title="Sets"
                         data={data.chart_data.rune_set}
                         indexBy="name"
@@ -241,11 +241,10 @@ export default function Runes(){
                         indexBy="name"
                         keys={['count']}
                     />
-                    <RuneTable 
+                    <MonsterTable 
                         data={data.table}
                         handleTableChange={handleTableChange}
-                    />
-                    
+                    /> */}
                 </>
             ) : null}
         </div>
