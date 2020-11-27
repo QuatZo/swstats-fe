@@ -1,19 +1,19 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
-import { makeStyles } from '@material-ui/core/styles';
 import {useLocation} from 'react-router-dom';
+
+import { makeStyles } from '@material-ui/core/styles';
 
 import RadarChart from '../components/chart/RadarChart';
 import BarChart from '../components/chart/BarChart';
 
 import APIEndpoints from "../exts/Endpoints";
-import { GenerateAPIHeaders, HandleAPIError } from "../exts/Helpers";
+import { GenerateAPIHeaders, HandleAPIError, ParseQueryToObject, ParseObjectToQuery, CleanObject  } from "../exts/Helpers";
 import Loading from '../components/Loading';
 import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
 import RuneFilterForm from "../components/rune/RuneFilterForm";
-
-import { ParseQueryToObject, ParseObjectToQuery, CleanObject } from '../exts/Helpers';
+import RuneTable from "../components/tables/RuneTable";
 
 export default function Runes(){
     const initFilters = {
@@ -96,6 +96,7 @@ export default function Runes(){
                 })
                 .then((resp) => {
                     if(resp.data.status === 'SUCCESS'){
+                        console.log(resp.data.step)
                         setData(resp.data.step)
                         if(loading) setLoading(false);
                         if(loadingAbsolute) setLoadingAbsolute(false);
@@ -147,6 +148,42 @@ export default function Runes(){
         let newurl = window.location.protocol + "//" + window.location.host + location.pathname + '?' + ParseObjectToQuery(filters_clean);
         window.history.replaceState({path: newurl}, '', newurl);
         GetRunesData({params: filters_clean, filters: true});
+    }
+
+    function handlePageChange(page, sortOrder){
+        console.log(page, sortOrder);
+        const qs = require('query-string')
+        setLoadingAbsolute(true);
+        let filters_clean = CleanObject(filters)
+        let options = {
+            headers: GenerateAPIHeaders(),
+        }
+        filters_clean.page = page + 1;
+        filters_clean.sort_order = null;
+        if(sortOrder.name){
+            let s_o = ""
+            if(sortOrder.direction === "desc") s_o += "-"
+            s_o += sortOrder.name.replaceAll('substats.', '')
+            filters_clean.sort_order = s_o
+        }
+        options = {
+            headers: GenerateAPIHeaders(),
+            params: filters_clean,
+            paramsSerializer: params => {
+                return qs.stringify(params)
+            }
+        }
+        
+        axios.get(APIEndpoints.RunesTable, options)
+        .then((resp) => {
+            setData({...data, "table": resp.data})
+            setLoadingAbsolute(false);
+        })
+        .catch((err_res) => {
+            setErrorData(HandleAPIError(err_res))
+            setError(true);
+            setLoadingAbsolute(false);
+        })
     }
 
     return (
@@ -206,6 +243,11 @@ export default function Runes(){
                         indexBy="name"
                         keys={['count']}
                     />
+                    <RuneTable 
+                        data={data.table}
+                        handlePageChange={handlePageChange}
+                    />
+                    
                 </>
             ) : null}
         </div>

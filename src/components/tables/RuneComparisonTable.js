@@ -4,7 +4,7 @@ import ComparisonTable from './ComparisonTable';
 import ComparisonTableCellTooltip from './ComparisonTableCellTooltip';
 import RuneAvatarMini from '../rune/RuneAvatarMini';
 
-export default function MonsterComparisonTable(props){
+export default function RuneComparisonTable(props){
     const columns = [
         { 
             label: 'Rune', 
