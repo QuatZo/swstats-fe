@@ -4,7 +4,6 @@ import MUIDataTable from "mui-datatables";
 import {useMenuOpen} from '../MenuOpenContext'
 
 import RuneAvatarMini from '../rune/RuneAvatarMini';
-import { useState } from 'react';
 
 export default function RuneTable(props){
     const classes = useStyles();

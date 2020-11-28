@@ -5,30 +5,34 @@ import {useLocation} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import RadarChart from '../components/chart/RadarChart';
-import BarChart from '../components/chart/BarChart';
 
 import APIEndpoints from "../exts/Endpoints";
 import { GenerateAPIHeaders, HandleAPIError, ParseQueryToObject, ParseObjectToQuery, CleanObject  } from "../exts/Helpers";
 import Loading from '../components/Loading';
 import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
-// import RuneFilterForm from "../components/rune/RuneFilterForm";
-// import RuneTable from "../components/tables/RuneTable";
+import MonsterFilterForm from "../components/monster/MonsterFilterForm";
+import MonsterTable from "../components/tables/MonsterTable";
 
 export default function Runes(){
     const initFilters = {
-        slot: [],
+        base_monster__name: "",
         stars: [],
-        quality: [],
-        quality_original: [],
-        rune_set_id: [],
-        primary: [],
-        innate: [],
-        substats: [],
-        upgrade_curr: [null, null],
-        efficiency: [null, null],
-        equipped: '',
-        equipped_rta: '',
+        base_monster__base_class: [],
+        base_monster__attribute: [],
+        base_monster__archetype: [],
+        base_monster__awaken: [],
+        base_monster__family: [],
+        hp: [null, null],
+        attack: [null, null],
+        defense: [null, null],
+        speed: [null, null],
+        res: [null, null],
+        acc: [null, null],
+        crit_rate: [null, null],
+        crit_dmg: [null, null],
+        eff_hp: [null, null],
+        avg_eff_total: [null, null],
         locked: '',
     }
     const classes = useStyles();
@@ -75,10 +79,10 @@ export default function Runes(){
     }
 
     useEffect(() => {
-        // const f = ParseQueryToObject(location.search, filters)
-        // setFilters(f)
-        // const clean = CleanObject(f)
-        // GetMonstersData({params: clean});
+        const f = ParseQueryToObject(location.search, filters)
+        setFilters(f)
+        const clean = CleanObject(f)
+        GetMonstersData({params: clean});
     }, [])
 
     useEffect(() => {
@@ -98,6 +102,7 @@ export default function Runes(){
                     if(resp.data.status === 'SUCCESS'){
                         if(loading) setLoading(false);
                         if(loadingAbsolute) setLoadingAbsolute(false);
+                        console.log(resp.data.step)
                         setData(resp.data.step)
                     }
                     if(resp.data.status === 'FAILURE'){
@@ -117,9 +122,14 @@ export default function Runes(){
         }
     }, [taskId])
 
+    const handleTextChange = (e) => {
+        setFilters({...filters, [e.target.name]: e.target.value})
+    }
+
     const handleMultiSelectChange = (e) => {
         setFilters({...filters, [e.target.name]: e.target.value})
     }
+
     const handleMultiSelectDelete = (field, value) => {
         let vals = {...filters}[field]
         let index = vals.indexOf(value)
@@ -191,8 +201,9 @@ export default function Runes(){
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
                 <>
-                    {/* <RuneFilterForm 
+                    <MonsterFilterForm 
                         data={data.filters}
+                        handleTextChange={handleTextChange}
                         handleMultiSelectChange={handleMultiSelectChange}
                         handleMultiSelectDelete={handleMultiSelectDelete}
                         handleSelectChange={handleSelectChange}
@@ -200,51 +211,35 @@ export default function Runes(){
                         handleReset={handleReset}
                         handleSubmit={handleSubmit}
                         filters={filters}
-                    /> */}
-                    {/* <BarChart 
-                        title="Sets"
-                        data={data.chart_data.rune_set}
-                        indexBy="name"
-                        groupBy="index"
-                        keys={['count']}
-                        layout="horizontal"
-                    />
-                    <BarChart 
-                        title="Primary stats"
-                        data={data.chart_data.rune_primaries}
-                        indexBy="name"
-                        groupBy="index"
-                        keys={['count']}
-                        layout="horizontal"
                     />
                     <RadarChart 
-                        title="Slots"
-                        data={data.chart_data.rune_slot}
+                        title="Element"
+                        data={data.chart_data.monster_elements}
+                        indexBy="name"
+                        keys={['count']}
+                    />
+                    <RadarChart 
+                        title="Archetype"
+                        data={data.chart_data.monster_archetypes}
+                        indexBy="name"
+                        keys={['count']}
+                    />
+                    <RadarChart 
+                        title="Awaken"
+                        data={data.chart_data.monster_awakens}
                         indexBy="name"
                         keys={['count']}
                     />
                     <RadarChart 
                         title="Stars"
-                        data={data.chart_data.rune_stars}
+                        data={data.chart_data.monster_stars}
                         indexBy="name"
-                        keys={['count']}
-                    />
-                    <RadarChart 
-                        title="Quality"
-                        data={data.chart_data.rune_qualities}
-                        indexBy="name"
-                        keys={['count', 'original']}
-                    />
-                    <RadarChart 
-                        title="Level"
-                        data={data.chart_data.rune_level}
-                        indexBy="name"
-                        keys={['count']}
+                        keys={['count', 'natural']}
                     />
                     <MonsterTable 
                         data={data.table}
                         handleTableChange={handleTableChange}
-                    /> */}
+                    />
                 </>
             ) : null}
         </div>
