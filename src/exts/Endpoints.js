@@ -9,6 +9,9 @@ const APIEndpoints = {
     Monsters: process.env.REACT_APP_API_URL + 'monsters/',
     MonstersTable: process.env.REACT_APP_API_URL + 'monsters/table/',
 
+    Artifacts: process.env.REACT_APP_API_URL + 'artifacts/',
+    ArtifactsTable: process.env.REACT_APP_API_URL + 'artifacts/table/',
+
     Monster: process.env.REACT_APP_API_URL + 'monster/',
     
     Status: process.env.REACT_APP_API_URL + 'status/',

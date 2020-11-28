@@ -5,34 +5,30 @@ import {useLocation} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import RadarChart from '../components/chart/RadarChart';
+import BarChart from '../components/chart/BarChart';
 
 import APIEndpoints from "../exts/Endpoints";
 import { GenerateAPIHeaders, HandleAPIError, ParseQueryToObject, ParseObjectToQuery, CleanObject  } from "../exts/Helpers";
 import Loading from '../components/Loading';
 import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
-import MonsterFilterForm from "../components/monster/MonsterFilterForm";
-import MonsterTable from "../components/tables/MonsterTable";
+import RuneFilterForm from "../components/rune/RuneFilterForm";
+import RuneTable from "../components/tables/RuneTable";
 
-export default function Monsters(){
+export default function Artifacts(){
     const initFilters = {
-        base_monster__name: "",
+        slot: [],
         stars: [],
-        base_monster__base_class: [],
-        base_monster__attribute: [],
-        base_monster__archetype: [],
-        base_monster__awaken: [],
-        base_monster__family: [],
-        hp: [null, null],
-        attack: [null, null],
-        defense: [null, null],
-        speed: [null, null],
-        res: [null, null],
-        acc: [null, null],
-        crit_rate: [null, null],
-        crit_dmg: [null, null],
-        eff_hp: [null, null],
-        avg_eff_total: [null, null],
+        quality: [],
+        quality_original: [],
+        rune_set_id: [],
+        primary: [],
+        innate: [],
+        substats: [],
+        upgrade_curr: [null, null],
+        efficiency: [null, null],
+        equipped: '',
+        equipped_rta: '',
         locked: '',
     }
     const classes = useStyles();
@@ -47,7 +43,7 @@ export default function Monsters(){
     const [filters, setFilters] = useState(initFilters)
     let axiosIntervalID = null;
 
-    function GetMonstersData(kwargs){
+    function GetArtifactsData(kwargs){
         const qs = require('query-string')
         if(kwargs.filters){
             setLoadingAbsolute(true);
@@ -65,7 +61,7 @@ export default function Monsters(){
             }
         }
         
-        axios.get(APIEndpoints.Monsters, options)
+        axios.get(APIEndpoints.Artifacts, options)
         .then((resp) => {
             setTaskId(resp.data.task_id)
         })
@@ -82,7 +78,7 @@ export default function Monsters(){
         const f = ParseQueryToObject(location.search, filters)
         setFilters(f)
         const clean = CleanObject(f)
-        GetMonstersData({params: clean});
+        GetArtifactsData({params: clean});
     }, [])
 
     useEffect(() => {
@@ -102,7 +98,6 @@ export default function Monsters(){
                     if(resp.data.status === 'SUCCESS'){
                         if(loading) setLoading(false);
                         if(loadingAbsolute) setLoadingAbsolute(false);
-                        console.log(resp.data.step)
                         setData(resp.data.step)
                     }
                     if(resp.data.status === 'FAILURE'){
@@ -122,14 +117,9 @@ export default function Monsters(){
         }
     }, [taskId])
 
-    const handleTextChange = (e) => {
-        setFilters({...filters, [e.target.name]: e.target.value})
-    }
-
     const handleMultiSelectChange = (e) => {
         setFilters({...filters, [e.target.name]: e.target.value})
     }
-
     const handleMultiSelectDelete = (field, value) => {
         let vals = {...filters}[field]
         let index = vals.indexOf(value)
@@ -149,14 +139,14 @@ export default function Monsters(){
         setFilters(initFilters)
         let newurl = window.location.protocol + "//" + window.location.host + location.pathname
         window.history.replaceState({path: newurl}, '', newurl);
-        GetMonstersData({filters: true});
+        GetArtifactsData({filters: true});
     }
 
     function handleSubmit(){
         let filters_clean = CleanObject(filters)
         let newurl = window.location.protocol + "//" + window.location.host + location.pathname + '?' + ParseObjectToQuery(filters_clean);
         window.history.replaceState({path: newurl}, '', newurl);
-        GetMonstersData({params: filters_clean, filters: true});
+        GetArtifactsData({params: filters_clean, filters: true});
     }
 
     function handleTableChange(page, sortOrder){
@@ -171,7 +161,7 @@ export default function Monsters(){
         if(sortOrder.name){
             let s_o = ""
             if(sortOrder.direction === "desc") s_o += "-"
-            s_o += sortOrder.name
+            s_o += sortOrder.name.replaceAll('substats.', '')
             filters_clean.sort_order = s_o
         }
         options = {
@@ -182,7 +172,7 @@ export default function Monsters(){
             }
         }
         
-        axios.get(APIEndpoints.MonstersTable, options)
+        axios.get(APIEndpoints.RunesTable, options)
         .then((resp) => {
             setData({...data, "table": resp.data})
             setLoadingAbsolute(false);
@@ -201,9 +191,8 @@ export default function Monsters(){
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
                 <>
-                    <MonsterFilterForm 
+                    {/* <ArtifactFilterForm 
                         data={data.filters}
-                        handleTextChange={handleTextChange}
                         handleMultiSelectChange={handleMultiSelectChange}
                         handleMultiSelectDelete={handleMultiSelectDelete}
                         handleSelectChange={handleSelectChange}
@@ -211,35 +200,51 @@ export default function Monsters(){
                         handleReset={handleReset}
                         handleSubmit={handleSubmit}
                         filters={filters}
-                    />
-                    <RadarChart 
-                        title="Element"
-                        data={data.chart_data.monster_elements}
+                    /> */}
+                    {/* <BarChart 
+                        title="Sets"
+                        data={data.chart_data.rune_set}
                         indexBy="name"
+                        groupBy="index"
                         keys={['count']}
+                        layout="horizontal"
                     />
-                    <RadarChart 
-                        title="Archetype"
-                        data={data.chart_data.monster_archetypes}
+                    <BarChart 
+                        title="Primary stats"
+                        data={data.chart_data.rune_primaries}
                         indexBy="name"
+                        groupBy="index"
                         keys={['count']}
+                        layout="horizontal"
                     />
                     <RadarChart 
-                        title="Awaken"
-                        data={data.chart_data.monster_awakens}
+                        title="Slots"
+                        data={data.chart_data.rune_slot}
                         indexBy="name"
                         keys={['count']}
                     />
                     <RadarChart 
                         title="Stars"
-                        data={data.chart_data.monster_stars}
+                        data={data.chart_data.rune_stars}
                         indexBy="name"
-                        keys={['count', 'natural']}
+                        keys={['count']}
                     />
-                    <MonsterTable 
+                    <RadarChart 
+                        title="Quality"
+                        data={data.chart_data.rune_qualities}
+                        indexBy="name"
+                        keys={['count', 'original']}
+                    />
+                    <RadarChart 
+                        title="Level"
+                        data={data.chart_data.rune_level}
+                        indexBy="name"
+                        keys={['count']}
+                    /> */}
+                    {/* <ArtifactTable 
                         data={data.table}
                         handleTableChange={handleTableChange}
-                    />
+                    /> */}
                 </>
             ) : null}
         </div>
