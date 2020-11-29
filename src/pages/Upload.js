@@ -24,7 +24,6 @@ export default function Upload(){
     const [data, setData] = useState(null);
     const [err, setError] = useState(false);
     const [errorData, setErrorData] = useState({})
-    let axiosIntervalID = null;
 
     // first render
     useEffect(() => {
@@ -45,13 +44,6 @@ export default function Upload(){
             setError(true);
         })
     }, [])
-
-    useEffect(() => {
-        // cleanup
-        return (() => {
-            if(axiosIntervalID) clearInterval(axiosIntervalID);
-        })
-    })
 
     function handleChange(files) {
         if(files.length){
@@ -86,27 +78,35 @@ export default function Upload(){
 
     // status check
     useEffect(() => {
-        if(taskId){
-            axiosIntervalID = setInterval(() => {
+        let axiosIntervalID = setInterval(() => {
+            if(taskId){
                 axios.get(APIEndpoints.Status + taskId + '/', {
                     headers: GenerateAPIHeaders()
                 })
                 .then((resp) => {
                     if(resp.data.status === 'SUCCESS'){
                         localStorage.setItem('comparison-data', JSON.stringify(resp.data.step));
+                        setTaskId(null);
                         setData(resp.data.step)
                     }
                     if(resp.data.status === 'FAILURE'){
                         setErrorData(HandleAPIError(resp));
                         setError(true);
+                        setTaskId(null);
                     }
                 })
                 .catch((err_res) => {
                     setErrorData(HandleAPIError(err_res));
                     setError(true);
+                    setTaskId(null);
                 })
-            }, 500)
-        }
+            }
+        }, 500)
+        
+
+        return (() => {
+            if(axiosIntervalID) clearInterval(axiosIntervalID);
+        })
     }, [taskId])
 
     if(!data && !err){

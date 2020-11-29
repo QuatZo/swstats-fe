@@ -45,7 +45,6 @@ export default function Monsters(){
     const [err, setError] = useState(false);
     const [errorData, setErrorData] = useState({title: "Unknown Error", msg: "Unknown error has occured. Please contact administrator!"})
     const [filters, setFilters] = useState(initFilters)
-    let axiosIntervalID = null;
 
     function GetMonstersData(kwargs){
         const qs = require('query-string')
@@ -86,15 +85,8 @@ export default function Monsters(){
     }, [])
 
     useEffect(() => {
-        // cleanup
-        return (() => {
-            if(axiosIntervalID) clearInterval(axiosIntervalID);
-        })
-    })
-
-    useEffect(() => {
-        if(taskId){
-            axiosIntervalID = setInterval(() => {
+        let axiosIntervalID = setInterval(() => {
+            if(taskId){
                 axios.get(APIEndpoints.Status + taskId + '/', {
                     headers: GenerateAPIHeaders()
                 })
@@ -102,14 +94,16 @@ export default function Monsters(){
                     if(resp.data.status === 'SUCCESS'){
                         if(loading) setLoading(false);
                         if(loadingAbsolute) setLoadingAbsolute(false);
-                        console.log(resp.data.step)
-                        setData(resp.data.step)
+                        setTaskId(null);
+                        console.log(resp.data.step);
+                        setData(resp.data.step);
                     }
                     if(resp.data.status === 'FAILURE'){
                         setErrorData(HandleAPIError(resp));
                         setError(true);
                         if(loading) setLoading(false);
                         if(loadingAbsolute) setLoadingAbsolute(false);
+                        setTaskId(null);
                     }
                 })
                 .catch((err_res) => {
@@ -117,9 +111,14 @@ export default function Monsters(){
                     setError(true);
                     if(loading) setLoading(false);
                     if(loadingAbsolute) setLoadingAbsolute(false);
+                    setTaskId(null);
                 })
-            }, 250)
-        }
+            }
+        }, 250)
+
+        return (() => {
+            if(axiosIntervalID) clearInterval(axiosIntervalID);
+        })
     }, [taskId])
 
     const handleTextChange = (e) => {

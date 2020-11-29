@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
@@ -47,7 +47,7 @@ export default function Navbar() {
     if(window.innerWidth <= theme.breakpoints.values.sm && navbarOpen){
       handleNavbarStateChange();
     }
-  }, [location.pathname, theme.breakpoints.values.sm])
+  }, [location.pathname])
 
   const urls = [
     {

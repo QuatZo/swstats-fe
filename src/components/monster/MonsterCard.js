@@ -40,7 +40,7 @@ export default function MonsterCard(props){
             setErrorData(HandleAPIError(err_res));
             setError(true);
         })
-    }, [])
+    }, [props.id])
 
     const PrettyTableCell = (val) => {
         const params={
@@ -68,6 +68,7 @@ export default function MonsterCard(props){
                 <div className={classes.runes}>
                 {runes.children.map(rune => (
                     <RuneAvatarMini 
+                        key={'rune-' + rune.id}
                         data={rune}
                         embed
                     />
@@ -86,6 +87,7 @@ export default function MonsterCard(props){
                 <div className={classes.runes}>
                 {artifacts.children.map(artifact => (
                     <ArtifactAvatarMini 
+                        key={'artifact-' + artifact.id}
                         data={artifact}
                         embed
                     />

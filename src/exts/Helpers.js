@@ -309,12 +309,12 @@ export function ParseQueryToObject(query, obj){
     const params = qs.parse(query)
     const obj_keys = Object.keys(obj)
 
-    Object.keys(params).map(key => {
+    Object.keys(params).forEach(key => {
         if(params[key] !== null && params[key] !== undefined && params[key] !== "" && obj_keys.includes(key)){
             if(Array.isArray(obj[key]) && !Array.isArray(params[key])) params[key] = [params[key]]
             if(Array.isArray(obj[key]) && Array.isArray(params[key])){
                 let numbers = true
-                params[key].map(item => {if(isNaN(parseFloat(item))) numbers = false;} )
+                params[key].forEach(item => {if(isNaN(parseFloat(item))) numbers = false;} )
                 if(numbers){
                     params[key] = params[key].map(item => parseFloat(item)).sort()
                 }
@@ -330,7 +330,7 @@ export function ParseQueryToObject(query, obj){
 export function CleanObject(obj){
     let new_obj = {...obj}
 
-    Object.keys(new_obj).map(key => {
+    Object.keys(new_obj).forEach(key => {
         if(new_obj[key] === null 
             || new_obj[key] === undefined 
             || (

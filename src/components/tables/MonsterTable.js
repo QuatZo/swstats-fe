@@ -30,6 +30,7 @@ export default function MonsterTable(props){
               case 'sort':
                 props.handleTableChange(tableState.page, tableState.sortOrder);
                 break;
+              default: break;
             }
           },
     }

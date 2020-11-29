@@ -28,6 +28,7 @@ export default function RuneTable(props){
               case 'sort':
                 props.handleTableChange(tableState.page, tableState.sortOrder);
                 break;
+              default: break;
             }
           },
     }
