@@ -95,7 +95,6 @@ export default function Monsters(){
                         if(loading) setLoading(false);
                         if(loadingAbsolute) setLoadingAbsolute(false);
                         setTaskId(null);
-                        console.log(resp.data.step);
                         setData(resp.data.step);
                     }
                     if(resp.data.status === 'FAILURE'){

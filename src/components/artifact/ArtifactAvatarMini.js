@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 import {RuneBackgroundImages, RuneQualityColors} from '../rune/RuneConstants';
 import {ArtifactTypeImages} from './ArtifactConstants';
 
-export default function RuneAvatarMini(props){
+export default function ArtifactAvatarMini(props){
     const useStyles = makeStyles((theme) => ({
         runeBackground: {
             background: "url(" + RuneBackgroundImages(props.data.quality) + ")",
@@ -23,7 +23,7 @@ export default function RuneAvatarMini(props){
             backgroundRepeat: "no-repeat",
         },
         runeSet: {
-            background: "url(" + ArtifactTypeImages(props.data.type) + ")",
+            background: "url(" + ArtifactTypeImages(props.data.rtype) + ")",
             backgroundSize: "30px 30px",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -74,7 +74,7 @@ export default function RuneAvatarMini(props){
                             <Avatar 
                                 variant="rounded"
                                 size="small"
-                                alt={[props.data.quality, props.data.primary, props.data.primary_value, "Slot", props.data.slot].join(' ')} 
+                                alt={[props.data.quality, props.data.primary, props.data.primary_value, "Type", props.data.rtype].join(' ')} 
                                 className={classes.runeSet}
                             >&nbsp; {/* Prevents Avatar from drawing default User Icon*/}
                             </Avatar>

@@ -5,27 +5,24 @@ import {useLocation} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 
 import RadarChart from '../components/chart/RadarChart';
-import BarChart from '../components/chart/BarChart';
+import PieChart from '../components/chart/PieChart';
 
 import APIEndpoints from "../exts/Endpoints";
 import { GenerateAPIHeaders, HandleAPIError, ParseQueryToObject, ParseObjectToQuery, CleanObject  } from "../exts/Helpers";
 import Loading from '../components/Loading';
 import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
-import RuneFilterForm from "../components/rune/RuneFilterForm";
-import RuneTable from "../components/tables/RuneTable";
+import ArtifactFilterForm from "../components/artifact/ArtifactFilterForm";
+import ArtifactTable from "../components/tables/ArtifactTable";
 
 export default function Artifacts(){
     const initFilters = {
-        slot: [],
-        stars: [],
+        rtype: [],
         quality: [],
         quality_original: [],
-        rune_set_id: [],
         primary: [],
-        innate: [],
         substats: [],
-        upgrade_curr: [null, null],
+        level: [null, null],
         efficiency: [null, null],
         equipped: '',
         equipped_rta: '',
@@ -91,7 +88,6 @@ export default function Artifacts(){
                         if(loading) setLoading(false);
                         if(loadingAbsolute) setLoadingAbsolute(false);
                         setTaskId(null);
-                        console.log(resp.data.step);
                         setData(resp.data.step);
                     }
                     if(resp.data.status === 'FAILURE'){
@@ -172,7 +168,7 @@ export default function Artifacts(){
             }
         }
         
-        axios.get(APIEndpoints.RunesTable, options)
+        axios.get(APIEndpoints.ArtifactsTable, options)
         .then((resp) => {
             setData({...data, "table": resp.data})
             setLoadingAbsolute(false);
@@ -191,7 +187,7 @@ export default function Artifacts(){
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
                 <>
-                    {/* <ArtifactFilterForm 
+                    <ArtifactFilterForm 
                         data={data.filters}
                         handleMultiSelectChange={handleMultiSelectChange}
                         handleMultiSelectDelete={handleMultiSelectDelete}
@@ -200,51 +196,35 @@ export default function Artifacts(){
                         handleReset={handleReset}
                         handleSubmit={handleSubmit}
                         filters={filters}
-                    /> */}
-                    {/* <BarChart 
-                        title="Sets"
-                        data={data.chart_data.rune_set}
-                        indexBy="name"
-                        groupBy="index"
-                        keys={['count']}
-                        layout="horizontal"
                     />
-                    <BarChart 
-                        title="Primary stats"
-                        data={data.chart_data.rune_primaries}
-                        indexBy="name"
-                        groupBy="index"
-                        keys={['count']}
-                        layout="horizontal"
-                    />
-                    <RadarChart 
+                    <PieChart 
                         title="Slots"
-                        data={data.chart_data.rune_slot}
-                        indexBy="name"
-                        keys={['count']}
+                        data={data.chart_data.artifact_rtypes}
+                        id="name"
+                        value="count"
                     />
                     <RadarChart 
-                        title="Stars"
-                        data={data.chart_data.rune_stars}
+                        title="Primary"
+                        data={data.chart_data.artifact_primaries}
                         indexBy="name"
                         keys={['count']}
                     />
                     <RadarChart 
                         title="Quality"
-                        data={data.chart_data.rune_qualities}
+                        data={data.chart_data.artifact_qualities}
                         indexBy="name"
                         keys={['count', 'original']}
                     />
                     <RadarChart 
                         title="Level"
-                        data={data.chart_data.rune_level}
+                        data={data.chart_data.artifact_level}
                         indexBy="name"
                         keys={['count']}
-                    /> */}
-                    {/* <ArtifactTable 
+                    />
+                    <ArtifactTable 
                         data={data.table}
                         handleTableChange={handleTableChange}
-                    /> */}
+                    />
                 </>
             ) : null}
         </div>
