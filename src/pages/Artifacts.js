@@ -198,10 +198,16 @@ export default function Artifacts(){
                         filters={filters}
                     />
                     <PieChart 
-                        title="Slots"
+                        title="Type"
                         data={data.chart_data.artifact_rtypes}
                         id="name"
                         value="count"
+                    />
+                    <RadarChart 
+                        title="Slot"
+                        data={data.chart_data.artifact_slots}
+                        indexBy="name"
+                        keys={['count']}
                     />
                     <RadarChart 
                         title="Primary"
@@ -214,12 +220,6 @@ export default function Artifacts(){
                         data={data.chart_data.artifact_qualities}
                         indexBy="name"
                         keys={['count', 'original']}
-                    />
-                    <RadarChart 
-                        title="Level"
-                        data={data.chart_data.artifact_level}
-                        indexBy="name"
-                        keys={['count']}
                     />
                     <ArtifactTable 
                         data={data.table}

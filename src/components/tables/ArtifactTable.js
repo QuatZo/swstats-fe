@@ -60,7 +60,7 @@ export default function ArtifactTable(props){
         },
         { label: 'Quality', name: 'quality', options: { display: 'excluded', filter: false, sort: false, }, },
         { label: 'Quality Original', name: 'quality_original', options: { display: 'excluded', filter: false, sort: false, }, },
-        { label: 'Type', name: 'rtype', options: { filter: true, sort: true, }, },
+        { label: 'Type', name: 'rtype', options: { filter: false, sort: false, }, },
         { label: 'Level', name: 'level', options: { filter: true, sort: true, }, },
         { label: 'Mainstat', name: 'primary', options: { filter: true, sort: true, }, },
         { label: 'Mainstat Value', name: 'primary_value', options: { filter: true, sort: true, }, },
