@@ -12,7 +12,7 @@ export default function Dropzone(props){
             showFileNamesInPreview={true}
             useChipsForPreview={true}
             showAlerts={false}
-            dropzoneText="Upload JSON file"
+            dropzoneText={props.text ?? "Upload JSON file"}
         />
     )
 }

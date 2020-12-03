@@ -18,6 +18,7 @@ import {
   Runes,
   Monsters,
   Artifacts,
+  TowersCalculator
 } from './pages';
 import Layout from './exts/Layout';
 
@@ -29,12 +30,15 @@ function App() {
         <Layout>
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/upload" component={Upload} />
             <Route exact path="/runes" component={Runes} />
             <Route exact path="/monsters" component={Monsters} />
             <Route exact path="/artifacts" component={Artifacts} />
-            <Route exact path="/upload" component={Upload} />
             <Route exact path="/contribute" component={Contribute} />
             <Route exact path="/credits" component={Credits} />
+
+            <Route exact path="/towers" component={TowersCalculator} />
+
             <Route component={Error404} />
           </Switch>
         </Layout>

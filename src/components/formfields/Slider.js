@@ -16,9 +16,9 @@ export default function MultiSelect(props){
             <Slider
                 value={props.value}
                 onChange={(e, val) => props.handleChange(props.name, e, val)}
-                min={props.data[0]}
+                min={props.data ? props.data[0] : 1}
                 step={props.step}
-                max={props.data[1]}
+                max={props.data ? props.data[1] : 100}
                 color="secondary"
                 valueLabelDisplay="auto"
                 aria-labelledby={props.name + "-slider"}

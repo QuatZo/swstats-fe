@@ -21,7 +21,6 @@ import HelpIcon from '@material-ui/icons/Help';
 import DataUsageIcon from '@material-ui/icons/DataUsage';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
-import PersonIcon from '@material-ui/icons/Person';
 import SecurityIcon from '@material-ui/icons/Security';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 
@@ -109,20 +108,10 @@ export default function Navbar() {
 
   const urlsDesktop = [
     {
-        'path': '/profile',
-        'icon': <PersonIcon />,
-        'text': 'Profile',
-    },
-    {
         'path': '/towers',
         'icon': <ApartmentIcon />,
         'text': 'Towers Calculator',
     },
-    {
-        'path': '/dimholecalc',
-        'icon': <DimHoleIcon />,
-        'text': '2A Calculator',
-    }
   ]
 
   return (
