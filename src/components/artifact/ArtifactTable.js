@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 
 import {useMenuOpen} from '../MenuOpenContext'
 
-import ArtifactAvatarMini from '../artifact/ArtifactAvatarMini';
+import ArtifactAvatarMini from './ArtifactAvatarMini';
 
 export default function ArtifactTable(props){
     const classes = useStyles();

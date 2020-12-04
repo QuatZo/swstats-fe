@@ -13,7 +13,7 @@ import Loading from '../components/Loading';
 import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
 import ArtifactFilterForm from "../components/artifact/ArtifactFilterForm";
-import ArtifactTable from "../components/tables/ArtifactTable";
+import ArtifactTable from "../components/artifact/ArtifactTable";
 
 export default function Artifacts(){
     const initFilters = {

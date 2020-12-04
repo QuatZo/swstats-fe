@@ -3,7 +3,7 @@ import MUIDataTable from "mui-datatables";
 
 import {useMenuOpen} from '../MenuOpenContext'
 
-import MonsterAvatarTooltip from '../monster/MonsterAvatarTooltip';
+import MonsterAvatarTooltip from './MonsterAvatarTooltip';
 import ClearIcon from '@material-ui/icons/Clear';
 import CheckIcon from '@material-ui/icons/Check';
 

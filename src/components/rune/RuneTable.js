@@ -3,7 +3,7 @@ import MUIDataTable from "mui-datatables";
 
 import {useMenuOpen} from '../MenuOpenContext'
 
-import RuneAvatarMini from '../rune/RuneAvatarMini';
+import RuneAvatarMini from './RuneAvatarMini';
 
 export default function RuneTable(props){
     const classes = useStyles();

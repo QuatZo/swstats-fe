@@ -12,7 +12,7 @@ import Loading from '../components/Loading';
 import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
 import MonsterFilterForm from "../components/monster/MonsterFilterForm";
-import MonsterTable from "../components/tables/MonsterTable";
+import MonsterTable from "../components/monster/MonsterTable";
 
 export default function Monsters(){
     const initFilters = {

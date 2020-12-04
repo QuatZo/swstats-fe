@@ -8,7 +8,7 @@ import { ResponsiveRadar  } from '@nivo/radar'
 export default function RadarChart(props){
     const classes = useStyles();
     return (
-        <div className={classes.radarContainer}>
+        <div className={props.full ? classes.fullRadarContainer : classes.radarContainer}>
             <Typography variant="h5" color='secondary' className={classes.chartTitle} gutterBottom>{props.title}</Typography>
             { props.data.length ? (
                 <ResponsiveRadar
@@ -25,7 +25,7 @@ export default function RadarChart(props){
                             },
                         },
                     }}
-                    margin={{ top: 20, right: 0, bottom: 20, left: 0 }}
+                    margin={props.longText ? { top: 40, right: 40, bottom: 40, left: 40 } : { top: 20, right: 0, bottom: 20, left: 0 }}
                     padding={0}
                 />
             ) : (
@@ -37,6 +37,11 @@ export default function RadarChart(props){
 }
 
 const useStyles = makeStyles((theme) => ({
+    fullRadarContainer: {
+        height: "35vh",
+        width: "100%",
+        marginBottom: 35,
+    },
     radarContainer: {
         height: "35vh",
         width: "25%",

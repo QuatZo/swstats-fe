@@ -3,33 +3,24 @@ import axios from "axios";
 import {useLocation} from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
 
 import RadarChart from '../components/chart/RadarChart';
-import BarChart from '../components/chart/BarChart';
 
 import APIEndpoints from "../exts/Endpoints";
 import { GenerateAPIHeaders, HandleAPIError, ParseQueryToObject, ParseObjectToQuery, CleanObject  } from "../exts/Helpers";
 import Loading from '../components/Loading';
 import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
-import RuneFilterForm from "../components/rune/RuneFilterForm";
-import RuneTable from "../components/rune/RuneTable";
+import SiegeFilterForm from '../components/siege/SiegeFilterForm';
+import SiegeTable from '../components/siege/SiegeTable';
 
-export default function Runes(){
+export default function Siege(){
     const initFilters = {
-        slot: [],
-        stars: [],
-        quality: [],
-        quality_original: [],
-        rune_set_id: [],
-        primary: [],
-        innate: [],
-        substats: [],
-        upgrade_curr: [null, null],
-        efficiency: [null, null],
-        equipped: '',
-        equipped_rta: '',
-        locked: '',
+        monsters__base_monster: [],
+        leader__base_monster: [],
+        wizard__guild__siege_ranking: [],
+        ratio: [null, null],
     }
     const classes = useStyles();
     const location = useLocation()
@@ -42,7 +33,7 @@ export default function Runes(){
     const [errorData, setErrorData] = useState({title: "Unknown Error", msg: "Unknown error has occured. Please contact administrator!"})
     const [filters, setFilters] = useState(initFilters)
 
-    function GetRunesData(kwargs){
+    function GetSiegeData(kwargs){
         const qs = require('query-string')
         if(kwargs.filters){
             setLoadingAbsolute(true);
@@ -60,7 +51,7 @@ export default function Runes(){
             }
         }
         
-        axios.get(APIEndpoints.Runes, options)
+        axios.get(APIEndpoints.Siege, options)
         .then((resp) => {
             setTaskId(resp.data.task_id)
         })
@@ -77,7 +68,7 @@ export default function Runes(){
         const f = ParseQueryToObject(location.search, filters)
         setFilters(f)
         const clean = CleanObject(f)
-        GetRunesData({params: clean});
+        GetSiegeData({params: clean});
     }, [])
 
     useEffect(() => {
@@ -126,10 +117,6 @@ export default function Runes(){
         setFilters({...filters, [field]: vals})
     }
 
-    const handleSelectChange = (e) => {
-        setFilters({...filters, [e.target.name]: e.target.value});
-    }
-
     const handleSliderChange = (field, e, val) => {
         setFilters({...filters, [field]: val})
     }
@@ -138,14 +125,14 @@ export default function Runes(){
         setFilters(initFilters)
         let newurl = window.location.protocol + "//" + window.location.host + location.pathname
         window.history.replaceState({path: newurl}, '', newurl);
-        GetRunesData({filters: true});
+        GetSiegeData({filters: true});
     }
 
     function handleSubmit(){
         let filters_clean = CleanObject(filters)
         let newurl = window.location.protocol + "//" + window.location.host + location.pathname + '?' + ParseObjectToQuery(filters_clean);
         window.history.replaceState({path: newurl}, '', newurl);
-        GetRunesData({params: filters_clean, filters: true});
+        GetSiegeData({params: filters_clean, filters: true});
     }
 
     function handleTableChange(page, sortOrder){
@@ -171,7 +158,7 @@ export default function Runes(){
             }
         }
         
-        axios.get(APIEndpoints.RunesTable, options)
+        axios.get(APIEndpoints.SiegeTable, options)
         .then((resp) => {
             setData({...data, "table": resp.data})
             setLoadingAbsolute(false);
@@ -189,63 +176,33 @@ export default function Runes(){
             { loadingAbsolute && <LoadingAbsolute />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
-                <>
-                    <RuneFilterForm 
-                        data={data.filters}
-                        handleMultiSelectChange={handleMultiSelectChange}
-                        handleMultiSelectDelete={handleMultiSelectDelete}
-                        handleSelectChange={handleSelectChange}
-                        handleSliderChange={handleSliderChange}
-                        handleReset={handleReset}
-                        handleSubmit={handleSubmit}
-                        filters={filters}
-                    />
-                    <BarChart 
-                        title="Sets"
-                        data={data.chart_data.rune_set}
-                        indexBy="name"
-                        groupBy="index"
-                        keys={['count']}
-                        layout="horizontal"
-                    />
-                    <BarChart 
-                        title="Primary stats"
-                        data={data.chart_data.rune_primaries}
-                        indexBy="name"
-                        groupBy="index"
-                        keys={['count']}
-                        layout="horizontal"
-                    />
-                    <RadarChart 
-                        title="Slots"
-                        data={data.chart_data.rune_slot}
-                        indexBy="name"
-                        keys={['count']}
-                    />
-                    <RadarChart 
-                        title="Stars"
-                        data={data.chart_data.rune_stars}
-                        indexBy="name"
-                        keys={['count']}
-                    />
-                    <RadarChart 
-                        title="Quality"
-                        data={data.chart_data.rune_qualities}
-                        indexBy="name"
-                        keys={['count', 'original']}
-                    />
-                    <RadarChart 
-                        title="Level"
-                        data={data.chart_data.rune_level}
-                        indexBy="name"
-                        keys={['count']}
-                    />
-                    <RuneTable 
+                <Grid container>
+                    <Grid item md={9} xs={12} lg={9}>
+                        <SiegeFilterForm 
+                            data={data.filters}
+                            handleMultiSelectChange={handleMultiSelectChange}
+                            handleMultiSelectDelete={handleMultiSelectDelete}
+                            handleSliderChange={handleSliderChange}
+                            handleReset={handleReset}
+                            handleSubmit={handleSubmit}
+                            filters={filters}
+                        />
+                    </Grid>
+                    <Grid item md={3} xs={12} lg={3}>
+                        <RadarChart 
+                            title="Ranking"
+                            data={data.chart_data.siege_rankings}
+                            indexBy="name"
+                            keys={['count']}
+                            longText
+                            full
+                        />
+                    </Grid>
+                    <SiegeTable 
                         data={data.table}
                         handleTableChange={handleTableChange}
                     />
-                    
-                </>
+                </Grid>
             ) : null}
         </div>
     )
