@@ -15,6 +15,8 @@ const APIEndpoints = {
     Siege: process.env.REACT_APP_API_URL + 'siege/',
     SiegeTable: process.env.REACT_APP_API_URL + 'siege/table/',
 
+    Cairos: process.env.REACT_APP_API_URL + 'cairos/',
+
     Monster: process.env.REACT_APP_API_URL + 'monster/',
     
     Status: process.env.REACT_APP_API_URL + 'status/',

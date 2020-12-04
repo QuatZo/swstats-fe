@@ -20,6 +20,7 @@ import {
   Artifacts,
   Siege,
   TowersCalculator,
+  Cairos,
 } from './pages';
 import Layout from './exts/Layout';
 
@@ -36,6 +37,7 @@ function App() {
             <Route exact path="/monsters" component={Monsters} />
             <Route exact path="/artifacts" component={Artifacts} />
             <Route exact path="/siege" component={Siege} />
+            <Route exact path="/cairos" component={Cairos} />
             <Route exact path="/contribute" component={Contribute} />
             <Route exact path="/credits" component={Credits} />
 

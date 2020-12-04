@@ -27,7 +27,8 @@ import ApartmentIcon from '@material-ui/icons/Apartment';
 import RunesIcon from '../icons/RunesIcon';
 import MonstersIcon from '../icons/MonstersIcon';
 import ArtifactsIcon from '../icons/ArtifactsIcon';
-import DungeonsIcon from '../icons/DungeonsIcon';
+import CairosIcon from '../icons/CairosIcon';
+import RiftsIcon from '../icons/RiftsIcon';
 import DimHoleIcon from '../icons/DimHoleIcon';
 
 import {useMenuOpen} from './MenuOpenContext'
@@ -75,9 +76,14 @@ export default function Navbar() {
         'text': 'Artifacts',
     },
     {
-        'path': '/dungeons',
-        'icon': <DungeonsIcon />,
-        'text': 'Dungeons',
+        'path': '/cairos',
+        'icon': <CairosIcon />,
+        'text': 'Cairos',
+    },
+    {
+        'path': '/rifts',
+        'icon': <RiftsIcon />,
+        'text': 'Rifts',
     },
     {
         'path': '/dimhole',

@@ -1,6 +1,6 @@
 import SvgIcon from '@material-ui/core/SvgIcon';
 
-export default function DungeonsIcon(props) {
+export default function CairosIcon(props) {
     return (
       <SvgIcon {...props}>
         <path 
