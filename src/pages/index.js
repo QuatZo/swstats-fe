@@ -8,5 +8,6 @@ export {default as Monsters} from './Monsters'
 export {default as Artifacts} from './Artifacts'
 export {default as Siege} from './Siege'
 export {default as Cairos} from './Cairos'
+export {default as CairosDetail} from './CairosDetail'
 
 export {TowersCalculator} from './Personal'

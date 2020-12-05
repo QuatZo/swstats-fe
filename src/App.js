@@ -21,6 +21,7 @@ import {
   Siege,
   TowersCalculator,
   Cairos,
+  CairosDetail,
 } from './pages';
 import Layout from './exts/Layout';
 
@@ -38,6 +39,7 @@ function App() {
             <Route exact path="/artifacts" component={Artifacts} />
             <Route exact path="/siege" component={Siege} />
             <Route exact path="/cairos" component={Cairos} />
+            <Route exact path="/cairos/:cairosId/:stage" component={CairosDetail} />
             <Route exact path="/contribute" component={Contribute} />
             <Route exact path="/credits" component={Credits} />
 

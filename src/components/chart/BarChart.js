@@ -9,7 +9,7 @@ export default function BarChart(props){
     const classes = useStyles();
 
     return (
-        <div className={classes.barContainer}>
+        <div className={props.full ? classes.fullBarContainer : classes.barContainer}>
             <Typography variant="h5" color='secondary' className={classes.chartTitle} gutterBottom>{props.title}</Typography>
             { props.data.length ? (
                 <ResponsiveBar
@@ -25,7 +25,7 @@ export default function BarChart(props){
                             },
                         },
                     }}
-                    layout={props.layout} // "horizontal"
+                    layout={props.layout} // "horizontal", "vertical"
                     enableGridX={true}
                     margin={{ top: 0, right: 0, bottom: 50, left: 85 }}
                     padding={0}
@@ -34,10 +34,10 @@ export default function BarChart(props){
                     axisBottom={{
                         tickSize: 5,
                         tickPadding: 5,
-                        tickRotation: 0,
+                        tickRotation: props.XTickRotation ?? 0,
                         legend: props.legendX,
                         legendPosition: 'middle',
-                        legendOffset: 40
+                        legendOffset: 40,
                     }}
                     axisLeft={{
                         tickSize: 5,
@@ -64,6 +64,11 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.down('sm')]: {
             width: "100%",
         },
+    },
+    fullBarContainer: {
+        height: "35vh",
+        width: "100%",
+        marginBottom: 35,
     },
     chartTitle: {
         margin: "auto",

@@ -5,24 +5,23 @@ import {useLocation} from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 
-import RadarChart from '../components/chart/RadarChart';
+import BarChart from '../components/chart/BarChart';
 
 import APIEndpoints from "../exts/Endpoints";
 import { GenerateAPIHeaders, HandleAPIError, ParseQueryToObject, ParseObjectToQuery, CleanObject  } from "../exts/Helpers";
 import Loading from '../components/Loading';
 import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
-import SiegeFilterForm from '../components/siege/SiegeFilterForm';
-import SiegeTable from '../components/siege/SiegeTable';
+import CairosDetailTable from '../components/cairos-detail/CairosDetailTable';
+import CairosDetailFilterForm from '../components/cairos-detail/CairosDetailFilterForm';
 
-export default function Siege(){
+export default function CairosDetail(props){
     const initFilters = {
         monsters__base_monster: [],
-        leader__base_monster: [],
-        wizard__guild__siege_ranking: [],
         ratio: [null, null],
         win: [null, null],
-        lose: [null, null],
+        cid: props.match.params.cairosId,
+        stage: props.match.params.stage,
     }
     const classes = useStyles();
     const location = useLocation()
@@ -35,7 +34,7 @@ export default function Siege(){
     const [errorData, setErrorData] = useState({title: "Unknown Error", msg: "Unknown error has occured. Please contact administrator!"})
     const [filters, setFilters] = useState(initFilters)
 
-    function GetSiegeData(kwargs){
+    function GetCairosDetailData(kwargs){
         const qs = require('query-string')
         if(kwargs.filters){
             setLoadingAbsolute(true);
@@ -53,7 +52,7 @@ export default function Siege(){
             }
         }
         
-        axios.get(APIEndpoints.Siege, options)
+        axios.get(APIEndpoints.CairosDetail, options)
         .then((resp) => {
             setTaskId(resp.data.task_id)
         })
@@ -70,7 +69,7 @@ export default function Siege(){
         const f = ParseQueryToObject(location.search, filters)
         setFilters(f)
         const clean = CleanObject(f)
-        GetSiegeData({params: clean});
+        GetCairosDetailData({params: clean});
     }, [])
 
     useEffect(() => {
@@ -112,6 +111,7 @@ export default function Siege(){
     const handleMultiSelectChange = (e) => {
         setFilters({...filters, [e.target.name]: e.target.value})
     }
+
     const handleMultiSelectDelete = (field, value) => {
         let vals = {...filters}[field]
         let index = vals.indexOf(value)
@@ -127,49 +127,14 @@ export default function Siege(){
         setFilters(initFilters)
         let newurl = window.location.protocol + "//" + window.location.host + location.pathname
         window.history.replaceState({path: newurl}, '', newurl);
-        GetSiegeData({filters: true});
+        GetCairosDetailData({filters: true, params: {cid: props.match.params.cairosId, stage: props.match.params.stage,}});
     }
 
     function handleSubmit(){
         let filters_clean = CleanObject(filters)
         let newurl = window.location.protocol + "//" + window.location.host + location.pathname + '?' + ParseObjectToQuery(filters_clean);
         window.history.replaceState({path: newurl}, '', newurl);
-        GetSiegeData({params: filters_clean, filters: true});
-    }
-
-    function handleTableChange(page, sortOrder){
-        const qs = require('query-string')
-        setLoadingAbsolute(true);
-        let filters_clean = CleanObject(filters)
-        let options = {
-            headers: GenerateAPIHeaders(),
-        }
-        filters_clean.page = page + 1;
-        filters_clean.sort_order = null;
-        if(sortOrder.name){
-            let s_o = ""
-            if(sortOrder.direction === "desc") s_o += "-"
-            s_o += sortOrder.name.replaceAll('substats.', '')
-            filters_clean.sort_order = s_o
-        }
-        options = {
-            headers: GenerateAPIHeaders(),
-            params: filters_clean,
-            paramsSerializer: params => {
-                return qs.stringify(params)
-            }
-        }
-        
-        axios.get(APIEndpoints.SiegeTable, options)
-        .then((resp) => {
-            setData({...data, "table": resp.data})
-            setLoadingAbsolute(false);
-        })
-        .catch((err_res) => {
-            setErrorData(HandleAPIError(err_res))
-            setError(true);
-            setLoadingAbsolute(false);
-        })
+        GetCairosDetailData({params: filters_clean, filters: true});
     }
 
     return (
@@ -179,8 +144,8 @@ export default function Siege(){
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
                 <Grid container>
-                    <Grid item md={9} xs={12} lg={9}>
-                        <SiegeFilterForm 
+                    <Grid item md={12} xs={12} lg={12}>
+                        <CairosDetailFilterForm 
                             data={data.filters}
                             handleMultiSelectChange={handleMultiSelectChange}
                             handleMultiSelectDelete={handleMultiSelectDelete}
@@ -190,19 +155,19 @@ export default function Siege(){
                             filters={filters}
                         />
                     </Grid>
-                    <Grid item md={3} xs={12} lg={3}>
-                        <RadarChart 
-                            title="Ranking"
-                            data={data.chart_data.siege_rankings}
+                    <Grid item md={12} xs={12} lg={12}>
+                        <BarChart 
+                            title="Clear Time Distribution"
+                            data={data.chart_data.cairos_distribution}
                             indexBy="name"
                             keys={['count']}
-                            longText
+                            layout={"vertical"}
                             full
+                            XTickRotation={45}
                         />
                     </Grid>
-                    <SiegeTable 
+                    <CairosDetailTable 
                         data={data.table}
-                        handleTableChange={handleTableChange}
                     />
                 </Grid>
             ) : null}

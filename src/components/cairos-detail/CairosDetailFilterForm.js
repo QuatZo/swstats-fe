@@ -10,7 +10,7 @@ import MultiSelect from "../formfields/MultiSelect";
 import Select from "../formfields/Select";
 import Slider from '../formfields/Slider';
 
-export default function SiegeFilterForm(props){
+export default function CairosDetailFilterForm(props){
     const classes = useStyles();
 
     return (
@@ -19,32 +19,12 @@ export default function SiegeFilterForm(props){
             
             <form className={classes.root} noValidate autoComplete="off" >
                 <Grid container spacing={3}>
-                    <Grid item md={6} xs={12} lg={3}>
+                    <Grid item md={6} xs={12} lg={6}>
                         <MultiSelect
                             name="monsters__base_monster"
                             title="Monsters"
                             data={props.data.monsters__base_monster}
                             value={props.filters.monsters__base_monster}
-                            handleChange={props.handleMultiSelectChange}
-                            handleDelete={props.handleMultiSelectDelete}
-                        />
-                    </Grid>
-                    <Grid item md={6} xs={12} lg={3}>
-                        <MultiSelect
-                            name="leader__base_monster"
-                            title="Leader"
-                            data={props.data.leader__base_monster}
-                            value={props.filters.leader__base_monster}
-                            handleChange={props.handleMultiSelectChange}
-                            handleDelete={props.handleMultiSelectDelete}
-                        />
-                    </Grid>
-                    <Grid item md={6} xs={12} lg={3}>
-                        <MultiSelect
-                            name="wizard__guild__siege_ranking"
-                            title="Ranking"
-                            data={props.data.wizard__guild__siege_ranking}
-                            value={props.filters.wizard__guild__siege_ranking}
                             handleChange={props.handleMultiSelectChange}
                             handleDelete={props.handleMultiSelectDelete}
                         />
@@ -67,16 +47,6 @@ export default function SiegeFilterForm(props){
                             data={props.data.win}
                             step={1}
                             value={props.filters.win[1] ? props.filters.win : props.data.win}
-                            handleChange={props.handleSliderChange}
-                        />
-                    </Grid>
-                    <Grid item md={6} xs={12} lg={3}>
-                        <Slider
-                            name="lose"
-                            title="Loses"
-                            data={props.data.lose}
-                            step={1}
-                            value={props.filters.lose[1] ? props.filters.lose : props.data.lose}
                             handleChange={props.handleSliderChange}
                         />
                     </Grid>

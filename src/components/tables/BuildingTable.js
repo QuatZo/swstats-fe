@@ -32,7 +32,7 @@ export default function BuildingTable(props){
     return (
         <div className={navbarOpen ? classes.fullWidthWithMenu : classes.fullWidthWithoutMenu}>
             <MUIDataTable
-                title="Runes"
+                title="Buildings"
                 data={props.data}
                 columns={columns}
                 options={options}

@@ -1,15 +1,15 @@
 import { makeStyles } from '@material-ui/core/styles';
+
 import MUIDataTable from "mui-datatables";
-import Typography from '@material-ui/core/Typography';
 
 import {useMenuOpen} from '../MenuOpenContext'
 
 import MonsterAvatarTooltip from '../monster/MonsterAvatarTooltip';
 
-export default function SiegeTable(props){
+export default function CairosDetailTable(props){
     const classes = useStyles();
     const {navbarOpen} = useMenuOpen();
-    
+
     const options = {
         filterType: 'multiselect',
         enableNestedDataAccess:	".",
@@ -17,28 +17,18 @@ export default function SiegeTable(props){
         responsive: "standard",
         selectableRowsHeader: false,
         selectableRowsHideCheckboxes: true,
-        serverSide: true,
         count: props.data.count ?? 0,
-        rowsPerPage: 10,
-        rowsPerPageOptions: [],
+        sortOrder: {
+            name: 'points',
+            direction: 'desc'
+        },
         viewColumns: false,
-        onTableChange: (action, tableState) => {
-            switch (action) {
-              case 'changePage':
-                props.handleTableChange(tableState.page, tableState.sortOrder);
-                break;
-              case 'sort':
-                props.handleTableChange(tableState.page, tableState.sortOrder);
-                break;
-              default: break;
-            }
-          },
     }
 
     const columns = [
         { 
             label: 'Monsters', 
-            name: 'monsters', 
+            name: 'team', 
             options: { 
                 filter: false, 
                 sort: false, 
@@ -53,28 +43,26 @@ export default function SiegeTable(props){
                 }
             }, 
         },
+        { label: 'Average Time', name: 'clear_time', options: { filter: false, sort: false, }, },
+        { label: 'Wins', name: 'wins', options: { filter: true, sort: true, }, },
+        { label: 'Records', name: 'count', options: { filter: true, sort: true, }, },
+        { label: 'Success rate', name: 'ratio', options: { filter: true, sort: true, }, },
         { 
-            label: 'Leader', 
-            name: 'leader', 
+            label: 'Points', 
+            name: 'points', 
             options: { 
-                filter: false, 
-                sort: false, 
-                customBodyRender: (value, tableMeta, updateValue) => (
-                    <MonsterAvatarTooltip id={value.id} img_url={value.image}/>
-                ),
+                filter: true, 
+                sort: true,
+                hint: "Calculated by given formula: sqrt(3)(wins) * success_rate / exp(avg_time / fastest_run)",
             }, 
         },
-        { label: 'Wins', name: 'win', options: { filter: true, sort: true, }, },
-        { label: 'Loses', name: 'lose', options: { filter: true, sort: true, }, },
-        { label: 'Success rate', name: 'ratio', options: { filter: true, sort: true, }, },
-        { label: 'Rank', name: 'ranking', options: { filter: false, sort: false, }, },
     ]
 
     return (
         <div className={navbarOpen ? classes.fullWidthWithMenu : classes.fullWidthWithoutMenu}>
             <MUIDataTable
-                title="Runes"
-                data={props.data.data}
+                title="Records"
+                data={props.data}
                 columns={columns}
                 options={options}
 

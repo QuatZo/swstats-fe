@@ -37,7 +37,6 @@ export default function Cairos(){
             headers: GenerateAPIHeaders() 
         })
         .then((resp) => {
-            console.log(resp.data);
             setData(resp.data);
         })
         .catch((err_res) => {
@@ -93,11 +92,14 @@ export default function Cairos(){
                                                 {stage.wins ? (
                                                     <Collapse in={open.includes(item.id + "" + stage.stage)} timeout="auto" unmountOnExit>
                                                     <List component="div" disablePadding>
-                                                        <ListItem button className={classes.nested} component="a" href={"/cairos/" + item.id + "/" + stage.stage}>
-                                                            <ListItemText>Wins <br />Average Time</ListItemText>
-                                                            {stage.wins}<br />{stage.avg_time}<br /><ArrowForwardIosIcon className={classes.moveForward}/>
-                                                        </ListItem>
+                                                        <Link to={"/cairos/" + item.id + "-" + item.path + "/" + stage.stage} className={classes.link}>
+                                                            <ListItem button className={classes.nested}>
+                                                                <ListItemText>Wins <br />Average Time</ListItemText>
+                                                                {stage.wins}<br />{stage.avg_time}<br /><ArrowForwardIosIcon className={classes.moveForward}/>
+                                                            </ListItem>
+                                                        </Link>
                                                     </List>
+                                                    
                                                 </Collapse>
                                                 ) : null}
                                             </>
@@ -114,10 +116,6 @@ export default function Cairos(){
 }
 
 const useStyles = makeStyles((theme) => ({
-    paper: {
-        padding: theme.spacing(2),
-        color: theme.palette.text.secondary,
-    },
     root: {
         flexGrow: 1,
     },
@@ -139,5 +137,9 @@ const useStyles = makeStyles((theme) => ({
     },
     moveForward: {
         marginLeft: theme.spacing(4),
-    }
+    },
+    link: {
+        textDecoration: "none",
+        color: theme.palette.secondary.main,
+    },
   }));
