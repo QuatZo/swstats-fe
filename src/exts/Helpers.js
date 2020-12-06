@@ -352,5 +352,8 @@ export function CleanObject(obj){
 
 export function ParseObjectToQuery(obj){
     const qs = require('query-string')
-    return qs.stringify(obj)
+    var new_obj = {...obj}
+    delete new_obj.cid
+    delete new_obj.stage
+    return qs.stringify(new_obj)
 }

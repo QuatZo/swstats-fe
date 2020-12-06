@@ -9,5 +9,7 @@ export {default as Artifacts} from './Artifacts'
 export {default as Siege} from './Siege'
 export {default as Cairos} from './Cairos'
 export {default as CairosDetail} from './CairosDetail'
+export {default as Dimhole} from './Dimhole'
+export {default as DimholeDetail} from './DimholeDetail'
 
 export {TowersCalculator} from './Personal'

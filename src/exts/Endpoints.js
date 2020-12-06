@@ -18,6 +18,9 @@ const APIEndpoints = {
     Cairos: process.env.REACT_APP_API_URL + 'cairos/',
     CairosDetail: process.env.REACT_APP_API_URL + 'cairos-detail/',
 
+    Dimhole: process.env.REACT_APP_API_URL + 'dimhole/',
+    DimholeDetail: process.env.REACT_APP_API_URL + 'dimhole-detail/',
+
     Monster: process.env.REACT_APP_API_URL + 'monster/',
     
     Status: process.env.REACT_APP_API_URL + 'status/',
