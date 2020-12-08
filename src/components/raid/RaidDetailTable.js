@@ -6,7 +6,7 @@ import {useMenuOpen} from '../MenuOpenContext'
 
 import MonsterAvatarTooltip from '../monster/MonsterAvatarTooltip';
 
-export default function CairosDetailTable(props){
+export default function RaidDetailTable(props){
     const classes = useStyles();
     const {navbarOpen} = useMenuOpen();
 
@@ -27,8 +27,8 @@ export default function CairosDetailTable(props){
 
     const columns = [
         { 
-            label: 'Monsters', 
-            name: 'team', 
+            label: 'Frontline', 
+            name: 'frontline', 
             options: { 
                 filter: false, 
                 sort: false, 
@@ -36,12 +36,40 @@ export default function CairosDetailTable(props){
                     return (
                         <div className={classes.flexRow}>
                             {value.map(v => {
-                                return <MonsterAvatarTooltip id={v.id} img_url={v.image}/>
+                                return <MonsterAvatarTooltip id={v ? v.id : null} img_url={v ? v.image : null} unknown={v ? false : true}/>
                         })}
                         </div>
                     )
                 }
             }, 
+        },
+        { 
+            label: 'Backline', 
+            name: 'backline', 
+            options: { 
+                filter: false, 
+                sort: false, 
+                customBodyRender: (value, tableMeta, updateValue) => {
+                    return (
+                        <div className={classes.flexRow}>
+                            {value.map(v => {
+                                return <MonsterAvatarTooltip id={v ? v.id : null} img_url={v ? v.image : null} unknown={v ? false : true}/>
+                        })}
+                        </div>
+                    )
+                }
+            }, 
+        },
+        { 
+            label: 'Leader', 
+            name: 'leader', 
+            options: { 
+                filter: false, 
+                sort: false, 
+                customBodyRender: (value, tableMeta, updateValue) => (
+                    <MonsterAvatarTooltip id={value ? value.id : null} img_url={value ? value.image : null} unknown={value ? false : true}/>
+                )
+            }
         },
         { label: 'Average Time', name: 'clear_time', options: { filter: false, sort: false, }, },
         { label: 'Wins', name: 'wins', options: { filter: true, sort: true, }, },

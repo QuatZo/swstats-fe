@@ -11,5 +11,7 @@ export {default as Cairos} from './Cairos'
 export {default as CairosDetail} from './CairosDetail'
 export {default as Dimhole} from './Dimhole'
 export {default as DimholeDetail} from './DimholeDetail'
+export {default as Rift} from './Rift'
+export {default as RiftDetail} from './RiftDetail'
 
 export {TowersCalculator} from './Personal'

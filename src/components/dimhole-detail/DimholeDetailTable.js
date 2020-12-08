@@ -53,7 +53,7 @@ export default function CairosDetailTable(props){
             options: { 
                 filter: true, 
                 sort: true,
-                hint: "Calculated by given formula: sqrt(3)(wins) * success_rate / exp(avg_time / fastest_run)",
+                hint: "Calculated by given formula: cube_root(wins) * success_rate / exp(avg_time / fastest_run)",
             }, 
         },
     ]

@@ -22,6 +22,8 @@ import {
   TowersCalculator,
   Cairos,
   CairosDetail,
+  Rift,
+  RiftDetail,
   Dimhole,
   DimholeDetail,
 } from './pages';
@@ -42,6 +44,8 @@ function App() {
             <Route exact path="/siege" component={Siege} />
             <Route exact path="/cairos" component={Cairos} />
             <Route exact path="/cairos/:cairosId/:stage" component={CairosDetail} />
+            <Route exact path="/rifts" component={Rift} />
+            <Route exact path="/rifts/:cairosId/:stage" component={RiftDetail} />
             <Route exact path="/dimhole" component={Dimhole} />
             <Route exact path="/dimhole/:cairosId/:stage" component={DimholeDetail} />
             <Route exact path="/contribute" component={Contribute} />

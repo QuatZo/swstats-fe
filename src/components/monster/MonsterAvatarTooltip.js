@@ -6,12 +6,18 @@ import MonsterCard from './MonsterCard';
 
 export default function MonsterAvatarTooltip(props){
     return (
-        <Link to={"/monster/" + props.id}>
-            <CardTooltip
-                component={<MonsterCard id={props.id}/>}
-            >
-                <Avatar alt={props.id.toString()} src={props.img_url} />
-            </CardTooltip>
-        </Link>
+        <>
+            {props.unknown ? (
+                <Avatar alt={"Empty"} src="https://swstats.info/static/website/images/monsters/monster_unknown.png" />
+            ) : (
+                <Link to={"/monster/" + props.id}>
+                    <CardTooltip
+                        component={<MonsterCard id={props.id}/>}
+                    >
+                        <Avatar alt={props.id.toString()} src={props.img_url} />
+                    </CardTooltip>
+                </Link>
+            )}
+        </>
     )
 }
