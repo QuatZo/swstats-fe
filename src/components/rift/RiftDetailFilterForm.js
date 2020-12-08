@@ -7,18 +7,19 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 import MultiSelect from "../formfields/MultiSelect";
+import Select from "../formfields/Select";
 import Slider from '../formfields/Slider';
 
-export default function RaidDetailFilterForm(props){
+export default function RiftDetailFilterForm(props){
     const classes = useStyles();
 
     return (
         <div className={classes.root}>
-            <Typography variant="h5" color="secondary" className={classes.title}>Filters</Typography>
+            <Typography variant="h5" color="secondary" className={classes.title}>Filters [SSS]</Typography>
             
             <form className={classes.root} noValidate autoComplete="off">
                 <Grid container spacing={3}>
-                    <Grid item md={6} xs={12} lg={3}>
+                    <Grid item md={6} xs={12} lg={4}>
                         <MultiSelect
                             name="monsters"
                             title="Monsters"
@@ -28,7 +29,7 @@ export default function RaidDetailFilterForm(props){
                             handleDelete={props.handleMultiSelectDelete}
                         />
                     </Grid>
-                    <Grid item md={6} xs={12} lg={3}>
+                    <Grid item md={6} xs={12} lg={4}>
                         <MultiSelect
                             name="leader"
                             title="Leader"
@@ -39,23 +40,13 @@ export default function RaidDetailFilterForm(props){
                         />
                     </Grid>
 
-                    <Grid item md={6} xs={12} lg={3}>
+                    <Grid item md={6} xs={12} lg={4}>
                         <Slider
-                            name="ratio"
-                            title="Success rate"
-                            data={props.data.ratio}
-                            step={1}
-                            value={props.filters.ratio[1] ? props.filters.ratio : props.data.ratio}
-                            handleChange={props.handleSliderChange}
-                        />
-                    </Grid>
-                    <Grid item md={6} xs={12} lg={3}>
-                        <Slider
-                            name="win"
-                            title="Wins"
-                            data={props.data.win}
-                            step={1}
-                            value={props.filters.win[1] ? props.filters.win : props.data.win}
+                            name="dmg_total"
+                            title="Total Damage"
+                            data={props.data.dmg_total}
+                            step={10000}
+                            value={props.filters.dmg_total[1] ? props.filters.dmg_total : props.data.dmg_total}
                             handleChange={props.handleSliderChange}
                         />
                     </Grid>
