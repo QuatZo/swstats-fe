@@ -14,4 +14,7 @@ export {default as DimholeDetail} from './DimholeDetail'
 export {default as Rift} from './Rift'
 export {default as RiftDetail} from './RiftDetail'
 
+export {default as Reports} from './Reports'
+export {default as ReportsOld} from './ReportsOld'
+
 export {TowersCalculator} from './Personal'

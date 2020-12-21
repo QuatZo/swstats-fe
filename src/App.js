@@ -26,6 +26,9 @@ import {
   RiftDetail,
   Dimhole,
   DimholeDetail,
+
+  Reports,
+  ReportsOld,
 } from './pages';
 import Layout from './exts/Layout';
 
@@ -48,6 +51,8 @@ function App() {
             <Route exact path="/rifts/:cairosId/:stage" component={RiftDetail} />
             <Route exact path="/dimhole" component={Dimhole} />
             <Route exact path="/dimhole/:cairosId/:stage" component={DimholeDetail} />
+            <Route exact path="/reports" component={Reports} />
+            <Route exact path="/reports/old" component={ReportsOld} />
             <Route exact path="/contribute" component={Contribute} />
             <Route exact path="/credits" component={Credits} />
 

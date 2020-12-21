@@ -63,6 +63,12 @@ const theme = createMuiTheme({
       valueLabel: {
         color: '#212121',
       }
+    },
+    MuiGridListTile: {
+      imgFullWidth: {
+        top: "unset",
+        transform: "unset",
+      }
     }
   }
 });

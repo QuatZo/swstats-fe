@@ -24,6 +24,8 @@ const APIEndpoints = {
     Dimhole: process.env.REACT_APP_API_URL + 'dimhole/',
     DimholeDetail: process.env.REACT_APP_API_URL + 'dimhole-detail/',
 
+    ReportsOld: process.env.REACT_APP_API_URL + 'reports-old/',
+    
     Monster: process.env.REACT_APP_API_URL + 'monster/',
     
     Status: process.env.REACT_APP_API_URL + 'status/',
