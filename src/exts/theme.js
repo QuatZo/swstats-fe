@@ -68,7 +68,7 @@ const theme = createMuiTheme({
       imgFullWidth: {
         top: "unset",
         transform: "unset",
-      }
+      },
     }
   }
 });

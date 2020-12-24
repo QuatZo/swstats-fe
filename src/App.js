@@ -29,6 +29,7 @@ import {
 
   Reports,
   ReportsOld,
+  ReportsGenerate,
 } from './pages';
 import Layout from './exts/Layout';
 
@@ -53,6 +54,7 @@ function App() {
             <Route exact path="/dimhole/:cairosId/:stage" component={DimholeDetail} />
             <Route exact path="/reports" component={Reports} />
             <Route exact path="/reports/old" component={ReportsOld} />
+            <Route exact path="/reports/generate" component={ReportsGenerate} />
             <Route exact path="/contribute" component={Contribute} />
             <Route exact path="/credits" component={Credits} />
 

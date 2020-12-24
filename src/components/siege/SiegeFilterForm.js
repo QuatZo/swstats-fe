@@ -7,7 +7,6 @@ import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup';
 
 import MultiSelect from "../formfields/MultiSelect";
-import Select from "../formfields/Select";
 import Slider from '../formfields/Slider';
 
 export default function SiegeFilterForm(props){

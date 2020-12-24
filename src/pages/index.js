@@ -16,5 +16,6 @@ export {default as RiftDetail} from './RiftDetail'
 
 export {default as Reports} from './Reports'
 export {default as ReportsOld} from './ReportsOld'
+export {default as ReportsGenerate} from './ReportsGenerate'
 
 export {TowersCalculator} from './Personal'
