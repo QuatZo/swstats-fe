@@ -3,55 +3,38 @@ import axios from "axios";
 
 import { makeStyles } from '@material-ui/core/styles';
 
-import Loading from '../components/Loading';
-import LoadingAbsolute from '../components/LoadingAbsolute';
-import Error from '../components/Error';
-import APIEndpoints from '../exts/Endpoints';
-import {GenerateAPIHeaders, HandleAPIError} from '../exts/Helpers';
-import SelectAuto from "../components/formfields/SelectAuto";
-import RadarChart from '../components/chart/RadarChart';
-import BarChart from '../components/chart/BarChart';
-import PieChart from '../components/chart/PieChart';
-import MonsterOverview from '../components/monster/MonsterOverview';
-import MonsterReportTable from '../components/monster/MonsterReportTable';
-import MonsterStatsTable from '../components/monster/MonsterStatsTable';
+import Loading from '../../components/Loading';
+import LoadingAbsolute from '../../components/LoadingAbsolute';
+import Error from '../../components/Error';
+import APIEndpoints from '../../exts/Endpoints';
+import {GenerateAPIHeaders, HandleAPIError} from '../../exts/Helpers';
+import RadarChart from '../../components/chart/RadarChart';
+import BarChart from '../../components/chart/BarChart';
+import PieChart from '../../components/chart/PieChart';
+import MonsterOverview from '../../components/monster/MonsterOverview';
+import MonsterReportTable from '../../components/monster/MonsterReportTable';
+import MonsterStatsTable from '../../components/monster/MonsterStatsTable';
 
-import '../assets/css/style.css'
+import '../../assets/css/style.css'
 
-export default function ReportsGenerate() {
+export default function BotMonsters(props){
     const classes = useStyles();
 
-    const [loading, setLoading] = useState(true);
-    const [loadingAbsolute, setLoadingAbsolute] = useState(false);
+    const [loadingAbsolute, setLoadingAbsolute] = useState(true);
     const [err, setError] = useState(false);
     const [errorData, setErrorData] = useState({title: "Unknown Error", msg: "Unknown error has occured. Please contact administrator!"})
-    const [monsters, setMonsters] = useState([]);
-    const [monster, setMonster] = useState(null);
     const [data, setData] = useState(null);
     const [taskId, setTaskId] = useState(null);
 
     useEffect(() => {
-        axios.get(APIEndpoints.ReportsGenerate, {
-            headers: GenerateAPIHeaders() 
-        })
-        .then((resp) => {
-            setMonsters(resp.data);
-        })
-        .catch((err_res) => {
-            setErrorData(HandleAPIError(err_res))
-            
+        if(!loadingAbsolute) setLoadingAbsolute(true);
+
+        if(props.match.params.monsterId === null){
             setError(true);
-        })
-        .finally(() => {
-            setLoading(false);
-        })
-    }, [])
-
-    useEffect(() => {
-        if(monster === null) return;
-        setLoadingAbsolute(true);
-
-        axios.get(APIEndpoints.ReportsGenerateMonster + monster.id + '/', {
+            setLoadingAbsolute(false);
+            return;
+        }
+        axios.get(APIEndpoints.ReportsGenerateMonster + props.match.params.monsterId + '/', {
             headers: GenerateAPIHeaders() 
         })
         .then((resp) => {
@@ -63,7 +46,7 @@ export default function ReportsGenerate() {
             setError(true);
             setLoadingAbsolute(false);
         })
-    }, [monster])
+    }, [props.match.params.monsterId])
 
     useEffect(() => {
         let axiosIntervalID = setInterval(() => {
@@ -73,15 +56,19 @@ export default function ReportsGenerate() {
                 })
                 .then((resp) => {
                     if(resp.data.status === 'SUCCESS'){
-                        if(loading) setLoading(false);
                         if(loadingAbsolute) setLoadingAbsolute(false);
                         setTaskId(null);
-                        setData(resp.data.step);
+                        if(resp.data.step){
+                            setData(resp.data.step);
+                        }
+                        else{
+                            setErrorData({title: "Monster", msg: "Unknown monster!"})
+                            setError(true);
+                        }
                     }
                     if(resp.data.status === 'FAILURE'){
                         setErrorData(HandleAPIError(resp));
                         setError(true);
-                        if(loading) setLoading(false);
                         if(loadingAbsolute) setLoadingAbsolute(false);
                         setTaskId(null);
                     }
@@ -89,7 +76,6 @@ export default function ReportsGenerate() {
                 .catch((err_res) => {
                     setErrorData(HandleAPIError(err_res));
                     setError(true);
-                    if(loading) setLoading(false);
                     if(loadingAbsolute) setLoadingAbsolute(false);
                     setTaskId(null);
                 })
@@ -101,28 +87,17 @@ export default function ReportsGenerate() {
         })
     }, [taskId])
 
-    const handleSelectAutoChange = (e, newValue) => {
-        setMonster(newValue);
-    }
 
     return (
         <div className={classes.root}>
-            { loading && <Loading />}
             { loadingAbsolute && <LoadingAbsolute />}
-            { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
-            { monsters.length && !err ? (
-                <SelectAuto
-                    name="monster"
-                    title="Monsters (amount of 6*)"
-                    data={monsters}
-                    handleChange={handleSelectAutoChange}
-                />
-            ) : null}
+            { !loadingAbsolute && err && <Error title={errorData.title} msg={errorData.msg} />}
             { data && !err ? (
                 <div className={classes.dataContainer}>
                     <MonsterOverview 
                         monster={data.monster}
                         family={data.family}
+                        bot
                     />
                     <MonsterStatsTable
                         data={data.desc}
@@ -280,6 +255,7 @@ export default function ReportsGenerate() {
                     />
                     <MonsterReportTable
                         data={data.table}
+                        bot
                     />
                 </div>
             ) : null}
@@ -290,6 +266,9 @@ export default function ReportsGenerate() {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        width: "90%",
+        margin: "auto",
+        marginTop: 20,
     },
     dataContainer: {
         display: "flex",

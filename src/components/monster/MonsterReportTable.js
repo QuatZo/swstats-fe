@@ -11,7 +11,8 @@ import Skeleton from '@material-ui/lab/Skeleton';
 
 export default function MonsterReportTable(props){
     const classes = useStyles();
-    const {navbarOpen} = useMenuOpen();
+
+    const {navbarOpen} = useMenuOpen() ?? {navbarOpen: null};
     
     const options = {
         filterType: 'multiselect',
@@ -95,7 +96,7 @@ export default function MonsterReportTable(props){
     ]
 
     return (
-        <div className={navbarOpen ? classes.fullLazyLoad : classes.lazyLoad}>
+        <div className={props.bot ? classes.reallyFullLazyLoad : navbarOpen ? classes.fullLazyLoad : classes.lazyLoad}>
             <LazyLoad 
                 placeholder={<Skeleton variant="rect" className={classes.tableContainer} />}
                 unmountIfInvisible
@@ -132,6 +133,13 @@ const useStyles = makeStyles((theme) => ({
             width: "calc(100vw - 20px)",
             maxWidth: "calc(100vw - 20px)",
         },
+        marginBottom: 20,
+    },
+    reallyFullLazyLoad: {
+        marginTop: 20,
+        maxWidth: "100%",
+        width: "100%",
+        transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;",
         marginBottom: 20,
     },
     tableContainer: {

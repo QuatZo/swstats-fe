@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { makeStyles } from '@material-ui/core/styles';
 import { Avatar, Card, CardContent, CardHeader, Grid, Typography } from '@material-ui/core';
@@ -13,7 +14,14 @@ export default function MonsterOverview(props){
                 <CardHeader title="Other family members" />
                 <CardContent className={classes.avatars}>
                     {props.family.map(member => (
-                        <Avatar alt={member.name} src={member.image} className={classes.avatars_image} />
+                        props.bot ? (
+                            <Link to={"/bot/monsters/" + member.id}>
+                                <Avatar alt={member.name} src={member.image} className={classes.avatars_image} />
+                            </Link>
+                        ) : (
+                            <Avatar alt={member.name} src={member.image} className={classes.avatars_image} />
+                        )
+                        
                     ))}
                 </CardContent>
             </Card>
@@ -22,34 +30,34 @@ export default function MonsterOverview(props){
                     <Grid container>
                         <Grid item md={4} xs={12} className={classes.column}>
                             <Grid container>
-                                <Grid item md={6}>
+                                <Grid item md={6} xs={6}>
                                     <Typography variant="body1" color="secondary">Type</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={6} xs={6}>
                                     {props.monster.archetype}
                                 </Grid>
                             </Grid>
                             <Grid container>
-                                <Grid item md={6}>
+                                <Grid item md={6} xs={6}>
                                     <Typography variant="body1" color="secondary">Attribute</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={6} xs={6}>
                                     {props.monster.attribute}
                                 </Grid>
                             </Grid>
                             <Grid container>
-                                <Grid item md={6}>
+                                <Grid item md={6} xs={6}>
                                     <Typography variant="body1" color="secondary">HoH</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={6} xs={6}>
                                     {props.monster.hoh}
                                 </Grid>
                             </Grid>
                             <Grid container>
-                                <Grid item md={6}>
+                                <Grid item md={6} xs={6}>
                                     <Typography variant="body1" color="secondary">Fusion</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={6} xs={6}>
                                     {props.monster.fusion}
                                 </Grid>
                             </Grid>
@@ -59,19 +67,19 @@ export default function MonsterOverview(props){
                         </Grid>
                         <Grid item md={4} xs={12} className={classes.column}>
                             <Grid container>
-                                <Grid item md={6}>
+                                <Grid item md={6} xs={6}>
                                     <Typography variant="body1" color="secondary">Popular</Typography>
                                 </Grid>
-                                <Grid item md={6}>
+                                <Grid item md={6} xs={6}>
                                     {props.monster.build}
                                 </Grid>
                             </Grid>
                             {props.monster.sets.map(set => (
                                 <Grid container>
-                                    <Grid item md={6}>
+                                    <Grid item md={6} xs={6}>
                                         <Typography variant="body1" color="secondary">{set.name}</Typography>
                                     </Grid>
-                                    <Grid item md={6}>
+                                    <Grid item md={6} xs={6}>
                                         {set.text}
                                     </Grid>
                                 </Grid>
@@ -93,6 +101,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        flexWrap: "wrap",
     },
     avatars_image: {
         width: theme.spacing(7),
