@@ -118,6 +118,7 @@ export default function Cairos(){
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        marginBottom: 10,
     },
     title: {
         color: theme.palette.secondary.main,

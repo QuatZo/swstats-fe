@@ -181,12 +181,12 @@ export default function Artifacts(){
     }
 
     return (
-        <div className={classes.root}>
+        <>
             { loading && <Loading />}
             { loadingAbsolute && <LoadingAbsolute />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
-                <>
+                <div className={classes.root}>
                     <ArtifactFilterForm 
                         data={data.filters}
                         handleMultiSelectChange={handleMultiSelectChange}
@@ -208,26 +208,29 @@ export default function Artifacts(){
                         data={data.chart_data.artifact_slots}
                         indexBy="name"
                         keys={['count']}
+                        longText
                     />
                     <RadarChart 
                         title="Primary"
                         data={data.chart_data.artifact_primaries}
                         indexBy="name"
                         keys={['count']}
+                        longText
                     />
                     <RadarChart 
                         title="Quality"
                         data={data.chart_data.artifact_qualities}
                         indexBy="name"
                         keys={['count', 'original']}
+                        longText
                     />
                     <ArtifactTable 
                         data={data.table}
                         handleTableChange={handleTableChange}
                     />
-                </>
+                </div>
             ) : null}
-        </div>
+        </>
     )
 }
 
@@ -235,5 +238,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
         flexWrap: "wrap",
+        marginBottom: 10,
     },
 }));

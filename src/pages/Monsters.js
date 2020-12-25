@@ -13,6 +13,7 @@ import LoadingAbsolute from '../components/LoadingAbsolute';
 import Error from '../components/Error';
 import MonsterFilterForm from "../components/monster/MonsterFilterForm";
 import MonsterTable from "../components/monster/MonsterTable";
+import MonsterStatsTable from "../components/monster/MonsterStatsTable";
 
 export default function Monsters(){
     const initFilters = {
@@ -193,12 +194,12 @@ export default function Monsters(){
     }
 
     return (
-        <div className={classes.root}>
+        <>
             { loading && <Loading />}
             { loadingAbsolute && <LoadingAbsolute />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
-                <>
+                <div className={classes.root}>
                     <MonsterFilterForm 
                         data={data.filters}
                         handleTextChange={handleTextChange}
@@ -209,6 +210,9 @@ export default function Monsters(){
                         handleReset={handleReset}
                         handleSubmit={handleSubmit}
                         filters={filters}
+                    />
+                    <MonsterStatsTable
+                        data={data.desc}
                     />
                     <RadarChart 
                         title="Element"
@@ -238,9 +242,9 @@ export default function Monsters(){
                         data={data.table}
                         handleTableChange={handleTableChange}
                     />
-                </>
+                </div>
             ) : null}
-        </div>
+        </>
     )
 }
 
@@ -248,5 +252,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
         flexWrap: "wrap",
+        marginBottom: 10,
     },
 }));

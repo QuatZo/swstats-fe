@@ -184,12 +184,12 @@ export default function Runes(){
     }
 
     return (
-        <div className={classes.root}>
+        <>
             { loading && <Loading />}
             { loadingAbsolute && <LoadingAbsolute />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
-                <>
+                <div className={classes.root}>
                     <RuneFilterForm 
                         data={data.filters}
                         handleMultiSelectChange={handleMultiSelectChange}
@@ -245,9 +245,9 @@ export default function Runes(){
                         handleTableChange={handleTableChange}
                     />
                     
-                </>
+                </div>
             ) : null}
-        </div>
+        </>
     )
 }
 
@@ -255,5 +255,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
         flexWrap: "wrap",
+        marginBottom: 10,
     },
 }));

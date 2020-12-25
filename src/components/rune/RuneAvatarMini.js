@@ -3,9 +3,10 @@ import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
-import { Link } from 'react-router-dom';
 
 import {RuneBackgroundImages, RuneSlotImages, RuneQualityColors} from './RuneConstants';
+
+import '../../assets/css/runes.css'
 
 export default function RuneAvatarMini(props){
     const useStyles = makeStyles((theme) => ({
@@ -23,7 +24,7 @@ export default function RuneAvatarMini(props){
         },
         runeSet: {
             background: "url(" + props.data.image + ")",
-            backgroundSize: "30px 30px",
+            backgroundSize: "25px 25px",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
         },
@@ -48,40 +49,39 @@ export default function RuneAvatarMini(props){
             textDecoration: "none",
         },
       }));
+    
     const classes = useStyles();
     return (
         <div className={classes.container}>
-            <Link to={'/rune/' + props.data.id} className={classes.link}>
-                <Badge
-                    overlap="circle"
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                    }}
-                    badgeContent={<Avatar className={classes.badgeIcon}>&nbsp;</Avatar>}
-                    className={classes.badge}
+            <Badge
+                overlap="circle"
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                badgeContent={<Avatar className={classes.badgeIcon}>&nbsp;</Avatar>}
+                className={classes.badge}
+            >
+                <Avatar
+                    variant="square"
+                    alt={["quality ", props.data.quality].join(' ')}
+                    className={classes.runeBackground}
                 >
                     <Avatar
                         variant="square"
                         alt={["quality ", props.data.quality].join(' ')}
-                        className={classes.runeBackground}
+                        className={classes.runeSlot}
                     >
-                        <Avatar
-                            variant="square"
-                            alt={["quality ", props.data.quality].join(' ')}
-                            className={classes.runeSlot}
-                        >
-                            <Avatar 
-                                variant="rounded"
-                                size="small"
-                                alt={[props.data.quality, props.data.primary, props.data.primary_value, "Slot", props.data.slot].join(' ')} 
-                                className={classes.runeSet}
-                            >&nbsp; {/* Prevents Avatar from drawing default User Icon*/}
-                            </Avatar>
+                        <Avatar 
+                            variant="rounded"
+                            size="small"
+                            alt={[props.data.quality, props.data.primary, props.data.primary_value, "Slot", props.data.slot].join(' ')} 
+                            className={classes.runeSet + " rune-slot-" + props.data.slot}
+                        >&nbsp; {/* Prevents Avatar from drawing default User Icon*/}
                         </Avatar>
                     </Avatar>
-                </Badge>
-            </Link>
+                </Avatar>
+            </Badge>
             {props.embed && <Typography variant="caption" className={classes.primary}>{props.data.primary}</Typography>}
         </div>
     )

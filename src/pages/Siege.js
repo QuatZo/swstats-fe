@@ -173,11 +173,12 @@ export default function Siege(){
     }
 
     return (
-        <div className={classes.root}>
+        <>
             { loading && <Loading />}
             { loadingAbsolute && <LoadingAbsolute />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
+            <div className={classes.root}>
                 <Grid container>
                     <Grid item md={9} xs={12} lg={9}>
                         <SiegeFilterForm 
@@ -205,8 +206,9 @@ export default function Siege(){
                         handleTableChange={handleTableChange}
                     />
                 </Grid>
+            </div>
             ) : null}
-        </div>
+        </>
     )
 }
 
@@ -214,5 +216,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
         flexWrap: "wrap",
+        marginBottom: 10,
     },
 }));

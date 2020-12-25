@@ -24,12 +24,13 @@ import { Typography } from "@material-ui/core";
 export default function MonsterCard(props){
     const classes = useStyles();
 
-    const [data, setData] = useState(null)
+    const [data, setData] = useState(props.data ?? null)
     const [err, setError] = useState(false);
     const [errorData, setErrorData] = useState({})
 
 
     useEffect(() => {
+        if(props.id === undefined) return;
         axios.get(APIEndpoints.Monster + props.id + '/', {
             headers: GenerateAPIHeaders()
         })

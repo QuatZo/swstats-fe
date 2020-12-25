@@ -17,6 +17,7 @@ import {
   Upload,
   Runes,
   Monsters,
+  Monster,
   Artifacts,
   Siege,
   TowersCalculator,
@@ -49,6 +50,7 @@ function App() {
                   <Route exact path="/upload" component={Upload} />
                   <Route exact path="/runes" component={Runes} />
                   <Route exact path="/monsters" component={Monsters} />
+                  <Route exact path="/monster/:monsterId" component={Monster} />
                   <Route exact path="/artifacts" component={Artifacts} />
                   <Route exact path="/siege" component={Siege} />
                   <Route exact path="/cairos" component={Cairos} />

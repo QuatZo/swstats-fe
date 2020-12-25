@@ -80,6 +80,7 @@ export default function ReportsOld() {
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
+        marginBottom: 10,
     },
     gridList: {
       width: "100%",

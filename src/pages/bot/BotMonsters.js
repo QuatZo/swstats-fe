@@ -269,6 +269,7 @@ const useStyles = makeStyles((theme) => ({
         width: "90%",
         margin: "auto",
         marginTop: 20,
+        marginBottom: 10,
     },
     dataContainer: {
         display: "flex",

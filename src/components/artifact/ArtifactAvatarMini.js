@@ -24,7 +24,7 @@ export default function ArtifactAvatarMini(props){
         },
         runeSet: {
             background: "url(" + ArtifactTypeImages(props.data.rtype) + ")",
-            backgroundSize: "30px 30px",
+            backgroundSize: "20px 20px",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
         },
@@ -51,37 +51,35 @@ export default function ArtifactAvatarMini(props){
     const classes = useStyles();
     return (
         <div className={classes.container}>
-            <Link to={'/artifact/' + props.data.id} className={classes.link}>
-                <Badge
-                    overlap="circle"
-                    anchorOrigin={{
-                        vertical: 'bottom',
-                        horizontal: 'right',
-                    }}
-                    badgeContent={<Avatar className={classes.badgeIcon}>&nbsp;</Avatar>}
-                    className={classes.badge}
+            <Badge
+                overlap="circle"
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+                badgeContent={<Avatar className={classes.badgeIcon}>&nbsp;</Avatar>}
+                className={classes.badge}
+            >
+                <Avatar
+                    variant="square"
+                    alt={["quality ", props.data.quality].join(' ')}
+                    className={classes.runeBackground}
                 >
                     <Avatar
                         variant="square"
                         alt={["quality ", props.data.quality].join(' ')}
-                        className={classes.runeBackground}
+                        className={classes.runeSlot}
                     >
-                        <Avatar
-                            variant="square"
-                            alt={["quality ", props.data.quality].join(' ')}
-                            className={classes.runeSlot}
-                        >
-                            <Avatar 
-                                variant="rounded"
-                                size="small"
-                                alt={[props.data.quality, props.data.primary, props.data.primary_value, "Type", props.data.rtype].join(' ')} 
-                                className={classes.runeSet}
-                            >&nbsp; {/* Prevents Avatar from drawing default User Icon*/}
-                            </Avatar>
+                        <Avatar 
+                            variant="rounded"
+                            size="small"
+                            alt={[props.data.quality, props.data.primary, props.data.primary_value, "Type", props.data.rtype].join(' ')} 
+                            className={classes.runeSet}
+                        >&nbsp; {/* Prevents Avatar from drawing default User Icon*/}
                         </Avatar>
                     </Avatar>
-                </Badge>
-            </Link>
+                </Avatar>
+            </Badge>
             {props.embed && <Typography variant="caption" className={classes.primary}>{props.data.primary}</Typography>}
         </div>
     )

@@ -28,7 +28,7 @@ export default function Upload(){
     // first render
     useEffect(() => {
         if(data !== null) return;
-        if(localStorage.getItem('comparison-data')){
+        if((localStorage.getItem('comparison-data') && data === null) || JSON.stringify(data) !== localStorage.getItem('comparison-data')){
             setTimeout(() => setData(JSON.parse(localStorage.getItem('comparison-data'))), 500);
             return;
         }
@@ -117,7 +117,7 @@ export default function Upload(){
     }
 
     return (
-        <>
+        <div className={classes.root}>
             <Grid container>
                 <Grid item md={6} xs={12} >
                     <Dropzone handleChange={handleChange} />
@@ -144,11 +144,15 @@ export default function Upload(){
                     data={data.comparison.runes} 
                 />
             </Grid>            
-        </>
+        </div>
     )
 }
 
 const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+        marginBottom: 10,
+    },
     paper: {
         marginLeft: theme.spacing(2),
         padding: theme.spacing(2),

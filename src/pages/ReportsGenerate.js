@@ -294,5 +294,6 @@ const useStyles = makeStyles((theme) => ({
     dataContainer: {
         display: "flex",
         flexWrap: "wrap",
+        marginBottom: 10,
     }
 }));

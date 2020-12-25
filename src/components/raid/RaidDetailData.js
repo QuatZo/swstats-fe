@@ -144,11 +144,12 @@ export default function RaidDetailData(props){
     }
 
     return (
-        <div className={classes.root}>
+        <>
             { loading && <Loading />}
             { loadingAbsolute && <LoadingAbsolute />}
             { !loading && err && <Error title={errorData.title} msg={errorData.msg} />}
             { !loading && !err && data ? (
+            <div className={classes.root}>
                 <Grid container>
                     <Grid item md={12} xs={12} lg={12}>
                         <RaidDetailFilterForm 
@@ -176,8 +177,9 @@ export default function RaidDetailData(props){
                         data={data.table}
                     />
                 </Grid>
+            </div>
             ) : null }
-        </div>
+        </>
         
     )
 }
@@ -186,5 +188,6 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
         flexWrap: "wrap",
+        marginBottom: 10,
     },
 }));

@@ -26,3 +26,82 @@ export function RuneSlotImages(slot){
 
     return image_template.replace('<rune_slot>', slot)
 }
+
+export const RuneSubstatMap = {
+    'HP': {
+        name: 'HP',
+        percentage: true,
+    },
+    'HP%': {
+        name: 'HP',
+        percentage: true,
+    },
+    'HP F': {
+        name: 'HP',
+        percentage: false,
+    },
+    'HP+': {
+        name: 'HP',
+        percentage: false,
+    },
+    'ATK': {
+        name: 'ATK',
+        percentage: true,
+    },
+    'ATK%': {
+        name: 'ATK',
+        percentage: true,
+    },
+    'ATK F': {
+        name: 'ATK',
+        percentage: false,
+    },
+    'ATK+': {
+        name: 'ATK',
+        percentage: false,
+    },
+    'DEF': {
+        name: 'DEF',
+        percentage: true,
+    },
+    'DEF%': {
+        name: 'DEF',
+        percentage: true,
+    },
+    'DEF F': {
+        name: 'DEF',
+        percentage: false,
+    },
+    'DEF+': {
+        name: 'DEF',
+        percentage: false,
+    },
+    'SPD': {
+        name: 'Speed',
+        percentage: false,
+    },
+    'CRATE': {
+        name: 'CRI Rate',
+        percentage: true,
+    },
+    'CRATE%': {
+        name: 'CRI Rate',
+        percentage: true,
+    },
+    'CDMG': {
+        name: 'CRI Dmg',
+        percentage: true,
+    },
+    'CDMG%': {
+        name: 'CRI Dmg',
+        percentage: true,
+    },
+    'ACC': {
+        name: 'Accuracy',
+        percentage: true,
+    },
+    'RES': {
+        name: 'Resistance',
+        percentage: true,
+    },
+}

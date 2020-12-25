@@ -1,5 +1,6 @@
 import React from "react";
 import { makeStyles } from '@material-ui/core/styles';
+import NumericLabel from 'react-pretty-numbers';
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -11,6 +12,11 @@ import Card from '@material-ui/core/Card';
 
 export default function MonsterStatsTable(props){
     const classes = useStyles();
+
+    const prettyNumberParams = {
+        // wholenumber: "ceil",
+        justification: "L",
+    }
 
     return (
         Object.keys(props.data).length ? (
@@ -33,7 +39,15 @@ export default function MonsterStatsTable(props){
                                             {row}
                                         </TableCell>
                                         {Object.keys(props.data[row]).map((item, j) => {
-                                            return <TableCell key={item}>{props.data[row][item]}</TableCell>
+                                            return (
+                                                <TableCell key={item}>
+                                                    <NumericLabel
+                                                        params={prettyNumberParams}
+                                                    >
+                                                        {props.data[row][item]}
+                                                    </NumericLabel>
+                                                </TableCell>
+                                            )
                                         })}
                                     </TableRow>
                                 )
