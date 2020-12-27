@@ -18,7 +18,7 @@ export default function RuneCard(props){
                     avatar={<RuneAvatarMini data={props.data} />}
                     action={<Typography variant="body2" color="secondary">+{props.data.level} {props.data.rune_set}</Typography>}
                     title={RuneSubstatMap[props.data.primary].name + ' +' + props.data.primary_value + (RuneSubstatMap[props.data.primary].percentage ? '%' : '')}
-                    subheader={props.data.innate ? RuneSubstatMap[props.data.innate].name + " +" + props.data.innate_value + (RuneSubstatMap[props.data.innate].percentage ? '%' : '') : null}
+                    subheader={props.data.innate && props.data.innate !== "0" ? RuneSubstatMap[props.data.innate].name + " +" + props.data.innate_value + (RuneSubstatMap[props.data.innate].percentage ? '%' : '') : null}
                 />
                 <CardContent>
                     {Object.entries(props.data.substats).map(([substat, values]) => {

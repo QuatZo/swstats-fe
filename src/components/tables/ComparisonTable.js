@@ -1,5 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 import MUIDataTable from "mui-datatables";
+import superSearch from '@codewell/super-search';
 
 import {useMenuOpen} from '../MenuOpenContext'
 
@@ -14,6 +15,7 @@ export default function ComparisonTable(props){
         responsive: "standard",
         selectableRowsHeader: false,
         selectableRowsHideCheckboxes: true,
+        customSearch: (searchText, row) => superSearch(searchText.toLowerCase(), { ... row}).numberOfMatches > 0,
     }
 
     return (

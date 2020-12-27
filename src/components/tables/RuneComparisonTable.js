@@ -19,6 +19,15 @@ export default function RuneComparisonTable(props){
                 },
             }, 
         },
+        {
+            label: 'Set',
+            name: 'rune_set',
+            options: {
+                display: 'excluded',
+                filter: true,
+                sort: false,
+            }
+        },
         { label: 'Mainstat', name: 'mainstat', options: { filter: true, sort: true, }, },
         { 
             label: 'HP', 
@@ -28,7 +37,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -76,7 +85,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -124,7 +133,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -172,7 +181,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -220,7 +229,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -268,7 +277,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -316,7 +325,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -364,7 +373,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -412,7 +421,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -460,7 +469,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -508,7 +517,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -556,7 +565,7 @@ export default function RuneComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (

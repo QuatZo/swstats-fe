@@ -11,10 +11,10 @@ export default function MonsterComparisonTable(props){
             label: 'Monster', 
             name: 'id', 
             options: { 
-                filter: true, 
-                sort: true, 
+                filter: false, 
+                sort: false, 
                 customBodyRender: (value, tableMeta, updateValue) => (
-                    <MonsterAvatarTooltip id={value} img_url={tableMeta.rowData[tableMeta.columnIndex + 1]}/>
+                    <MonsterAvatarTooltip id={value} img_url={tableMeta.rowData[tableMeta.columnIndex + 1]} />
                 ),
             }, 
         },
@@ -26,6 +26,15 @@ export default function MonsterComparisonTable(props){
                 sort: false,
             }
         },
+        {
+            label: 'Monster',
+            name: 'name',
+            options: {
+                display: 'excluded',
+                filter: true,
+                sort: false,
+            }
+        },
         { 
             label: 'HP', 
             name: 'rank.hp.top', 
@@ -34,7 +43,7 @@ export default function MonsterComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -82,7 +91,7 @@ export default function MonsterComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -130,7 +139,7 @@ export default function MonsterComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -178,7 +187,7 @@ export default function MonsterComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -226,7 +235,7 @@ export default function MonsterComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -274,7 +283,7 @@ export default function MonsterComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -322,7 +331,7 @@ export default function MonsterComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -370,7 +379,7 @@ export default function MonsterComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -418,7 +427,7 @@ export default function MonsterComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
@@ -466,7 +475,7 @@ export default function MonsterComparisonTable(props){
                 sort: true, 
                 customBodyRender: (value, tableMeta, updateValue) => (
                     <ComparisonTableCellTooltip tableMeta={tableMeta}>
-                        { value === 0 ? (
+                        { value === "Best" ? (
                             <Typography variant="body2" color="secondary">Best</Typography>
                         ) : 
                         (
