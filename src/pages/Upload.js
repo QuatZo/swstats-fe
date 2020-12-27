@@ -28,7 +28,7 @@ export default function Upload(){
     // first render
     useEffect(() => {
         if(data !== null) return;
-        if((localStorage.getItem('comparison-data') && data === null) || JSON.stringify(data) !== localStorage.getItem('comparison-data')){
+        if((localStorage.getItem('comparison-data') && data === null) || (data !== null && JSON.stringify(data) !== localStorage.getItem('comparison-data'))){
             setTimeout(() => setData(JSON.parse(localStorage.getItem('comparison-data'))), 500);
             return;
         }
