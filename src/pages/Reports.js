@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 
@@ -24,7 +24,7 @@ export default function Cairos(){
                     <Grid item md={2} lg={2} xs={12} key={"or"} className={classes.subgrid}>
                         <Typography color="secondary" variant="h1">OR</Typography>
                     </Grid>
-                    <Grid item md={5} lg={5} xs={12} key={"generate-report"} className={classes.subgrid}>
+                    <Grid item md={5} lg={5} xs={12} key={"old-report"} className={classes.subgrid}>
                         <CardActionArea component={Link} to={'/reports/old/'}>
                             <Card className={classes.card}>
                                 <Typography variant="h2" color="secondary" className={classes.text}>Check old reports</Typography>

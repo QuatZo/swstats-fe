@@ -23,6 +23,7 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import LoyaltyIcon from '@material-ui/icons/Loyalty';
 import SecurityIcon from '@material-ui/icons/Security';
 import ApartmentIcon from '@material-ui/icons/Apartment';
+import PersonIcon from '@material-ui/icons/Person';
 
 import RunesIcon from '../icons/RunesIcon';
 import MonstersIcon from '../icons/MonstersIcon';
@@ -113,6 +114,11 @@ export default function Navbar() {
   ]
 
   const urlsDesktop = [
+    {
+      'path': '/profile',
+      'icon': <PersonIcon />,
+      'text': 'Profile',
+    },
     {
         'path': '/towers',
         'icon': <ApartmentIcon />,

@@ -31,6 +31,8 @@ const APIEndpoints = {
     Monster: process.env.REACT_APP_API_URL + 'monster/',
     
     Status: process.env.REACT_APP_API_URL + 'status/',
+
+    ProfileReport: process.env.REACT_APP_API_URL + 'profile/',
 }
 
 export default APIEndpoints

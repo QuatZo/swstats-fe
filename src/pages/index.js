@@ -19,6 +19,7 @@ export {default as Reports} from './Reports'
 export {default as ReportsOld} from './ReportsOld'
 export {default as ReportsGenerate} from './ReportsGenerate'
 
+export {Profile} from './Personal'
 export {TowersCalculator} from './Personal'
 
 export {BotMonsters} from './bot'

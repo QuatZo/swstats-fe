@@ -20,13 +20,15 @@ import {
   Monster,
   Artifacts,
   Siege,
-  TowersCalculator,
   Cairos,
   CairosDetail,
   Rift,
   RiftDetail,
   Dimhole,
   DimholeDetail,
+
+  Profile,
+  TowersCalculator,
 
   Reports,
   ReportsOld,
@@ -79,6 +81,7 @@ function App() {
                   <Route exact path="/contribute" component={Contribute} />
                   <Route exact path="/credits" component={Credits} />
 
+                  <Route exact path="/profile" component={Profile} />
                   <Route exact path="/towers" component={TowersCalculator} />
 
                   <Route component={Error404} />
