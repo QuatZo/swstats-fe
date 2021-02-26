@@ -3,9 +3,21 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import Bugsnag from '@bugsnag/js'
+import BugsnagPluginReact from '@bugsnag/plugin-react'
+
+Bugsnag.start({
+  apiKey: '24fee21961bf8df3c2cc453077ef431b',
+  plugins: [new BugsnagPluginReact()]
+})
+
+const ErrorBoundary = Bugsnag.getPlugin('react').createErrorBoundary(React)
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
   </React.StrictMode>,
   document.getElementById('root')
 );
