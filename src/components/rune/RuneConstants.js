@@ -100,7 +100,15 @@ export const RuneSubstatMap = {
         name: 'Accuracy',
         percentage: true,
     },
+    'ACC%': {
+        name: 'Accuracy',
+        percentage: true,
+    },
     'RES': {
+        name: 'Resistance',
+        percentage: true,
+    },
+    'RES%': {
         name: 'Resistance',
         percentage: true,
     },
