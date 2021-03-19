@@ -36,9 +36,11 @@ export default function Profile(){
             const reader = new FileReader()
             reader.onload = async (e) => { 
                 const text = (e.target.result)
-                localStorage.setItem('profile-data', text)
                 let pr = JSON.parse(text)
-                setProfile(pr)
+                const prof = (({ command, tvalue, wizard_info, dimension_hole_info, unit_list, unit_lock_list, runes, rune_lock_list, friend_list, deco_list, guild, guild_member_defense_list, guildwar_ranking_stat }) => ({ command, tvalue, wizard_info, dimension_hole_info, unit_list, unit_lock_list, runes, rune_lock_list, friend_list, deco_list, guild, guild_member_defense_list, guildwar_ranking_stat }))(pr);
+                localStorage.setItem('profile-data', JSON.stringify(prof))
+                setProfile(prof)
+
             };
             reader.readAsText(files[0])
         }
@@ -70,7 +72,6 @@ export default function Profile(){
                     if(resp.data.status === 'SUCCESS'){
                         if(loading) setLoading(false);
                         setTaskId(null);
-                        console.log(resp.data.step)
                         setData(resp.data.step);
                     }
                     if(resp.data.status === 'FAILURE'){
