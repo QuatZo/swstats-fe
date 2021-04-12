@@ -35,7 +35,7 @@ export default function TowersCalculator(){
 
     function calculateArenaDays(){    
         setLoading(true);
-        let pointsPerDay = filters.arena.arena_rank * filters.arena.wings - 17 // wings per day * arena points per win - (devilmon cost - league reward)[daily], assume farming (all wins)
+        let pointsPerDay = (filters.arena.arena_rank + 1) * filters.arena.wings - 17 // wings per day * arena points per win - (devilmon cost - league reward)[daily], assume farming (all wins)
         if(pointsPerDay < 0){
             setLoading(false);
             return;
@@ -45,8 +45,8 @@ export default function TowersCalculator(){
         buildings = buildings.map(b => {
             if(b.area !== "Arena") return b;
 
-            b.nextUpgrade = b.level !== 10 ? arenaBuildingsCost[b.id][b.level] : 0;
-            b.pointsToMax = b.level !== 10 ? arenaBuildingsCost[b.id].slice(b.level).reduce((a, b) => a + b, 0) : 0;
+            b.nextUpgrade = b.level !== 20 ? arenaBuildingsCost[b.id][b.level] : 0;
+            b.pointsToMax = b.level !== 20 ? arenaBuildingsCost[b.id].slice(b.level).reduce((a, b) => a + b, 0) : 0;
             b.daysToUpgrade = Math.ceil(b.nextUpgrade / pointsPerDay);
             b.daysToMax = Math.ceil(b.pointsToMax / pointsPerDay); 
 
@@ -74,8 +74,8 @@ export default function TowersCalculator(){
         buildings = buildings.map(b => {
             if(b.area !== "Guild") return b;
 
-            b.nextUpgrade = b.level !== 10 ? guildBuildingsCost[b.id][b.level] : 0;
-            b.pointsToMax = b.level !== 10 ? guildBuildingsCost[b.id].slice(b.level).reduce((a, b) => a + b, 0) : 0;
+            b.nextUpgrade = b.level !== 20 ? guildBuildingsCost[b.id][b.level] : 0;
+            b.pointsToMax = b.level !== 20 ? guildBuildingsCost[b.id].slice(b.level).reduce((a, b) => a + b, 0) : 0;
             b.daysToUpgrade = Math.ceil(b.nextUpgrade / pointsPerDay);
             b.daysToMax = Math.ceil(b.pointsToMax / pointsPerDay); 
 
