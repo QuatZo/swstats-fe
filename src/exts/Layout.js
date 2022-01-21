@@ -2,6 +2,12 @@ import React, {useState} from "react";
 import { makeStyles } from '@material-ui/core/styles';
 import NavBar from '../components/Navbar';
 import {MenuOpenContext} from '../components/MenuOpenContext';
+import Button from '@material-ui/core/Button';
+import Backdrop from '@material-ui/core/Backdrop';
+import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -33,13 +39,23 @@ const useStyles = makeStyles((theme) => ({
       paddingRight: 20,
       overflow: 'hidden',
     },
+    backdrop: {
+      zIndex: theme.zIndex.drawer + 1,
+      color: '#fff',
+    },
   }))
 
   function Layout(props) {
       const classes = useStyles();
 
       const [navbarOpen, setNavbarOpen] = useState(localStorage.getItem('menu-open') === 'true')
-
+      const [open, setOpen] = useState(localStorage.getItem('shutdown-read') !== 'true');
+      
+      const handleClose = () => {
+        setOpen(false);
+        localStorage.setItem('shutdown-read', true);
+      }
+    
       function handleNavbarStateChange(){
         localStorage.setItem('menu-open', !navbarOpen)
         setNavbarOpen(!navbarOpen)
@@ -56,6 +72,20 @@ const useStyles = makeStyles((theme) => ({
                   <main className={classes.content}>
                       { props.children }
                   </main>
+                  <Backdrop className={classes.backdrop} open={open}>
+                    <Card style={{ width: "100%", maxWidth: "800px"}}>
+                      <CardContent>
+                        <Typography variant="h2" gutterBottom>SWStats Shutdown</Typography>
+                        <Typography color="textSecondary" gutterBottom>
+                          With new Statistics Update that Com2Us enrolled few days ago, and with almost no SWStats contributors, I am forced to shutdown this project. 
+                          Don't worry tho, some functionality will be implemented in SWARFARM, with bigger database, more contributors and improvements.
+                        </Typography>
+                      </CardContent>
+                      <CardActions>
+                        <Button size="small" onClick={handleClose}>I understand!</Button>
+                      </CardActions>
+                    </Card>
+                  </Backdrop>
               </div>
           </div>
         </MenuOpenContext.Provider>
